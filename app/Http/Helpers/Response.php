@@ -18,38 +18,46 @@ class Response
 
     public static function get(Request $request, $domen, $headers = null, $query = null)
     {
-        try {
-            $client = new Client();
-            $url = $domen . self::getUrlPath($request);
-            $response = $client->get($url, [
-                'headers' => $headers ?? [],
-                'query' => $query ?? [],
-            ]);
+        $client = new Client();
+        $url = $domen . self::getUrlPath($request);
+        $response = $client->get($url, [
+            'headers' => $headers ?? [],
+            'query' => $query ?? [],
+        ]);
 
-            return json_decode($response->getBody(), true);
-        } catch (RequestException $e) {
-            $response = $e->getResponse();
-            $clientRequest = $e->getRequest();
-            $bodyError = json_decode($response->getBody());
-            if (
-                isset($bodyError->message) &&
-                isset($bodyError->line) &&
-                $clientRequest->getUri()
-            ) {
-                $body = [
-                    "message" => $bodyError->message,
-                    "line" => $bodyError->line,
-                    "route" => $request->path(),
-                ];
-            } else {
-                $body = [
-                    "message" => "Ошибка при вызове AgentService",
-                    "route" => $request->path(),
-                ];
-            }
+        return json_decode($response->getBody(), true);
+        // try {
+        //     $client = new Client();
+        //     $url = $domen . self::getUrlPath($request);
+        //     $response = $client->get($url, [
+        //         'headers' => $headers ?? [],
+        //         'query' => $query ?? [],
+        //     ]);
 
-            return self::response($body, false, $response->getStatusCode());
-        }
+        //     return json_decode($response->getBody(), true);
+        // } catch (RequestException $e) {
+        //     $response = $e->getResponse();
+        //     $clientRequest = $e->getRequest();
+        //     $bodyError = json_decode($response->getBody());
+        //     if (
+        //         isset($bodyError->message) &&
+        //         isset($bodyError->line) &&
+        //         $clientRequest->getUri()
+        //     ) {
+        //         $body = [
+        //             "message" => $bodyError->message,
+        //             "line" => $bodyError->line,
+        //             "route" => $request->path(),
+        //         ];
+        //     } else {
+        //         $body = [
+        //             "message" => "Ошибка при вызове AgentService",
+        //             "route" => $request->path(),
+        //         ];
+        //     }
+
+        //     return self::response($body, false, $response->getStatusCode());
+        // }
     }
 
     public static function getUrlPath(Request $request)
