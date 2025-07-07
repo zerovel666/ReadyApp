@@ -2,13 +2,14 @@
 
 namespace App\Http\Services;
 
-use App\Http\Repositories\BaseRepository;
+use App\Http\Repository\BaseRepository;
 
 class BaseService
 {
     public $repository;
 
-    public function __construct(BaseRepository $repository) {
+    public function __construct(BaseRepository $repository)
+    {
         $this->repository = $repository;
     }
 
@@ -21,16 +22,20 @@ class BaseService
     {
         return $this->repository->find($id);
     }
-    public function getByColumn($column,$attribute)
+    public function getByColumn($column, $attribute)
     {
-        return $this->repository->getByColumn($column,$attribute);
+        return $this->repository->getByColumn($column, $attribute);
     }
-    public function updateByColumn($column,$value,$attributes)
+    public function updateById($id, $attributes)
     {
-        return $this->repository->updateByColumn($column,$value,$attributes);
+        return $this->repository->updateById($id, $attributes);
     }
     public function deleteById($id)
     {
         return $this->repository->deleteById($id);
+    }
+    public function create($data)
+    {
+        return $this->repository->create($data);
     }
 }

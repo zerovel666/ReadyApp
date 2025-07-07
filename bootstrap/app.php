@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Helpers\ExceptionHelper;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -21,7 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->render(function (RequestException $e) {
             $response = $e->getResponse();
-            logError($e);
+            ExceptionHelper::logError($e);
             if ($response) {
                 $body = json_decode($response->getBody(), true);
                 return response()->json($body, $response->getStatusCode());
@@ -41,40 +43,13 @@ return Application::configure(basePath: dirname(__DIR__))
             ], 422);
         });
 
-        $exceptions->render(fn(TypeError $e) => renderException($e));
-        $exceptions->render(fn(SyntaxError $e) => renderException($e));
-        $exceptions->render(fn(Exception $e) => renderException($e));
-        $exceptions->render(fn(Throwable $e) => renderException($e));
+        $exceptions->render(fn(QueryException $e)=>ExceptionHelper::renderException($e));
+        $exceptions->render(fn(TypeError $e) => ExceptionHelper::renderException($e));
+        $exceptions->render(fn(SyntaxError $e) => ExceptionHelper::renderException($e));
+        $exceptions->render(fn(Exception $e) => ExceptionHelper::renderException($e));
+        $exceptions->render(fn(Throwable $e) => ExceptionHelper::renderException($e));
     })->create();
 
 
-function renderException(Throwable $e): \Illuminate\Http\JsonResponse
-{
-    $trace = $e->getTrace();
 
-    $response = [
-        "data" => [
-            "message" => $e->getMessage(),
-            "line" => $e->getLine(),
-            "class" => $trace[0]['class'] ?? null,
-            "function" => $trace[0]['function'] ?? null,
-            "service" => config('app.name'),
-        ],
-        "status" => false,
-    ];
 
-    $code = ($e->getCode() >= 100 && $e->getCode() <= 599) ? $e->getCode() : 500;
-    logError($e);
-    return response()->json($response, $code);
-}
-
-function logError(Throwable $e): void
-{
-    \Log::error("Exception caught", [
-        'message' => $e->getMessage(),
-        'file' => $e->getFile(),
-        'line' => $e->getLine(),
-        'trace' => $e->getTraceAsString(),
-        'service' => config('app.name')
-    ]);
-}
