@@ -22,15 +22,17 @@ class BaseService
     {
         return $this->repository->find($id);
     }
+    
     public function getByColumn($column, $attribute)
     {
         return $this->repository->getByColumn($column, $attribute);
     }
+
     public function updateById($id, $attributes)
     {
         return $this->repository->updateById($id, $attributes);
-
     }
+
     public function deleteById($id)
     {
         $model = $this->repository->deleteById($id);
@@ -43,8 +45,14 @@ class BaseService
             "message" => "Nothing delete"
         ];
     }
+
     public function create($data)
     {
         return $this->repository->create($data);
+    }
+
+    public function paginate()
+    {
+        return $this->repository->paginate();
     }
 }

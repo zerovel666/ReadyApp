@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Helpers\Response;
 use App\Http\Requests\CountryRequest;
+use App\Http\Resource\CountryResource;
 use App\Http\Services\CountryService;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,10 @@ class CountryController extends Controller
     public function all(Request $request)
     {
         if ($request->page) {
-            return Response::response($this->countryService->paginate());
+            $collection = $this->countryService->paginate();
+            return Response::response(
+                $collection->setCollection(CountryResource::collection($collection->getCollection())->collection)
+            );
         } else {
             return Response::response($this->countryService->all());
         }
@@ -26,7 +30,7 @@ class CountryController extends Controller
 
     public function find($id)
     {
-        return Response::response($this->countryService->find($id));
+        return Response::response(new CountryResource($this->countryService->find($id)));
     }
     public function getByColumn($column, $attribute)
     {
@@ -34,7 +38,7 @@ class CountryController extends Controller
     }
     public function updateById($id, CountryRequest $request)
     {
-        return Response::response($this->countryService->updateById($id, $request->validationData()));
+        return Response::response(new CountryResource($this->countryService->updateById($id, $request->validationData())));
     }
     public function deleteById($id)
     {
@@ -42,6 +46,6 @@ class CountryController extends Controller
     }
     public function create(CountryRequest $request)
     {
-        return Response::response($this->countryService->create($request->validationData()));
+        return Response::response(new CountryResource($this->countryService->create($request->validationData())));
     }
 }

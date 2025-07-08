@@ -26,10 +26,7 @@ class PartnerService extends BaseService
             $model->update([
                 "logo_path" => $saveFile
             ]);
-            return [
-                "message" => "Success upload logo",
-                "logo_path" => Storage::url($saveFile)
-            ];
+            return $model;
         }
         return [
             "message" => "noImage",

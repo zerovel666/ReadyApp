@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Helpers\Response;
 use App\Http\Requests\PartnerRequest;
+use App\Http\Resource\PartnerResource;
 use App\Http\Services\PartnerService;
 use Illuminate\Http\Request;
 
@@ -15,14 +16,21 @@ class PartnerController extends Controller
         $this->partnerService = $partnerService;
     }
 
-    public function all()
+    public function all(Request $request)
     {
-        return Response::response($this->partnerService->all());
+        if ($request->page) {
+            $collection = $this->partnerService->paginate();
+            return Response::response(
+                $collection->setCollection(PartnerResource::collection($collection->getCollection())->collection)
+            );
+        } else {
+            return Response::response($this->partnerService->all());
+        }
     }
 
     public function find($id)
     {
-        return Response::response($this->partnerService->find($id));
+        return Response::response(new PartnerResource($this->partnerService->find($id)));
     }
     public function getByColumn($column, $attribute)
     {
@@ -38,10 +46,10 @@ class PartnerController extends Controller
     }
     public function create(PartnerRequest $request)
     {
-        return Response::response($this->partnerService->create($request->validationData()));
+        return Response::response(new PartnerResource($this->partnerService->create($request->validationData())));
     }
-    public function upload(Request $request,$id)
+    public function upload(Request $request, $id)
     {
-        return Response::response($this->partnerService->upload($request,$id));
+        return Response::response(new PartnerResource($this->partnerService->upload($request, $id)));
     }
 }

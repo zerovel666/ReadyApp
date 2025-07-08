@@ -9,9 +9,4 @@ class CountryService extends BaseService
     public function __construct(CountryRepository $countryRepository) {
         parent::__construct($countryRepository);
     }
-
-    public function paginate()
-    {
-        return $this->repository->paginate();
-    }
 }
