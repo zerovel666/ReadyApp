@@ -38,7 +38,8 @@ class BaseRepository
         if (!$model) {
             throw new \Exception("Object with id $id not found", 404);
         }
-        return $model->update($attributes);
+        $model->update($attributes);
+        return $model;
     }
 
     public function deleteById($id)
@@ -62,5 +63,10 @@ class BaseRepository
             throw new \Exception("Object with $column => $value not found", 404);
         }
         return $model->update($attributes);
+    }
+
+    public function paginate()
+    {
+        return $this->model->paginate(20);
     }
 }

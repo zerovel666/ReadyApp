@@ -28,15 +28,8 @@ class BaseService
     }
     public function updateById($id, $attributes)
     {
-        $model = $this->repository->updateById($id, $attributes);
-        if ($model) {
-            return [
-                "message" => "Success update"
-            ];
-        }
-        return [
-            "message" => "Nothing update"
-        ];
+        return $this->repository->updateById($id, $attributes);
+
     }
     public function deleteById($id)
     {
