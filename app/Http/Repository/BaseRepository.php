@@ -20,7 +20,11 @@ class BaseRepository
 
     public function find($id)
     {
-        return $this->model->find($id);
+        $model = $this->model->find($id);
+        if (!$model){
+            throw new \Exception("Object with id $id not found", 404);
+        }
+        return $model;
     }
 
     public function getByColumn($column, $attribute)
@@ -30,7 +34,11 @@ class BaseRepository
 
     public function updateById($id, $attributes)
     {
-        return $this->model->where("id", $id)->update($attributes);
+        $model = $this->model->find($id);
+        if (!$model) {
+            throw new \Exception("Object with id $id not found", 404);
+        }
+        return $model->update($attributes);
     }
 
     public function deleteById($id)

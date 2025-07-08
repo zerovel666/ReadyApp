@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CountryRequest extends FormRequest
+class PartnerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,16 +21,13 @@ class CountryRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
-            'parent_countries_id' => 'nullable|integer',
+        return [
+            "name" => "required|string",
+            "detail_info" => "required|string",
+            "email" => "required|string",
+            "phone" => "required|string",
+            "country_id" => "required|int",
+            "address" => "required|string",
         ];
-
-        if ($this->isMethod('post')) {
-            $rules['name'] = 'required|string';
-        } elseif ($this->isMethod('put') || $this->isMethod('patch')) {
-            $rules['name'] = 'sometimes|required|string';
-        }
-
-        return $rules;
     }
 }

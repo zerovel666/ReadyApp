@@ -11,6 +11,7 @@ class ExceptionHelper
         $trace = $e->getTrace();
 
         $response = [
+            "status" => false,
             "data" => [
                 "message" => $e->getMessage(),
                 "line" => $e->getLine(),
@@ -18,7 +19,6 @@ class ExceptionHelper
                 "function" => $trace[0]['function'] ?? null,
                 "service" => config('app.name'),
             ],
-            "status" => false,
         ];
 
         $code = ($e->getCode() >= 100 && $e->getCode() <= 599) ? $e->getCode() : 500;

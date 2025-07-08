@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Helpers\Response;
 use App\Http\Requests\CountryRequest;
 use App\Http\Services\CountryService;
-use Illuminate\Http\Request;
 
 class CountryController extends Controller
 {
@@ -28,9 +27,9 @@ class CountryController extends Controller
     {
         return Response::response($this->countryService->getByColumn($column, $attribute));
     }
-    public function updateById($id, Request $request)
+    public function updateById($id, CountryRequest $request)
     {
-        return Response::response($this->countryService->updateById($id, $request->all()));
+        return Response::response($this->countryService->updateById($id, $request->validationData()));
     }
     public function deleteById($id)
     {
