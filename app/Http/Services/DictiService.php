@@ -9,4 +9,9 @@ class DictiService extends BaseService
     public function __construct(DictiRepository $dictiRepository) {
         parent::__construct($dictiRepository);
     }
+
+    public function list()
+    {
+        return $this->repository->getWithChildren();
+    }
 }

@@ -8,7 +8,7 @@ class DictiResource extends JsonResource
 {
     public function toArray(\Illuminate\Http\Request $request)
     {
-        return [
+        $baseArray = [
             "id" => $this->id,
             "full_name" => $this->full_name,
             "parent_id" => $this->parent_id,
@@ -21,5 +21,10 @@ class DictiResource extends JsonResource
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at
         ];
+        if ($this->children) {
+            $baseArray['children'] = $this->children;
+        }
+
+        return $baseArray;
     }
 }

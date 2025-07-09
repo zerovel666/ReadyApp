@@ -11,7 +11,8 @@ use Illuminate\Http\Request;
 class DictiController extends Controller
 {
     public $dictiService;
-    public function __construct(DictiService $dictiService) {
+    public function __construct(DictiService $dictiService)
+    {
         $this->dictiService = $dictiService;
     }
 
@@ -23,7 +24,7 @@ class DictiController extends Controller
                 $collection->setCollection(DictiResource::collection($collection->getCollection())->collection)
             );
         } else {
-            return Response::response($this->dictiService->all());
+            return Response::response(DictiResource::collection($this->dictiService->all()));
         }
     }
 
@@ -48,4 +49,8 @@ class DictiController extends Controller
         return Response::response(new DictiResource($this->dictiService->create($request->validationData())));
     }
 
+    public function list()
+    {
+        return Response::response(DictiResource::collection($this->dictiService->list()));
+    }
 }

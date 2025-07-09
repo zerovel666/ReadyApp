@@ -40,8 +40,10 @@ Route::prefix('partner')->group(function(){
 
 Route::prefix('dictis')->group(function(){
     Route::get('/',[DictiController::class,'all']);
+    Route::get('/list',[DictiController::class,'list']);
     Route::get('/{id}',[DictiController::class,'find']);
     Route::post('/',[DictiController::class,'create']);
     Route::put('/{id}',[DictiController::class,'updateById']);
     Route::delete('/{id}',[DictiController::class,'deleteById']);
+
 });
