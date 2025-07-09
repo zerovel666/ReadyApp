@@ -22,6 +22,7 @@ Route::prefix('agent')->group(function(){
 
 Route::prefix('country')->group(function(){
     Route::get('/',[CountryController::class,'all']);
+    Route::get('/list',[CountryController::class,'list']);
     Route::get('/{id}',[CountryController::class,'find']);
     Route::post('/',[CountryController::class,'create']);
     Route::put('/{id}',[CountryController::class,'updateById']);
