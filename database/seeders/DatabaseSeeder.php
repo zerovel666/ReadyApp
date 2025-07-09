@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Country;
+use App\Models\Dicti;
+use App\Models\Partner;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,11 +16,45 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $countries = Country::factory(3)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        foreach ($countries as $country) {
+            Country::factory(1)->create([
+                'name' => fake()->city(),
+                'parent_countries_id' => $country->id,
+            ]);
+
+            Partner::factory(1)->create([
+                "country_id" => $country->id
+            ]);
+        }
+        foreach ($countries as $country) {
+            Country::factory(1)->create([
+                'name' => fake()->city(),
+                'parent_countries_id' => $country->id,
+            ]);
+        }
+
+        $item = Dicti::factory()->create([
+            "full_name" => "Тип авторизации"
         ]);
+
+        $bodtDicti = [
+            [
+                "parent_id" => $item->id,
+                "full_name" => "Google авторизация",
+                "constant" => "GOOGLE_AUTH"
+            ],
+            [
+                "parent_id" => $item->id,
+                "full_name" => "VK авторизация",
+                "constant" => "VK_AUTH"
+            ]
+        ];
+
+
+        foreach ($bodtDicti as $itemD) {
+            Dicti::factory()->create($itemD);
+        }
     }
 }
