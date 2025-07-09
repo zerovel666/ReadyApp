@@ -36,9 +36,9 @@ class PartnerController extends Controller
     {
         return Response::response($this->partnerService->getByColumn($column, $attribute));
     }
-    public function updateById($id, Request $request)
+    public function updateById($id, PartnerRequest $request)
     {
-        return Response::response($this->partnerService->updateById($id, $request->all()));
+        return Response::response($this->partnerService->updateById($id, $request->validationData()));
     }
     public function deleteById($id)
     {
