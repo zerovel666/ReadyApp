@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\DictiController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Helpers\Response;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,7 @@ Route::prefix('agent')->group(function(){
 
 Route::prefix('country')->group(function(){
     Route::get('/',[CountryController::class,'all']);
+    Route::get('/list',[CountryController::class,'list']);
     Route::get('/{id}',[CountryController::class,'find']);
     Route::post('/',[CountryController::class,'create']);
     Route::put('/{id}',[CountryController::class,'updateById']);
@@ -34,4 +36,14 @@ Route::prefix('partner')->group(function(){
     Route::put('/{id}',[PartnerController::class,'updateById']);
     Route::delete('/{id}',[PartnerController::class,'deleteById']);
     Route::post("/upload/{id}",[PartnerController::class,'upload']);
+});
+
+Route::prefix('dictis')->group(function(){
+    Route::get('/',[DictiController::class,'all']);
+    Route::get('/list',[DictiController::class,'list']);
+    Route::get('/{id}',[DictiController::class,'find']);
+    Route::post('/',[DictiController::class,'create']);
+    Route::put('/{id}',[DictiController::class,'updateById']);
+    Route::delete('/{id}',[DictiController::class,'deleteById']);
+
 });

@@ -48,4 +48,9 @@ class CountryController extends Controller
     {
         return Response::response(new CountryResource($this->countryService->create($request->validationData())));
     }
+
+    public function list()
+    {
+        return Response::response(CountryResource::collection($this->countryService->list()));
+    }
 }
