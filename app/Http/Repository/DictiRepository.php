@@ -21,4 +21,9 @@ class DictiRepository extends BaseRepository
             return $dicti;
         });
     }
+
+    public function checkTypeAuth($type_auth_id)
+    {
+    return $this->model->where("id",$type_auth_id)->first();
+    }
 }

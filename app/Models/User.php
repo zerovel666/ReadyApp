@@ -13,14 +13,13 @@ class User extends Authenticatable
 
     protected $fillable = [
         "email",
-        "password",
-        "first_name",
-        "parent_name",
-        "last_name",
         "full_name",
         "country_id",
-        "uniq_id_people",
         "partner_id",
+        "telegram_user_id",
+        "uniq_id_people",
+        "phone",
+        "active",
     ];
 
     protected $table = 'users';

@@ -13,15 +13,14 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string("email");
-            $table->text("password");
-            $table->string("first_name");
-            $table->string("parent_name");
-            $table->string("last_name");
+            $table->string("email")->unique();
             $table->string('full_name');
             $table->foreignId("country_id")->nullable()->constrained("countries")->onDelete("cascade");
-            $table->string("uniq_id_people")->unique();
             $table->foreignId("partner_id")->nullable()->constrained("partners")->onDelete("cascade");
+            $table->foreignId("telegram_user_id")->nullable();
+            $table->string("uniq_id_people")->nullable()->unique();
+            $table->string("phone")->unique();
+            $table->boolean("active")->default(true);
             $table->timestamps();
         });
     }

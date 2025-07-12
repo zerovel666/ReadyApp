@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DictiController;
 use App\Http\Controllers\PartnerController;
@@ -40,8 +41,12 @@ Route::prefix('partner')->group(function () {
 
 //Касательно пользователя пока что все сложно так как 
 
-Route::post('register', [UserController::class, 'register']);
-Route::post('login', [UserController::class, 'login']);
+Route::prefix('auth')->group(function () {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('auth/confirm', [AuthController::class, 'confirmTwoFactor']);
+});
+
 Route::prefix('user')->group(function () {
     Route::get('/', [UserController::class, 'all']);
     Route::get('/{id}', [UserController::class, 'find']);
