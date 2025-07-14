@@ -13,7 +13,8 @@ class TwoFactorToken extends Model
         "two_factor_code",
         "code_expires_at",
         "active",
-        "telegram_user_id"
+        "telegram_user_id",
+        "uuid"
     ];
 
     protected $table = 'two_factor_tokens';
@@ -25,6 +26,7 @@ class TwoFactorToken extends Model
         static::creating(function($model){
             $model->two_factor_code = Str::random(6);
             $model->code_expires_at = now()->addMinutes(10);
+            $model->uuid = Str::uuid();
         });
 
     }

@@ -17,6 +17,7 @@ class AuthService
     public $userRepository;
     public $twoFactorRepository;
     public $dictiRepository;
+    private $uuid = null;
 
     public function __construct(UserRepository $userRepository, TwoFactorTokenRepository $twoFactorTokenRepository, DictiRepository $dictiRepository)
     {
@@ -32,8 +33,8 @@ class AuthService
             throw new \Exception("Type auth not found", 422);
         }
 
-        if ($this->userRepository->checkHasUser($attribute)){
-            throw new \Exception("A user with such an email is busy.",400);
+        if ($this->userRepository->checkHasUser($attribute)) {
+            throw new \Exception("A user with such an email is busy.", 400);
         }
         $implementation = [
             "TELEGRAM_AUTH" => $this->telegramRegister($attribute),
@@ -42,36 +43,47 @@ class AuthService
 
         $implementation[$type_auth];
 
-        return [
+        $body = [
             "message" => "Please input 2FA code, we send your mail"
+
         ];
+        if ($this->uuid) {
+            $body['uuid'] = $this->uuid;
+        }
+
+        return $body;
     }
 
-    public function login($attribute) 
-    {
-        
-    }
+    public function login($attribute) {}
 
-    public function sendTwoFactor($mail,$twoFA) 
+    public function sendTwoFactor($mail, $twoFA)
     {
         Mail::to($mail)->send(new TwoFaMail($twoFA));
     }
 
-    public function confirmTwoFactor($attribute) 
+    public function confirmTwoFactor($attribute)
     {
-        $model = $this->twoFactorRepository->findToken($attribute['telegram_user_id'],$attribute['code']);
-        if (!$model || now() > $model->code_expires_at) {
-            throw new \Exception("Two factor to expired or uuid not found",401);
+
+        if (isset($attribute['telegram_user_id'])) {
+            $model = $this->twoFactorRepository->findToken($attribute['telegram_user_id'], $attribute['code']);
+        } elseif (isset($attribute['uuid'])) {
+            $model = $this->twoFactorRepository->findTokenByUuid($attribute['uuid'], $attribute['code']);
+        } else{
+            $model = null;
         }
 
-        $registerData = json_decode($model->register_data,true);
-        if (!isset($registerData['full_name'])){
-            if (isset($registerData['first_name'])){
+        if (!isset($model) || !$model || now() > $model->code_expires_at) {
+            throw new \Exception("Two factor to expired or uuid not found", 401);
+        }
+
+        $registerData = json_decode($model->register_data, true);
+        if (!isset($registerData['full_name'])) {
+            if (isset($registerData['first_name'])) {
                 $registerData['full_name'] = "Пользователь";
-            }else{
+            } else {
                 $registerData['full_name'] = $registerData['first_name'];
-                if (isset($registerData['last_name'])){
-                    $registerData['full_name'] = $registerData['full_name'].' '.$registerData['last_name'];
+                if (isset($registerData['last_name'])) {
+                    $registerData['full_name'] = $registerData['full_name'] . ' ' . $registerData['last_name'];
                 }
             }
         }
@@ -91,12 +103,17 @@ class AuthService
             "telegram_user_id" => $attribute["telegram_user_id"]
         ]);
 
-        $this->sendTwoFactor($twoFA->email,$twoFA->two_factor_code);
-
+        $this->sendTwoFactor($twoFA->email, $twoFA->two_factor_code);
     }
 
     public function webRegister($attribute)
     {
-        
+        $twoFA = $this->twoFactorRepository->create([
+            "email" => $attribute['email'],
+            "register_data" => json_encode($attribute)
+        ]);
+
+        $this->sendTwoFactor($twoFA->email, $twoFA->two_factor_code);
+        $this->uuid = $twoFA->uuid;
     }
 }

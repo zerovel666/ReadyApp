@@ -54,6 +54,11 @@ class DatabaseSeeder extends Seeder
                 "parent_id" => $item->id,
                 "full_name" => "Telegram авторизация",
                 "constant" => "TELEGRAM_AUTH"
+            ],
+            [
+                "parent_id" => $item->id,
+                "full_name" => "Web авторизация",
+                "constant" => "WEB_AUTH"
             ]
         ];
 
