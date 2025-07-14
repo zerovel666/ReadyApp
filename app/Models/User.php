@@ -24,11 +24,6 @@ class User extends Authenticatable
 
     protected $table = 'users';
 
-    protected $hidden = [
-        "password",
-        "remember_token",
-    ];
-
     public function setPasswordAttribute($value)
     {
         if (!empty($value)) {

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId("partner_id")->nullable()->constrained("partners")->onDelete("cascade");
             $table->foreignId("telegram_user_id")->nullable();
             $table->string("uniq_id_people")->nullable()->unique();
-            $table->string("phone")->unique();
+            $table->string("phone")->nullable();
             $table->boolean("active")->default(true);
             $table->timestamps();
         });

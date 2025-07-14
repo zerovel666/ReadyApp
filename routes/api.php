@@ -44,7 +44,7 @@ Route::prefix('partner')->group(function () {
 Route::prefix('auth')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
-    Route::post('auth/confirm', [AuthController::class, 'confirmTwoFactor']);
+    Route::post('confirm', [AuthController::class, 'confirmTwoFactor']);
 });
 
 Route::prefix('user')->group(function () {

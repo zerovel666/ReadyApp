@@ -8,12 +8,12 @@ use Illuminate\Support\Str;
 class TwoFactorToken extends Model
 {
     protected $fillable = [
-        "uuid",
         "email",
         "register_data",
         "two_factor_code",
         "code_expires_at",
         "active",
+        "telegram_user_id"
     ];
 
     protected $table = 'two_factor_tokens';
@@ -23,7 +23,8 @@ class TwoFactorToken extends Model
         parent::boot();
 
         static::creating(function($model){
-            $model->uuid = Str::uuid();
+            $model->two_factor_code = Str::random(6);
+            $model->code_expires_at = now()->addMinutes(10);
         });
 
     }

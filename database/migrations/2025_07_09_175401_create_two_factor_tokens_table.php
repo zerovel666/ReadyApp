@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('two_factor_tokens', function (Blueprint $table) {
             $table->id();
-            $table->uuid("uuid");
             $table->string("email");
             $table->json("register_data");
             $table->string("two_factor_code");
             $table->timestamp('code_expires_at');
             $table->boolean("active")->default(true);
+            $table->bigInteger("telegram_user_id")->nullable();
             $table->timestamps();
         });
     }
