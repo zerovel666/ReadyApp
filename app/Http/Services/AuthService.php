@@ -37,16 +37,16 @@ class AuthService
             throw new \Exception("A user with such an email is busy.", 400);
         }
         $implementation = [
-            "TELEGRAM_AUTH" => $this->telegramRegister($attribute),
-            "WEB_AUTH" => $this->webRegister($attribute)
+            "TELEGRAM_AUTH" => $this->telegramImplementAuth($attribute),
+            "WEB_AUTH" => $this->webImplementAuth($attribute)
         ];
 
         $implementation[$type_auth];
 
         $body = [
             "message" => "Please input 2FA code, we send your mail"
-
         ];
+        
         if ($this->uuid) {
             $body['uuid'] = $this->uuid;
         }
@@ -54,7 +54,35 @@ class AuthService
         return $body;
     }
 
-    public function login($attribute) {}
+    public function login($attribute)
+    {
+        $user = $this->userRepository->getByColumn("email", $attribute->email)->first();
+        if (!$user) {
+            throw new \Exception("User not found", 404);
+        }
+
+        $type_auth = $attribute['type_auth_constant'];
+        if (!$this->dictiRepository->checkTypeAuth($type_auth)) {
+            throw new \Exception("Type auth not found", 422);
+        }
+
+        $implementation = [
+            "TELEGRAM_AUTH" => $this->telegramImplementAuth($attribute),
+            "WEB_AUTH" => $this->webImplementAuth($attribute)
+        ];
+
+        $implementation[$type_auth];
+
+        $body = [
+            "message" => "Please input 2FA code, we send your mail"
+        ];
+
+        if ($this->uuid) {
+            $body['uuid'] = $this->uuid;
+        }
+
+        return $body;
+    }
 
     public function sendTwoFactor($mail, $twoFA)
     {
@@ -63,12 +91,11 @@ class AuthService
 
     public function confirmTwoFactor($attribute)
     {
-
         if (isset($attribute['telegram_user_id'])) {
             $model = $this->twoFactorRepository->findToken($attribute['telegram_user_id'], $attribute['code']);
         } elseif (isset($attribute['uuid'])) {
             $model = $this->twoFactorRepository->findTokenByUuid($attribute['uuid'], $attribute['code']);
-        } else{
+        } else {
             $model = null;
         }
 
@@ -76,18 +103,21 @@ class AuthService
             throw new \Exception("Two factor to expired or uuid not found", 401);
         }
 
-        $registerData = json_decode($model->register_data, true);
-        if (!isset($registerData['full_name'])) {
-            if (isset($registerData['first_name'])) {
-                $registerData['full_name'] = "Пользователь";
-            } else {
-                $registerData['full_name'] = $registerData['first_name'];
-                if (isset($registerData['last_name'])) {
-                    $registerData['full_name'] = $registerData['full_name'] . ' ' . $registerData['last_name'];
+        $user = $this->userRepository->getByColumn("email", $model->email)->first();
+        if (!$user) {
+            $registerData = json_decode($model->register_data, true);
+            if (!isset($registerData['full_name'])) {
+                if (isset($registerData['first_name'])) {
+                    $registerData['full_name'] = "Пользователь";
+                } else {
+                    $registerData['full_name'] = $registerData['first_name'];
+                    if (isset($registerData['last_name'])) {
+                        $registerData['full_name'] = $registerData['full_name'] . ' ' . $registerData['last_name'];
+                    }
                 }
             }
+            $user = $this->userRepository->create($registerData);
         }
-        $user = $this->userRepository->create($registerData);
         Auth::login($user);
 
         return [
@@ -95,7 +125,7 @@ class AuthService
         ];
     }
 
-    public function telegramRegister($attribute)
+    public function telegramImplementAuth($attribute)
     {
         $twoFA = $this->twoFactorRepository->create([
             "email" => $attribute['email'],
@@ -106,7 +136,7 @@ class AuthService
         $this->sendTwoFactor($twoFA->email, $twoFA->two_factor_code);
     }
 
-    public function webRegister($attribute)
+    public function webImplementAuth($attribute)
     {
         $twoFA = $this->twoFactorRepository->create([
             "email" => $attribute['email'],
