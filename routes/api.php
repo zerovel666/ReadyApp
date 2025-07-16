@@ -28,6 +28,16 @@ Route::prefix('country')->group(function () {
     Route::post('/', [CountryController::class, 'create']);
     Route::put('/{id}', [CountryController::class, 'updateById']);
     Route::delete('/{id}', [CountryController::class, 'deleteById']);
+    Route::get('/list',[CountryController::class,'list']);
+});
+
+Route::prefix('dictis')->group(function () {
+    Route::get('/', [DictiController::class, 'all']);
+    Route::get('/{id}', [DictiController::class, 'find']);
+    Route::post('/', [DictiController::class, 'create']);
+    Route::put('/{id}', [DictiController::class, 'updateById']);
+    Route::delete('/{id}', [DictiController::class, 'deleteById']);
+    Route::get('/list',[DictiController::class,'list']);
 });
 
 Route::prefix('partner')->group(function () {
@@ -38,8 +48,6 @@ Route::prefix('partner')->group(function () {
     Route::delete('/{id}', [PartnerController::class, 'deleteById']);
     Route::post("/upload/{id}", [PartnerController::class, 'upload']);
 });
-
-//Касательно пользователя пока что все сложно так как 
 
 Route::prefix('auth')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
