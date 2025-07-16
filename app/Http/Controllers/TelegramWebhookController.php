@@ -21,8 +21,6 @@ class TelegramWebhookController extends Controller
     {
         $data = $request->all();
 
-        \Log::info("telegram", $data);
-
         $message = $data['message']['text'] ?? null;
         $chatId  = $data['message']['chat']['id'] ?? null;
 
