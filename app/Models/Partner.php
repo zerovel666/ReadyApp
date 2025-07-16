@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Partner extends Model
 {
@@ -26,6 +27,9 @@ class Partner extends Model
     {
         return $this->belongsTo(Country::class, 'country_id', 'id');
     }
-
+    public function user(): HasMany
+    {
+        return $this->hasMany(User::class,"partner_id","id");
+    }
     
 }

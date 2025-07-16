@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
 
@@ -25,10 +27,18 @@ class User extends Authenticatable
 
     protected $table = 'users';
 
-    public function setPasswordAttribute($value)
+    public function roles(): BelongsToMany
     {
-        if (!empty($value)) {
-            $this->attributes['password'] = Hash::make($value);
-        }
+        return $this->belongsToMany(Role::class, 'roles_users');
+    }
+
+    public function partner(): BelongsTo
+    {
+        return $this->belongsTo(Partner::class, "partner_id", "id");
+    }
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class, "country_id", "id");
     }
 }

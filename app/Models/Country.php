@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Country extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         "parent_countries_id",
         "name",
@@ -31,5 +31,10 @@ class Country extends Model
     public function parent(): BelongsTo
     {
         return $this->belongsTo(Country::class, "parent_countries_id", "id");
+    }
+
+    public function country(): HasMany
+    {
+        return $this->hasMany(Country::class, "country_id", "id");
     }
 }

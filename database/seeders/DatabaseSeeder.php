@@ -8,6 +8,7 @@ use App\Models\Country;
 use App\Models\Dicti;
 use App\Models\Partner;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -82,12 +83,13 @@ class DatabaseSeeder extends Seeder
                 "slug" => "standart"
             ],
         ];
-        
-        $resultRole = [];
-        foreach ($roles as $role){
-            $resultRole[] = Role::create($role);
+
+
+        foreach ($roles as $role) {
+            $roleCreating = Role::create($role);
+            $user = User::factory()->create();
+            $user->roles()->attach($roleCreating->id);
         }
 
-        
     }
 }
