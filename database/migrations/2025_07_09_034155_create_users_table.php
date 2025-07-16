@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string("uniq_id_people")->nullable()->unique();
             $table->string("phone")->nullable();
             $table->boolean("active")->default(true);
+            $table->string("avatar")->nullable();
             $table->timestamps();
         });
     }

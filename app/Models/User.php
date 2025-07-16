@@ -20,6 +20,7 @@ class User extends Authenticatable
         "uniq_id_people",
         "phone",
         "active",
+        "avatar"
     ];
 
     protected $table = 'users';
