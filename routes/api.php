@@ -5,8 +5,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DictiController;
 use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\TelegramWebhookController;
 use App\Http\Controllers\UserController;
 use App\Http\Helpers\Response;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 
@@ -61,3 +64,5 @@ Route::prefix('user')->group(function () {
     Route::delete('/{id}', [UserController::class, 'deleteById']);
     Route::put('/{id}', [UserController::class, 'updateById']);
 });
+
+Route::post('/webhook', [TelegramWebhookController::class,"webhook"]);
