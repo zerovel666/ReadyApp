@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DictiController;
 use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TelegramWebhookController;
 use App\Http\Controllers\UserController;
 use App\Http\Helpers\Response;
@@ -66,3 +67,12 @@ Route::prefix('user')->group(function () {
 });
 
 Route::post('/webhook', [TelegramWebhookController::class,"webhook"]);
+
+Route::prefix('role')->group(function () {
+    Route::get('/', [RoleController::class, 'all']);
+    Route::get('/{id}', [RoleController::class, 'find']);
+    Route::post('/', [RoleController::class, 'create']);
+    Route::put('/{id}', [RoleController::class, 'updateById']);
+    Route::delete('/{id}', [RoleController::class, 'deleteById']);
+    Route::get('/list',[RoleController::class,'list']);
+});

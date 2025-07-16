@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Models\Country;
 use App\Models\Dicti;
 use App\Models\Partner;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -66,5 +67,27 @@ class DatabaseSeeder extends Seeder
         foreach ($bodtDicti as $itemD) {
             Dicti::factory()->create($itemD);
         }
+
+        $roles = [
+            [
+                "name" => "Админ",
+                "slug" => "admin"
+            ],
+            [
+                "name" => "Агент",
+                "slug" => "agent"
+            ],
+            [
+                "name" => "Пользователь",
+                "slug" => "standart"
+            ],
+        ];
+        
+        $resultRole = [];
+        foreach ($roles as $role){
+            $resultRole[] = Role::create($role);
+        }
+
+        
     }
 }
