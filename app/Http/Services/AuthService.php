@@ -37,16 +37,17 @@ class AuthService
             throw new \Exception("A user with such an email is busy.", 400);
         }
         $implementation = [
-            "TELEGRAM_AUTH" => $this->telegramImplementAuth($attribute),
-            "WEB_AUTH" => $this->webImplementAuth($attribute)
+            "TELEGRAM_AUTH" => fn() => $this->telegramImplementAuth($attribute),
+            "WEB_AUTH" => fn() => $this->webImplementAuth($attribute),
         ];
 
-        $implementation[$type_auth];
+        $implementation[$type_auth]();
+
 
         $body = [
             "message" => "Please input 2FA code, we send your mail"
         ];
-        
+
         if ($this->uuid) {
             $body['uuid'] = $this->uuid;
         }
@@ -56,7 +57,7 @@ class AuthService
 
     public function login($attribute)
     {
-        $user = $this->userRepository->getByColumn("email", $attribute->email)->first();
+        $user = $this->userRepository->getByColumn("email", $attribute['email'])->first();
         if (!$user) {
             throw new \Exception("User not found", 404);
         }
@@ -67,11 +68,11 @@ class AuthService
         }
 
         $implementation = [
-            "TELEGRAM_AUTH" => $this->telegramImplementAuth($attribute),
-            "WEB_AUTH" => $this->webImplementAuth($attribute)
+            "TELEGRAM_AUTH" => fn() => $this->telegramImplementAuth($attribute),
+            "WEB_AUTH" => fn() => $this->webImplementAuth($attribute),
         ];
 
-        $implementation[$type_auth];
+        $implementation[$type_auth]();
 
         $body = [
             "message" => "Please input 2FA code, we send your mail"
