@@ -8,17 +8,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory,HasApiTokens;
 
     protected $fillable = [
         "email",
         "full_name",
         "country_id",
         "partner_id",
-        "telegram_user_id",
+        "telegram_chat_id",
         "uniq_id_people",
         "phone",
         "active",

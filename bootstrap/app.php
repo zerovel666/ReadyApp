@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Helpers\ExceptionHelper;
+use App\Http\Middleware\AuthAccessMiddleware;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
@@ -17,7 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        
     })
     ->withExceptions(function (Exceptions $exceptions): void {
 
@@ -43,13 +44,9 @@ return Application::configure(basePath: dirname(__DIR__))
             ], 422);
         });
 
-        $exceptions->render(fn(QueryException $e)=>ExceptionHelper::renderException($e));
+        $exceptions->render(fn(QueryException $e) => ExceptionHelper::renderException($e));
         $exceptions->render(fn(TypeError $e) => ExceptionHelper::renderException($e));
         $exceptions->render(fn(SyntaxError $e) => ExceptionHelper::renderException($e));
         $exceptions->render(fn(Exception $e) => ExceptionHelper::renderException($e));
         $exceptions->render(fn(Throwable $e) => ExceptionHelper::renderException($e));
     })->create();
-
-
-
-

@@ -11,9 +11,9 @@ class TwoFactorTokenRepository extends BaseRepository
         parent::__construct($twoFactorToken);
     }
 
-    public function findToken($telegram_user_id, $two_factor_code)
+    public function findToken($telegram_chat_id, $two_factor_code)
     {
-        return $this->model->where("telegram_user_id", $telegram_user_id)->where("two_factor_code", $two_factor_code)->first();
+        return $this->model->where("telegram_chat_id", $telegram_chat_id)->where("two_factor_code", $two_factor_code)->first();
     }
 
     public function findTokenByUuid($uuid, $two_factor_code)

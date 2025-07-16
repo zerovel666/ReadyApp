@@ -80,7 +80,7 @@ class TelegramWebhookController extends Controller
     {
         $class = app()->make(AuthService::class);
         $attribute = [
-            "telegram_user_id" => $chatId,
+            "telegram_chat_id" => $chatId,
             "email" => $email
         ];
 

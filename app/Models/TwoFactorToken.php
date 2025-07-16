@@ -13,7 +13,7 @@ class TwoFactorToken extends Model
         "two_factor_code",
         "code_expires_at",
         "active",
-        "telegram_user_id",
+        "telegram_chat_id",
         "uuid"
     ];
 

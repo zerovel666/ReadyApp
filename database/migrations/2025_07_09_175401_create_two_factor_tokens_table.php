@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamp('code_expires_at');
             $table->boolean("active")->default(true);
             $table->uuid("uuid");
-            $table->bigInteger("telegram_user_id")->nullable();
+            $table->bigInteger("telegram_chat_id")->nullable();
             $table->timestamps();
         });
     }

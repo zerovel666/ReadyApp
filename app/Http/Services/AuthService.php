@@ -4,9 +4,11 @@ namespace App\Http\Services;
 
 use App\Http\Helpers\Response;
 use App\Http\Repository\DictiRepository;
+use App\Http\Repository\RoleRepository;
 use App\Http\Repository\TwoFactorTokenRepository;
 use App\Http\Repository\UserRepository;
 use App\Mail\TwoFaMail;
+use App\Models\User;
 use Illuminate\Contracts\Mail\Mailable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -18,12 +20,14 @@ class AuthService
     public $twoFactorRepository;
     public $dictiRepository;
     private $uuid = null;
+    private $roleRepository;
 
-    public function __construct(UserRepository $userRepository, TwoFactorTokenRepository $twoFactorTokenRepository, DictiRepository $dictiRepository)
+    public function __construct(UserRepository $userRepository, TwoFactorTokenRepository $twoFactorTokenRepository, DictiRepository $dictiRepository,RoleRepository $roleRepository)
     {
         $this->userRepository = $userRepository;
         $this->twoFactorRepository = $twoFactorTokenRepository;
         $this->dictiRepository = $dictiRepository;
+        $this->roleRepository = $roleRepository;
     }
 
     public function register($attribute)
@@ -92,8 +96,8 @@ class AuthService
 
     public function confirmTwoFactor($attribute)
     {
-        if (isset($attribute['telegram_user_id'])) {
-            $model = $this->twoFactorRepository->findToken($attribute['telegram_user_id'], $attribute['code']);
+        if (isset($attribute['telegram_chat_id'])) {
+            $model = $this->twoFactorRepository->findToken($attribute['telegram_chat_id'], $attribute['code']);
         } elseif (isset($attribute['uuid'])) {
             $model = $this->twoFactorRepository->findTokenByUuid($attribute['uuid'], $attribute['code']);
         } else {
@@ -118,11 +122,13 @@ class AuthService
                 }
             }
             $user = $this->userRepository->create($registerData);
+            $user->roles()->attach($this->roleRepository->getByColumn("slug","standart")->first()['id']);
         }
         Auth::login($user);
 
         return [
-            "message" => "You are registred"
+            "message" => "You are registred",
+            "token" => $user->createToken("webApp")->plainTextToken
         ];
     }
 
@@ -131,7 +137,7 @@ class AuthService
         $twoFA = $this->twoFactorRepository->create([
             "email" => $attribute['email'],
             "register_data" => json_encode($attribute),
-            "telegram_user_id" => $attribute["telegram_user_id"]
+            "telegram_chat_id" => $attribute["telegram_chat_id"]
         ]);
 
         $this->sendTwoFactor($twoFA->email, $twoFA->two_factor_code);
