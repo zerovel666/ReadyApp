@@ -10,14 +10,15 @@ class Car extends Model
     protected $fillable = [
         "model_id",
         "partner_id",
-        "vin
-        license_plate",
+        "vin",
+        "license_plate",
         "color_id",
         "mileage",
         "last_inspection_date",
-        "status",
+        "booked",
         "date_release",
         "rating",
+        "active",
     ];
 
     protected $table = 'cars';
