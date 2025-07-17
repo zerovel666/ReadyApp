@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CarController;
 use App\Http\Controllers\CarModelController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DictiController;
@@ -86,4 +87,13 @@ Route::prefix('car/model')->group(function () {
     Route::put('/{id}', [CarModelController::class, 'updateById']);
     Route::delete('/{id}', [CarModelController::class, 'deleteById']);
     Route::get('/list',[CarModelController::class,'list']);
+});
+
+Route::prefix('car')->group(function () {
+    Route::get('/', [CarController::class, 'all']);
+    Route::get('/{id}', [CarController::class, 'find']);
+    Route::post('/', [CarController::class, 'create']);
+    Route::put('/{id}', [CarController::class, 'updateById']);
+    Route::delete('/{id}', [CarController::class, 'deleteById']);
+    Route::get('/list',[CarController::class,'list']);
 });
