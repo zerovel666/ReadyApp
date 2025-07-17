@@ -3,6 +3,8 @@
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\CarImageController;
+use App\Http\Controllers\CarLocationController;
 use App\Http\Controllers\CarModelController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DictiController;
@@ -85,6 +87,22 @@ Route::prefix('car/model')->group(function () {
     Route::post('/', [CarModelController::class, 'create']);
     Route::put('/{id}', [CarModelController::class, 'updateById']);
     Route::delete('/{id}', [CarModelController::class, 'deleteById']);
+});
+
+Route::prefix('car/image')->group(function () {
+    Route::get('/', [CarImageController::class, 'all']);
+    Route::get('/{id}', [CarImageController::class, 'find']);
+    Route::post('/', [CarImageController::class, 'create']);
+    Route::put('/{id}', [CarImageController::class, 'updateById']);
+    Route::delete('/{id}', [CarImageController::class, 'deleteById']);
+});
+
+Route::prefix('car/location')->group(function () {
+    Route::get('/', [CarLocationController::class, 'all']);
+    Route::get('/{id}', [CarLocationController::class, 'find']);
+    Route::post('/', [CarLocationController::class, 'create']);
+    Route::put('/{id}', [CarLocationController::class, 'updateById']);
+    Route::delete('/{id}', [CarLocationController::class, 'deleteById']);
 });
 
 Route::prefix('car')->group(function () {
