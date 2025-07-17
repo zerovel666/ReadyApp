@@ -54,4 +54,9 @@ class CarModel extends Model
     {
         return $this->hasMany(Car::class, "model_id", "id");
     }
+
+    public function carImages(): HasMany
+    {
+        return $this->hasMany(CarImage::class, "model_id", "id");
+    }
 }
