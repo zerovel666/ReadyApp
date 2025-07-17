@@ -31,20 +31,20 @@ Route::prefix('agent')->group(function () {
 
 Route::prefix('country')->group(function () {
     Route::get('/', [CountryController::class, 'all']);
+    Route::get('/list',[CountryController::class,'list']);
     Route::get('/{id}', [CountryController::class, 'find']);
     Route::post('/', [CountryController::class, 'create']);
     Route::put('/{id}', [CountryController::class, 'updateById']);
     Route::delete('/{id}', [CountryController::class, 'deleteById']);
-    Route::get('/list',[CountryController::class,'list']);
 });
 
 Route::prefix('dictis')->group(function () {
     Route::get('/', [DictiController::class, 'all']);
+    Route::get('/list',[DictiController::class,'list']);
     Route::get('/{id}', [DictiController::class, 'find']);
     Route::post('/', [DictiController::class, 'create']);
     Route::put('/{id}', [DictiController::class, 'updateById']);
     Route::delete('/{id}', [DictiController::class, 'deleteById']);
-    Route::get('/list',[DictiController::class,'list']);
 });
 
 Route::prefix('partner')->group(function () {
@@ -77,7 +77,6 @@ Route::prefix('role')->group(function () {
     Route::post('/', [RoleController::class, 'create']);
     Route::put('/{id}', [RoleController::class, 'updateById']);
     Route::delete('/{id}', [RoleController::class, 'deleteById']);
-    Route::get('/list',[RoleController::class,'list']);
 });
 
 Route::prefix('car/model')->group(function () {
@@ -86,7 +85,6 @@ Route::prefix('car/model')->group(function () {
     Route::post('/', [CarModelController::class, 'create']);
     Route::put('/{id}', [CarModelController::class, 'updateById']);
     Route::delete('/{id}', [CarModelController::class, 'deleteById']);
-    Route::get('/list',[CarModelController::class,'list']);
 });
 
 Route::prefix('car')->group(function () {
@@ -95,5 +93,4 @@ Route::prefix('car')->group(function () {
     Route::post('/', [CarController::class, 'create']);
     Route::put('/{id}', [CarController::class, 'updateById']);
     Route::delete('/{id}', [CarController::class, 'deleteById']);
-    Route::get('/list',[CarController::class,'list']);
 });

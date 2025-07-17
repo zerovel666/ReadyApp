@@ -11,8 +11,4 @@ class RoleService extends BaseService
         parent::__construct($roleRepository);
     }
 
-    public function list()
-    {
-        return $this->repository->getWithChildren();
-    }
 }

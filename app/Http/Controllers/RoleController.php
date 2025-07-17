@@ -50,8 +50,4 @@ class RoleController extends Controller
         return Response::response(new RoleResource($this->roleService->create($request->validationData())));
     }
 
-    public function list()
-    {
-        return Response::response(RoleResource::collection($this->roleService->list()));
-    }
 }

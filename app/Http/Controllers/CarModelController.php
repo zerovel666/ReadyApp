@@ -49,8 +49,4 @@ class CarModelController extends Controller
         return Response::response(new CarModelResource($this->carModelService->create($request->validationData())));
     }
 
-    public function list()
-    {
-        return Response::response(CarModelResource::collection($this->carModelService->list()));
-    }
 }

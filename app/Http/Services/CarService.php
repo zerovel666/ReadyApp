@@ -11,8 +11,4 @@ class CarService extends BaseService
         parent::__construct($carRepository);
     }
 
-    public function list()
-    {
-        return $this->repository->getWithChildren();
-    }
 }
