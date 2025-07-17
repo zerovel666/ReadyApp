@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Helpers\Response;
-use App\Http\Requests\PartnerRequest;
 use App\Http\Resource\PartnerResource;
 use App\Http\Services\PartnerService;
 use Illuminate\Http\Request;
@@ -36,17 +35,17 @@ class PartnerController extends Controller
     {
         return Response::response($this->partnerService->getByColumn($column, $attribute));
     }
-    public function updateById($id, PartnerRequest $request)
+    public function updateById($id, Request $request)
     {
-        return Response::response($this->partnerService->updateById($id, $request->validationData()));
+        return Response::response($this->partnerService->updateById($id, $request->all()));
     }
     public function deleteById($id)
     {
         return Response::response($this->partnerService->deleteById($id));
     }
-    public function create(PartnerRequest $request)
+    public function create(Request $request)
     {
-        return Response::response(new PartnerResource($this->partnerService->create($request->validationData())));
+        return Response::response(new PartnerResource($this->partnerService->create($request->all())));
     }
     public function upload(Request $request, $id)
     {

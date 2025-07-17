@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Helpers\Response;
-use App\Http\Requests\DictiRequest;
 use App\Http\Resource\DictiResource;
 use App\Http\Services\DictiService;
 use Illuminate\Http\Request;
@@ -36,17 +35,17 @@ class DictiController extends Controller
     {
         return Response::response($this->dictiService->getByColumn($column, $attribute));
     }
-    public function updateById($id, DictiRequest $request)
+    public function updateById($id, Request $request)
     {
-        return Response::response(new DictiResource($this->dictiService->updateById($id, $request->validationData())));
+        return Response::response(new DictiResource($this->dictiService->updateById($id, $request->all())));
     }
     public function deleteById($id)
     {
         return Response::response($this->dictiService->deleteById($id));
     }
-    public function create(DictiRequest $request)
+    public function create(Request $request)
     {
-        return Response::response(new DictiResource($this->dictiService->create($request->validationData())));
+        return Response::response(new DictiResource($this->dictiService->create($request->all())));
     }
 
     public function list()

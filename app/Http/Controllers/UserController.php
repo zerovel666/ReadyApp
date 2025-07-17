@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Helpers\Response;
-use App\Http\Requests\UserRequest;
 use App\Http\Resource\UserResource;
 use App\Http\Services\UserService;
 use Illuminate\Http\Request;
@@ -36,17 +35,17 @@ class UserController extends Controller
     {
         return Response::response($this->userService->getByColumn($column, $attribute));
     }
-    public function updateById($id, UserRequest $request)
+    public function updateById($id, Request $request)
     {
-        return Response::response($this->userService->updateById($id, $request->validationData()));
+        return Response::response($this->userService->updateById($id, $request->all()));
     }
     public function deleteById($id)
     {
         return Response::response($this->userService->deleteById($id));
     }
-    public function create(UserRequest $request)
+    public function create(Request $request)
     {
-        return Response::response(new UserResource($this->userService->create($request->validationData())));
+        return Response::response(new UserResource($this->userService->create($request->all())));
     }
     
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Helpers\Response;
-use App\Http\Requests\CarModelRequest;
 use App\Http\Resource\CarModelResource;
 use App\Http\Services\CarModelService;
 use Illuminate\Http\Request;
@@ -36,17 +35,17 @@ class CarModelController extends Controller
     {
         return Response::response($this->carModelService->getByColumn($column, $attribute));
     }
-    public function updateById($id, CarModelRequest $request)
+    public function updateById($id, Request $request)
     {
-        return Response::response(new CarModelResource($this->carModelService->updateById($id, $request->validationData())));
+        return Response::response(new CarModelResource($this->carModelService->updateById($id, $request->all())));
     }
     public function deleteById($id)
     {
         return Response::response($this->carModelService->deleteById($id));
     }
-    public function create(CarModelRequest $request)
+    public function create(Request $request)
     {
-        return Response::response(new CarModelResource($this->carModelService->create($request->validationData())));
+        return Response::response(new CarModelResource($this->carModelService->create($request->all())));
     }
 
 }

@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Helpers\Response;
-use App\Http\Requests\RoleRequest;
 use App\Http\Resource\RoleResource;
 use App\Http\Services\RoleService;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class RoleController extends Controller
 {
@@ -37,17 +35,17 @@ class RoleController extends Controller
     {
         return Response::response($this->roleService->getByColumn($column, $attribute));
     }
-    public function updateById($id, RoleRequest $request)
+    public function updateById($id, Request $request)
     {
-        return Response::response(new RoleResource($this->roleService->updateById($id, $request->validationData())));
+        return Response::response(new RoleResource($this->roleService->updateById($id, $request->all())));
     }
     public function deleteById($id)
     {
         return Response::response($this->roleService->deleteById($id));
     }
-    public function create(RoleRequest $request)
+    public function create(Request $request)
     {
-        return Response::response(new RoleResource($this->roleService->create($request->validationData())));
+        return Response::response(new RoleResource($this->roleService->create($request->all())));
     }
 
 }
