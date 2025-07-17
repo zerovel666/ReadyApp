@@ -29,7 +29,11 @@ class Partner extends Model
     }
     public function user(): HasMany
     {
-        return $this->hasMany(User::class,"partner_id","id");
+        return $this->hasMany(User::class, "partner_id", "id");
     }
-    
+
+    public function cars(): HasMany
+    {
+        return $this->hasMany(Car::class, "partner_id", "id");
+    }
 }

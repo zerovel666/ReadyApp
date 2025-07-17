@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('car_models', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("creator")->constrained("dictis")->onDelete("cascade");
-            $table->foreignId("stamp")->constrained("dictis")->onDelete("cascade");
-            $table->foreignId("body")->constrained("dictis")->onDelete("cascade");
-            $table->foreignId("engine")->constrained("dictis")->onDelete("cascade");
-            $table->foreignId("transmission")->constrained("dictis")->onDelete("cascade");
+            $table->foreignId("creator_id")->constrained("dictis")->onDelete("cascade");
+            $table->foreignId("stamp_id")->constrained("dictis")->onDelete("cascade");
+            $table->foreignId("body_id")->constrained("dictis")->onDelete("cascade");
+            $table->foreignId("engine_id")->constrained("dictis")->onDelete("cascade");
+            $table->foreignId("transmission_id")->constrained("dictis")->onDelete("cascade");
             $table->float("engine_volume");
             $table->integer("power");
             $table->integer("seats");
