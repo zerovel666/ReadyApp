@@ -25,6 +25,7 @@ return new class extends Migration
             $table->float("fuel_tank_capacity");
             $table->integer("weight");
             $table->float("height");
+            $table->boolean("active")->default(false);
             $table->timestamps();
         });
     }

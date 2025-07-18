@@ -83,6 +83,7 @@ class DatabaseSeeder extends Seeder
                 'fuel_tank_capacity' => fake()->numberBetween(30, 100),
                 'weight'          => fake()->numberBetween(1000, 3000),
                 'height'          => fake()->randomFloat(2, 1.2, 2.2),
+                'active'          => fake()->boolean()
             ]);
 
             CarImage::create([
@@ -94,7 +95,7 @@ class DatabaseSeeder extends Seeder
         // Создание авто и локаций
         for ($i = 0; $i <= 10; $i++) {
             $car = Car::create([
-                'model_id'             => CarModel::inRandomOrder()->first()->id,
+                'model_id'             => CarModel::where("active",true)->get()->random()->id,
                 'partner_id'           => Partner::inRandomOrder()->first()->id,
                 'color_id'             => Dicti::where('parent_id', Dicti::where('constant', 'COLOR')->first()->id)->inRandomOrder()->first()->id,
                 'vin'                  => strtoupper(fake()->bothify('??##############')),

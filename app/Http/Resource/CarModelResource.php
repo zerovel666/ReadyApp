@@ -22,6 +22,7 @@ class CarModelResource extends JsonResource
             'fuel_tank_capacity' => $this->fuel_tank_capacity,
             'weight' => $this->weight,
             'height' => $this->height,
+            'active' => $this->active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

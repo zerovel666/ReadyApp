@@ -23,6 +23,7 @@ class CarModel extends Model
         'fuel_tank_capacity',
         'weight',
         'height',
+        'active'
     ];
 
     public function creator(): BelongsTo
