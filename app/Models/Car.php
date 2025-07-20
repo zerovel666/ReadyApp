@@ -15,7 +15,6 @@ class Car extends Model
         "color_id",
         "mileage",
         "last_inspection_date",
-        "booked",
         "date_release",
         "rating",
         "active",

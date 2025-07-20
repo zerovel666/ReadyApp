@@ -102,7 +102,6 @@ class DatabaseSeeder extends Seeder
                 'license_plate'        => strtoupper(fake()->bothify('??###??')),
                 'mileage'              => fake()->numberBetween(0, 300000),
                 'last_inspection_date' => fake()->date(),
-                'booked'               => fake()->boolean(),
                 'date_release'         => fake()->date(),
                 'rating'               => fake()->numberBetween(1, 5),
                 'active'               => fake()->boolean(),

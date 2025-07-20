@@ -20,7 +20,6 @@ return new class extends Migration
             $table->foreignId("color_id")->constrained("dictis")->cascadeOnDelete();
             $table->float("mileage");
             $table->date("last_inspection_date");
-            $table->boolean("booked");
             $table->date("date_release");
             $table->float("rating");
             $table->boolean("active");

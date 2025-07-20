@@ -17,7 +17,6 @@ class CarResource extends JsonResource
             "color_id" => $this->color_id,
             "mileage" => $this->mileage,
             "last_inspection_date" => $this->last_inspection_date,
-            "booked" => $this->booked,
             "date_release" => $this->date_release,
             "rating" => $this->rating,
             "active" => $this->active,
