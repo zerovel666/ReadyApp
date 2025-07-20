@@ -91,7 +91,8 @@ class DatabaseSeeder extends Seeder
                 'image_path' => fake()->imageUrl(),
             ]);
         }
-
+        
+        $this->seedDicti('STATUS_CAR','Status cars',["serviced","booked","free"]);
         // Создание авто и локаций
         for ($i = 0; $i <= 10; $i++) {
             $car = Car::create([
@@ -104,7 +105,7 @@ class DatabaseSeeder extends Seeder
                 'last_inspection_date' => fake()->date(),
                 'date_release'         => fake()->date(),
                 'rating'               => fake()->numberBetween(1, 5),
-                'active'               => fake()->boolean(),
+                'status'               => $this->randomDictiChildId("STATUS_CAR"),
             ]);
 
             if ($car->active) {

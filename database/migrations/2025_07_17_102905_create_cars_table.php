@@ -22,7 +22,7 @@ return new class extends Migration
             $table->date("last_inspection_date");
             $table->date("date_release");
             $table->float("rating");
-            $table->boolean("active");
+            $table->foreignId("status")->constrained('dictis')->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -17,7 +17,7 @@ class Car extends Model
         "last_inspection_date",
         "date_release",
         "rating",
-        "active",
+        "status",
     ];
 
     protected $table = 'cars';
