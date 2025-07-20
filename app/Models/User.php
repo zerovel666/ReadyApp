@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
@@ -42,4 +43,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Country::class, "country_id", "id");
     }
+
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class,"user_id","id");
+    }
+
 }
