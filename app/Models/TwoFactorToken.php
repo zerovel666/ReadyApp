@@ -9,7 +9,7 @@ class TwoFactorToken extends Model
 {
     protected $fillable = [
         "email",
-        "register_data",
+        "data",
         "two_factor_code",
         "code_expires_at",
         "active",

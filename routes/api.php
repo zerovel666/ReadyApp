@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\CarImageController;
 use App\Http\Controllers\CarLocationController;
@@ -81,7 +82,7 @@ Route::prefix('role')->group(function () {
     Route::delete('/{id}', [RoleController::class, 'deleteById']);
 });
 
-Route::prefix('car/model')->group(function () {
+Route::prefix('car/model')->middleware(AuthAccessMiddleware::class)->group(function () {
     Route::get('/', [CarModelController::class, 'all']);
     Route::get('/{id}', [CarModelController::class, 'find']);
     Route::post('/', [CarModelController::class, 'create']);
@@ -111,4 +112,12 @@ Route::prefix('car')->group(function () {
     Route::post('/', [CarController::class, 'create']);
     Route::put('/{id}', [CarController::class, 'updateById']);
     Route::delete('/{id}', [CarController::class, 'deleteById']);
+});
+
+Route::prefix('booking')->middleware(AuthAccessMiddleware::class)->group(function () {
+    Route::get('/', [BookingController::class, 'all']);
+    Route::get('/{id}', [BookingController::class, 'find']);
+    Route::post('/', [BookingController::class, 'create']);
+    Route::put('/{id}', [BookingController::class, 'updateById']);
+    Route::delete('/{id}', [BookingController::class, 'deleteById']);
 });

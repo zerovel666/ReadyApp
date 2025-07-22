@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string("phone")->nullable();
             $table->boolean("active")->default(true);
             $table->string("avatar")->nullable();
+            $table->date("last_verifed")->default(now()->format("Y-m-d"));
             $table->timestamps();
         });
     }

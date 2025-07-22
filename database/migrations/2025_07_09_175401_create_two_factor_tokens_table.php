@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('two_factor_tokens', function (Blueprint $table) {
             $table->id();
             $table->string("email");
-            $table->json("register_data");
+            $table->json("data");
             $table->string("two_factor_code");
             $table->timestamp('code_expires_at');
             $table->boolean("active")->default(true);

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date("start_date");
             $table->date("end_date");
             $table->enum("status",["pending","approved","completed","canceled"]);
-            $table->boolean("notified");
+            $table->boolean("notified")->default(false);
             $table->timestamps();
         });
     }

@@ -110,7 +110,7 @@ class AuthService
 
         $user = $this->userRepository->getByColumn("email", $model->email)->first();
         if (!$user) {
-            $registerData = json_decode($model->register_data, true);
+            $registerData = json_decode($model->data, true);
             if (!isset($registerData['full_name'])) {
                 if (isset($registerData['first_name'])) {
                     $registerData['full_name'] = "Пользователь";
@@ -125,7 +125,9 @@ class AuthService
             $user->roles()->attach($this->roleRepository->getByColumn("slug","standart")->first()['id']);
         }
         Auth::login($user);
-
+        $user->update([
+            "last_verifed" => now()->format("Y-m-d")
+        ]);
         return [
             "message" => "You are registred",
             "token" => $user->createToken("webApp")->plainTextToken
@@ -136,7 +138,7 @@ class AuthService
     {
         $twoFA = $this->twoFactorRepository->create([
             "email" => $attribute['email'],
-            "register_data" => json_encode($attribute),
+            "data" => json_encode($attribute),
             "telegram_chat_id" => $attribute["telegram_chat_id"]
         ]);
 
@@ -147,10 +149,11 @@ class AuthService
     {
         $twoFA = $this->twoFactorRepository->create([
             "email" => $attribute['email'],
-            "register_data" => json_encode($attribute)
+            "data" => json_encode($attribute)
         ]);
 
         $this->sendTwoFactor($twoFA->email, $twoFA->two_factor_code);
         $this->uuid = $twoFA->uuid;
     }
+
 }
