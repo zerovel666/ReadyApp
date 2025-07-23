@@ -11,18 +11,22 @@ class UserResource extends JsonResource
         $baseArray = [
             "id" => $this->id,
             "email" => $this->email,
-            "password" => $this->password,
-            "first_name" => $this->first_name,
-            "parent_name" => $this->parent_name,
-            "last_name" => $this->last_name,
             "full_name" => $this->full_name,
             "country_id" => $this->country_id,
-            "uniq_id_people" => $this->uniq_id_people,
-            "avatar" => $this->avatar,
             "partner_id" => $this->partner_id,
+            "telegram_chat_id" => $this->telegram_chat_id,
+            "uniq_id_people" => $this->uniq_id_people,
+            "phone" => $this->phone,
+            "active" => $this->active,
+            "avatar" => $this->avatar,
+            "last_verifed" => $this->last_verifed,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at
         ];
+
+        if ($this->agent){
+            $baseArray['agent'] = $this->agent;
+        }
 
         return $baseArray;
     }

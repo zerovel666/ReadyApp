@@ -125,9 +125,9 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function 
     Route::prefix('info')->group(function () {
         Route::get('/me', [AgentInfoController::class, 'getMeInfo']);
         Route::get('/', [AgentInfoController::class, 'all']);
-        Route::get('/{user_id}', [CarController::class, 'find']);
-        Route::post('/', [CarController::class, 'create']);
-        Route::put('/', [CarController::class, 'updateById']);
-        Route::delete('/{user_id}', [CarController::class, 'deleteById']);
+        Route::get('/{user_id}', [AgentInfoController::class, 'find']);
+        Route::post('/{user_id}', [AgentInfoController::class, 'create']);
+        Route::put('/{user_id}', [AgentInfoController::class, 'updateById']);
+        Route::delete('/{user_id}', [AgentInfoController::class, 'deleteById']);
     });
 });

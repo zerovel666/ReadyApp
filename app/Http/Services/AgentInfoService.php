@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Http\Repository\AgentInfoRepository;
+use Illuminate\Support\Facades\Auth;
 
 class AgentInfoService extends BaseService
 {
@@ -10,4 +11,10 @@ class AgentInfoService extends BaseService
         parent::__construct($agentInfoRepository);
     }
     
+    public function getMeInfo()
+    {
+        $user = Auth::user();
+        $user->agent;
+        return $user;
+    }
 }

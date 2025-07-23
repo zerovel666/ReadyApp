@@ -15,7 +15,7 @@ class AgentInfoResource extends JsonResource
             "schedule_work_id" => $this->schedule_work,
             "count_сompleted_tasks" => $this->count_сompleted_tasks,
             "rating" => $this->rating,
-            "craeted_at" => $this->craeted_at,
+            "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
         ];
 
