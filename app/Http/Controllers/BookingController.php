@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Helpers\Response;
+use App\Http\Resource\BookingResource;
 use App\Http\Services\BookingService;
 use Illuminate\Http\Request;
 
@@ -15,12 +16,12 @@ class BookingController extends Controller
 
     public function create(Request $request)
     {
-        return Response::response($this->bookingService->create($request->all()));
+        return Response::response(new BookingResource($this->bookingService->create($request->all())));
     }
 
     public function allMeByStatus(Request $request)
     {
-        return Response::response($this->bookingService->allMeByStatus($request->status));
+        return Response::response(BookingResource::collection($this->bookingService->allMeByStatus($request->status)));
     }
 
     public function cancel($id)
