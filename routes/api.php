@@ -115,9 +115,9 @@ Route::prefix('car')->group(function () {
 });
 
 Route::prefix('booking')->middleware(AuthAccessMiddleware::class)->group(function () {
-    Route::get('/', [BookingController::class, 'all']);
+    Route::get('/', [BookingController::class, 'allMeByStatus']);
     Route::get('/{id}', [BookingController::class, 'find']);
     Route::post('/', [BookingController::class, 'create']);
     Route::put('/{id}', [BookingController::class, 'updateById']);
-    Route::delete('/{id}', [BookingController::class, 'deleteById']);
+    Route::delete('/{id}', [BookingController::class, 'cancel']);
 });

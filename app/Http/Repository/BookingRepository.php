@@ -25,4 +25,16 @@ class BookingRepository extends BaseRepository
             })
             ->exists();
     }
+
+    public function getByUserIdAndStatus($id,$status)
+    {
+        $model = $this->model->where("user_id",$id);
+        if ($status == "active"){
+            return $model->whereIn("status",["pending","approved"])->get();
+        } elseif ($status == "archive") {
+            return $model->whereIn("status",["completed","canceled"])->get();
+        }else{
+            throw new \Exception("Undefiend status: $status",400);
+        }
+    }
 }

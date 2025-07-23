@@ -58,4 +58,23 @@ class BookingService extends BaseService
 
         return $model;
     }
+
+    public function allMeByStatus($status)
+    {
+        $user = Auth::user();
+        return $this->repository->getByUserIdAndStatus($user->id,$status);
+    }
+
+    public function cancel($id)
+    {
+        $booking = $this->repository->find($id);
+        if ($booking->user_id != Auth::user()->id){
+            throw new \Exception("You don't can cancel this booking",403);
+        }
+
+        $booking->update(["status" => "canceled"]);
+        return [
+            "message" => "Success cancel"
+        ];
+    }
 }

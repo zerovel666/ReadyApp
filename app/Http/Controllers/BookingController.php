@@ -17,4 +17,14 @@ class BookingController extends Controller
     {
         return Response::response($this->bookingService->create($request->all()));
     }
+
+    public function allMeByStatus(Request $request)
+    {
+        return Response::response($this->bookingService->allMeByStatus($request->status));
+    }
+
+    public function cancel($id)
+    {
+        return Response::response($this->bookingService->cancel($id));
+    }
 }
