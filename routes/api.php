@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\AgentInfoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CarController;
@@ -34,7 +35,7 @@ Route::prefix('agent')->group(function () {
 
 Route::prefix('country')->group(function () {
     Route::get('/', [CountryController::class, 'all']);
-    Route::get('/list',[CountryController::class,'list']);
+    Route::get('/list', [CountryController::class, 'list']);
     Route::get('/{id}', [CountryController::class, 'find']);
     Route::post('/', [CountryController::class, 'create']);
     Route::put('/{id}', [CountryController::class, 'updateById']);
@@ -43,7 +44,7 @@ Route::prefix('country')->group(function () {
 
 Route::prefix('dictis')->group(function () {
     Route::get('/', [DictiController::class, 'all']);
-    Route::get('/list',[DictiController::class,'list']);
+    Route::get('/list', [DictiController::class, 'list']);
     Route::get('/{id}', [DictiController::class, 'find']);
     Route::post('/', [DictiController::class, 'create']);
     Route::put('/{id}', [DictiController::class, 'updateById']);
@@ -72,7 +73,7 @@ Route::prefix('user')->group(function () {
     Route::put('/{id}', [UserController::class, 'updateById']);
 });
 
-Route::post('/webhook', [TelegramWebhookController::class,"webhook"]);
+Route::post('/webhook', [TelegramWebhookController::class, "webhook"]);
 
 Route::prefix('role')->group(function () {
     Route::get('/', [RoleController::class, 'all']);
@@ -120,3 +121,13 @@ Route::prefix('booking')->middleware(AuthAccessMiddleware::class)->group(functio
     Route::delete('/{id}', [BookingController::class, 'cancel']);
 });
 
+Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function () {
+    Route::prefix('info')->group(function () {
+        Route::get('/me', [AgentInfoController::class, 'getMeInfo']);
+        Route::get('/', [AgentInfoController::class, 'all']);
+        Route::get('/{user_id}', [CarController::class, 'find']);
+        Route::post('/', [CarController::class, 'create']);
+        Route::put('/', [CarController::class, 'updateById']);
+        Route::delete('/{user_id}', [CarController::class, 'deleteById']);
+    });
+});

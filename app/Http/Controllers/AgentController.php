@@ -12,4 +12,6 @@ class AgentController extends Controller
     {
         return Response::get($request, config('agent.url'));
     }
+
+    
 }
