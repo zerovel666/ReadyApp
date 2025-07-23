@@ -19,17 +19,46 @@ class AuthAccessMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $token = Str::after($request->header('Authorization'), 'Bearer ');
-        if ($token) {
-            $accessToken = PersonalAccessToken::findToken($token);
-            if (!$accessToken) {
-                throw new \Exception("Unauthorization", 401);
-            }
-            $user = $accessToken->tokenable;
+        $data = $request->all();
+        $token = Str::after($request->header('Authorization'), 'Bearer');
+        $chatId = $data['message']['chat']['id'] ?? null;
+
+        $implArr = [
+            'chat' => fn() => $this->telegramImplement($chatId),
+            'web' => fn() => $this->webImplement($token),
+        ];
+
+        if ($chatId) {
+            $user = $implArr['chat']();
+        } elseif ($token) {
+            $user = $implArr['web']();
         } else {
-            throw new \Exception("Unauthorization", 401);
+            throw new \Exception("Unauthorized", 401);
         }
+
         Auth::login($user);
         return $next($request);
+    }
+
+
+    public function telegramImplement($chatId)
+    {
+        $user = User::where("telegram_chat_id", $chatId)->first();
+        if (!$user) {
+            throw new \Exception("Unauthorization", 401);
+        }
+
+        return $user;
+    }
+
+    public function webImplement($token)
+    {
+        $accessToken = PersonalAccessToken::findToken($token);
+        if (!$accessToken) {
+            throw new \Exception("Unauthorization", 401);
+        }
+        $user = $accessToken->tokenable;
+
+        return $user;
     }
 }
