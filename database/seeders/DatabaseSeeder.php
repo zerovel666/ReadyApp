@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\{Car, CarImage, CarLocation, CarModel, Country, Dicti, Partner, Role, User};
+use App\Models\{AgentInfo, Car, CarImage, CarLocation, CarModel, Country, Dicti, Partner, Role, User};
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -117,6 +117,34 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
+
+        // AGENT
+        $this->seedDicti("AGENT_STATUS","Agent statuses",["Not in place", "Active", "Pickup", "Delivers", "waiting", "machine maintenance"]);
+        $this->seedDicti("SCHEDULE_WORK","Schedule work",[]);
+        $schedule_work = Dicti::whereConstant("SCHEDULE_WORK")->first();
+        $schedule = [
+            "2/2",
+            "5/2",
+            "6/1"
+        ];
+        foreach ($schedule as $item){
+            Dicti::factory()->create([
+                'full_name' => $item,
+                'parent_id' => $schedule_work->id,
+                'char_value' => $item
+            ]);
+        }
+
+        $userAgent = User::whereHas('roles',function ($query){
+            $query->where('slug','agent');
+        })->first();
+        AgentInfo::create([
+            "user_id" => $userAgent->id,
+            "status_id" => $this->randomDictiChildId("AGENT_STATUS"),
+            "schedule_work_id" => $this->randomDictiChildId("SCHEDULE_WORK"),
+            "count_сompleted_tasks" => 0,
+            "rating" => fake()->numberBetween(1,4),
+        ]);
     }
 
     // Утилита для генерации словаря и дочерних элементов
