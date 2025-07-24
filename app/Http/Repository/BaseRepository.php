@@ -21,7 +21,7 @@ class BaseRepository
     public function find($id)
     {
         $model = $this->model->find($id);
-        if (!$model){
+        if (!$model) {
             throw new \Exception("Object with id $id not found", 404);
         }
         return $model;
@@ -32,23 +32,28 @@ class BaseRepository
         return $this->model->where($column, $attribute)->get();
     }
 
+    public function firstByColumn($column, $attribute)
+    {
+        return $this->model->where($column, $attribute)->first();
+    }
+
+    public function getByMultipieColumns($keyValArr)
+    {
+        $model = $this->model;
+        foreach ($keyValArr as $key => $value){
+            $model->where($key,$value);
+        }
+        return $model->get();
+    }
+
     public function updateById($id, $attributes)
     {
-        $model = $this->model->find($id);
-        if (!$model) {
-            throw new \Exception("Object with id $id not found", 404);
-        }
-        $model->update($attributes);
-        return $model;
+        return $this->model->where("id", $id)->update($attributes);
     }
 
     public function deleteById($id)
     {
-        $model = $this->model->find($id);
-        if (!$model) {
-            throw new \Exception("Object with id $id not found", 404);
-        }
-        return $model->delete($id);
+        return $this->model->where("id", $id)->delete();
     }
 
     public function create($data)
@@ -58,11 +63,7 @@ class BaseRepository
 
     public function updateByColumn($column, $value, $attributes)
     {
-        $model = $this->model->where($column, $value)->first();
-        if (!$model) {
-            throw new \Exception("Object with $column => $value not found", 404);
-        }
-        return $model->update($attributes);
+        return $this->model->where($column, $value)->update($attributes);
     }
 
     public function paginate()
