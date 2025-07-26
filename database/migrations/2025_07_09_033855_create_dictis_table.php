@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string("constant")->nullable();
             $table->string("constant1")->nullable();
             $table->string("constant2")->nullable();
+            $table->boolean("active")->default(true);
             $table->timestamps();
         });
     }

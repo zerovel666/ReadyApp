@@ -12,6 +12,7 @@ use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DictiController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TelegramWebhookController;
 use App\Http\Controllers\UserController;
 use App\Http\Helpers\Response;
@@ -129,5 +130,13 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function 
         Route::post('/{user_id}', [AgentInfoController::class, 'create']);
         Route::put('/{user_id}', [AgentInfoController::class, 'updateById']);
         Route::delete('/{user_id}', [AgentInfoController::class, 'deleteById']);
+    });
+
+    Route::prefix('task')->middleware(AuthAccessMiddleware::class)->group(function () {
+        Route::get('/', [TaskController::class, 'all']);
+        Route::get('/{id}', [TaskController::class, 'find']);
+        Route::post('/', [TaskController::class, 'create']);
+        Route::put('/{id}', [TaskController::class, 'updateById']);
+        Route::delete('/{id}', [TaskController::class, 'deleteById']);
     });
 });

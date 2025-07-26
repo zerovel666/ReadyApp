@@ -91,12 +91,12 @@ class DatabaseSeeder extends Seeder
                 'image_path' => fake()->imageUrl(),
             ]);
         }
-        
-        $this->seedDicti('STATUS_CAR','Status cars',["serviced","booked","free"]);
+
+        $this->seedDicti('STATUS_CAR', 'Status cars', ["serviced", "booked", "free"]);
         // Создание авто и локаций
         for ($i = 0; $i <= 10; $i++) {
             $car = Car::create([
-                'model_id'             => CarModel::where("active",true)->get()->random()->id,
+                'model_id'             => CarModel::where("active", true)->get()->random()->id,
                 'partner_id'           => Partner::inRandomOrder()->first()->id,
                 'color_id'             => Dicti::where('parent_id', Dicti::where('constant', 'COLOR')->first()->id)->inRandomOrder()->first()->id,
                 'vin'                  => strtoupper(fake()->bothify('??##############')),
@@ -119,15 +119,15 @@ class DatabaseSeeder extends Seeder
         }
 
         // AGENT
-        $this->seedDicti("AGENT_STATUS","Agent statuses",["Not in place", "Active", "Pickup", "Delivers", "waiting", "machine maintenance"]);
-        $this->seedDicti("SCHEDULE_WORK","Schedule work",[]);
+        $this->seedDicti("AGENT_STATUS", "Agent statuses", ["Not in place", "Active", "Pickup", "Delivers", "waiting", "machine maintenance"]);
+        $this->seedDicti("SCHEDULE_WORK", "Schedule work", []);
         $schedule_work = Dicti::whereConstant("SCHEDULE_WORK")->first();
         $schedule = [
             "2/2",
             "5/2",
             "6/1"
         ];
-        foreach ($schedule as $item){
+        foreach ($schedule as $item) {
             Dicti::factory()->create([
                 'full_name' => $item,
                 'parent_id' => $schedule_work->id,
@@ -135,16 +135,19 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $userAgent = User::whereHas('roles',function ($query){
-            $query->where('slug','agent');
+        $userAgent = User::whereHas('roles', function ($query) {
+            $query->where('slug', 'agent');
         })->first();
+
         AgentInfo::create([
             "user_id" => $userAgent->id,
             "status_id" => $this->randomDictiChildId("AGENT_STATUS"),
             "schedule_work_id" => $this->randomDictiChildId("SCHEDULE_WORK"),
             "count_сompleted_tasks" => 0,
-            "rating" => fake()->numberBetween(1,4),
+            "rating" => fake()->numberBetween(1, 4),
         ]);
+
+        $this->seedAgentCheckList();
     }
 
     // Утилита для генерации словаря и дочерних элементов
@@ -167,5 +170,69 @@ class DatabaseSeeder extends Seeder
     private function randomDictiChildId(string $parentConstant): int
     {
         return Dicti::where('parent_id', Dicti::where('constant', $parentConstant)->first()->id)->inRandomOrder()->first()->id;
+    }
+
+    private function seedAgentCheckList()
+    {
+        $this->seedDicti("AGENT_CHECK_LISTS", "Check lists", []);
+        $checkListnum1 = [
+            "Check fuel level",
+            "Inspect the body for any damage",
+            "Check tire condition and pressure",
+            "Check interior cleanliness",
+            "Ensure keys and documents are present",
+            "Test headlights, brake lights, and turn signals",
+            "Check oil and fluid levels",
+            "Record mileage",
+            "Inspect windows and mirrors for damage",
+            "Verify all rented accessories are returned (e.g., charger, child seat)",
+        ];
+
+        $checkListnum2 = [
+            "Check and record fuel level",
+            "Inspect the car body for scratches, dents, or paint damage",
+            "Check front and rear bumpers for any cracks or dislocation",
+            "Inspect all four tires for wear, damage, and pressure levels",
+            "Check condition of rims and note any scratches or bends",
+            "Inspect undercarriage for leaks or unusual damage",
+            "Verify windshield and all windows are intact and clean",
+            "Check side and rear-view mirrors for cracks or looseness",
+            "Inspect wipers for functionality and rubber condition",
+            "Ensure headlights, brake lights, reverse lights, and indicators work properly",
+            "Check horn functionality",
+            "Check dashboard for warning lights (engine, oil, brakes, etc.)",
+            "Ensure car starts and idles smoothly",
+            "Test brake response and pedal resistance",
+            "Check steering alignment and ease of turning",
+            "Inspect interior for stains, tears, or odors",
+            "Ensure air conditioning and heating are working",
+            "Verify availability of vehicle registration and insurance documents",
+            "Check presence and condition of key accessories (e.g., spare tire, jack, tools)",
+            "Take photos of the vehicle from all angles as proof of return condition",
+        ];
+
+        $baseCheck = Dicti::create([
+            "parent_id" => Dicti::whereConstant("AGENT_CHECK_LISTS")->first()->id,
+            "full_name" => "Base check"
+        ]);
+
+        foreach ($checkListnum1 as $item) {
+            Dicti::create([
+                "full_name" => $item,
+                "parent_id" => $baseCheck->id
+            ]);
+        }
+
+        $concretCheck = Dicti::create([
+            "parent_id" => Dicti::whereConstant("AGENT_CHECK_LISTS")->first()->id,
+            "full_name" => "Detailed check list"
+        ]);
+
+        foreach ($checkListnum2 as $item) {
+            Dicti::create([
+                "full_name" => $item,
+                "parent_id" => $concretCheck->id
+            ]);
+        }
     }
 }
