@@ -31,4 +31,9 @@ class AgentInfo extends Model
     {
         return $this->belongsTo(Dicti::class, 'schedule_work_id', 'id');
     }
+
+    public function position():BelongsTo
+    {
+        return $this->belongsTo(AgentPosition::class,'agent_id','id');
+    }
 }

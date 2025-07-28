@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AgentInfoController;
+use App\Http\Controllers\AgentPositionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CarController;
@@ -132,11 +133,17 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function 
         Route::delete('/{user_id}', [AgentInfoController::class, 'deleteById']);
     });
 
-    Route::prefix('task')->middleware(AuthAccessMiddleware::class)->group(function () {
+    Route::prefix('task')->group(function () {
         Route::get('/', [TaskController::class, 'all']);
         Route::get('/{id}', [TaskController::class, 'find']);
         Route::post('/', [TaskController::class, 'create']);
         Route::put('/{id}', [TaskController::class, 'updateById']);
         Route::delete('/{id}', [TaskController::class, 'deleteById']);
     });
+
+    Route::prefix('position')->group(function(){
+        Route::get('/{id}', [AgentPositionController::class, 'findByUserId']);
+        Route::post('/', [AgentPositionController::class, 'updateOrCreate']);
+    });
+    
 });

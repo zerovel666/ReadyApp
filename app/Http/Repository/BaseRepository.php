@@ -70,4 +70,9 @@ class BaseRepository
     {
         return $this->model->paginate(20);
     }
+
+    public function updateOrCreate($id,$attribute)
+    {
+        return $this->model->updateOrCreate($id,$attribute);
+    }
 }
