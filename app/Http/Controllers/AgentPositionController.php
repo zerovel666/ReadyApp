@@ -19,7 +19,7 @@ class AgentPositionController extends Controller
         return Response::response($this->agentPositionService->findByUserId($id));
     }
 
-    public function updateOrCreate(Request $request,$id)
+    public function updateOrCreate(Request $request)
     {
         return Response::response($this->agentPositionService->updateOrCreate($request->all()));
     }
