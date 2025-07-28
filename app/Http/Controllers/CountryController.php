@@ -18,10 +18,7 @@ class CountryController extends Controller
     public function all(Request $request)
     {
         if ($request->page) {
-            $collection = $this->countryService->paginate();
-            return Response::response(
-                $collection->setCollection(CountryResource::collection($collection->getCollection())->collection)
-            );
+            return Response::response($this->countryService->paginate());
         } else {
             return Response::response($this->countryService->all());
         }
