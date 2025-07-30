@@ -2,15 +2,15 @@
 
 namespace App\Http\Services;
 
-use App\Http\Repository\AgentPositionRepository;
+use App\Http\Repository\AgentLocationRepository;
 use App\Http\Repository\UserRepository;
 use Illuminate\Support\Facades\Auth;
 
-class AgentPositionService extends BaseService
+class AgentLocationService extends BaseService
 {
     public $userRepository;
-    public function __construct(AgentPositionRepository $agentPositionRepository, UserRepository $userRepository) {
-        parent::__construct($agentPositionRepository);
+    public function __construct(AgentLocationRepository $AgentLocationRepository, UserRepository $userRepository) {
+        parent::__construct($AgentLocationRepository);
         $this->userRepository = $userRepository;
     }
 

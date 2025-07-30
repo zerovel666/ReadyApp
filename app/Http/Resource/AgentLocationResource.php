@@ -4,7 +4,7 @@ namespace App\Http\Resource;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AgentPositionResource extends JsonResource
+class AgentLocationResource extends JsonResource
 {
     public function toArray(\Illuminate\Http\Request $request)
     {

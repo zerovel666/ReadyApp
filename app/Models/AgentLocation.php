@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class AgentPosition extends Model
+class AgentLocation extends Model
 {
     protected $fillable = [
         "agent_id",

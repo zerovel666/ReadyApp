@@ -34,6 +34,6 @@ class AgentInfo extends Model
 
     public function position():BelongsTo
     {
-        return $this->belongsTo(AgentPosition::class,'agent_id','id');
+        return $this->belongsTo(AgentLocation::class,'agent_id','id');
     }
 }

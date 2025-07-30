@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('agent_positions', function (Blueprint $table) {
+        Schema::create('agent_locations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('agent_id')->constrained('agent_infos');
             $table->string('longitude')->nullable();
