@@ -174,39 +174,129 @@ class DatabaseSeeder extends Seeder
     {
         $this->seedDicti("AGENT_CHECK_LISTS", "Check lists", []);
         $checkListnum1 = [
-            "Check fuel level",
-            "Inspect the body for any damage",
-            "Check tire condition and pressure",
-            "Check interior cleanliness",
-            "Ensure keys and documents are present",
-            "Test headlights, brake lights, and turn signals",
-            "Check oil and fluid levels",
-            "Record mileage",
-            "Inspect windows and mirrors for damage",
-            "Verify all rented accessories are returned (e.g., charger, child seat)",
+            [
+                "full_name" => "Check fuel level",
+                "order_no" => 1
+            ],
+            [
+                "full_name" => "Inspect the body for any damage",
+                "order_no" => 2
+            ],
+            [
+                "full_name" => "Check tire condition and pressure",
+                "order_no" => 3
+            ],
+            [
+                "full_name" => "Check interior cleanliness",
+                "order_no" => 4
+            ],
+            [
+                "full_name" => "Ensure keys and documents are present",
+                "order_no" => 5
+            ],
+            [
+                "full_name" => "Test headlights, brake lights, and turn signals",
+                "order_no" => 6
+            ],
+            [
+                "full_name" => "Check oil and fluid levels",
+                "order_no" => 7
+            ],
+            [
+                "full_name" => "Record mileage",
+                "order_no" => 8
+            ],
+            [
+                "full_name" => "Inspect windows and mirrors for damage",
+                "order_no" => 9
+            ],
+            [
+                "full_name" => "Verify all rented accessories are returned (e.g., charger, child seat)",
+                "order_no" => 10
+            ],
         ];
 
         $checkListnum2 = [
-            "Check and record fuel level",
-            "Inspect the car body for scratches, dents, or paint damage",
-            "Check front and rear bumpers for any cracks or dislocation",
-            "Inspect all four tires for wear, damage, and pressure levels",
-            "Check condition of rims and note any scratches or bends",
-            "Inspect undercarriage for leaks or unusual damage",
-            "Verify windshield and all windows are intact and clean",
-            "Check side and rear-view mirrors for cracks or looseness",
-            "Inspect wipers for functionality and rubber condition",
-            "Ensure headlights, brake lights, reverse lights, and indicators work properly",
-            "Check horn functionality",
-            "Check dashboard for warning lights (engine, oil, brakes, etc.)",
-            "Ensure car starts and idles smoothly",
-            "Test brake response and pedal resistance",
-            "Check steering alignment and ease of turning",
-            "Inspect interior for stains, tears, or odors",
-            "Ensure air conditioning and heating are working",
-            "Verify availability of vehicle registration and insurance documents",
-            "Check presence and condition of key accessories (e.g., spare tire, jack, tools)",
-            "Take photos of the vehicle from all angles as proof of return condition",
+            [
+                "full_name" => "Check and record fuel level",
+                "order_no" => 1
+            ],
+            [
+                "full_name" => "Inspect the car body for scratches, dents, or paint damage",
+                "order_no" => 2
+            ],
+            [
+                "full_name" => "Check front and rear bumpers for any cracks or dislocation",
+                "order_no" => 3
+            ],
+            [
+                "full_name" => "Inspect all four tires for wear, damage, and pressure levels",
+                "order_no" => 4
+            ],
+            [
+                "full_name" => "Check condition of rims and note any scratches or bends",
+                "order_no" => 5
+            ],
+            [
+                "full_name" => "Inspect undercarriage for leaks or unusual damage",
+                "order_no" => 6
+            ],
+            [
+                "full_name" => "Verify windshield and all windows are intact and clean",
+                "order_no" => 7
+            ],
+            [
+                "full_name" => "Check side and rear-view mirrors for cracks or looseness",
+                "order_no" => 8
+            ],
+            [
+                "full_name" => "Inspect wipers for functionality and rubber condition",
+                "order_no" => 9
+            ],
+            [
+                "full_name" => "Ensure headlights, brake lights, reverse lights, and indicators work properly",
+                "order_no" => 10
+            ],
+            [
+                "full_name" => "Check horn functionality",
+                "order_no" => 11
+            ],
+            [
+                "full_name" => "Check dashboard for warning lights (engine, oil, brakes, etc.)",
+                "order_no" => 12
+            ],
+            [
+                "full_name" => "Ensure car starts and idles smoothly",
+                "order_no" => 13
+            ],
+            [
+                "full_name" => "Test brake response and pedal resistance",
+                "order_no" => 14
+            ],
+            [
+                "full_name" => "Check steering alignment and ease of turning",
+                "order_no" => 15
+            ],
+            [
+                "full_name" => "Inspect interior for stains, tears, or odors",
+                "order_no" => 16
+            ],
+            [
+                "full_name" => "Ensure air conditioning and heating are working",
+                "order_no" => 17
+            ],
+            [
+                "full_name" => "Verify availability of vehicle registration and insurance documents",
+                "order_no" => 18
+            ],
+            [
+                "full_name" => "Check presence and condition of key accessories (e.g., spare tire, jack, tools)",
+                "order_no" => 19
+            ],
+            [
+                "full_name" => "Take photos of the vehicle from all angles as proof of return condition",
+                "order_no" => 20
+            ],
         ];
 
         $baseCheck = Dicti::create([
@@ -216,7 +306,8 @@ class DatabaseSeeder extends Seeder
 
         foreach ($checkListnum1 as $item) {
             Dicti::create([
-                "full_name" => $item,
+                "full_name" => $item['full_name'],
+                "order_no" => $item['order_no'],
                 "parent_id" => $baseCheck->id
             ]);
         }
@@ -228,7 +319,8 @@ class DatabaseSeeder extends Seeder
 
         foreach ($checkListnum2 as $item) {
             Dicti::create([
-                "full_name" => $item,
+                "full_name" => $item['full_name'],
+                "order_no" => $item['order_no'],
                 "parent_id" => $concretCheck->id
             ]);
         }

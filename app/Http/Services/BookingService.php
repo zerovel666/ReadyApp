@@ -69,7 +69,6 @@ class BookingService extends BaseService
                     "address_a" => $carBook->location->latitude." | ".$carBook->location->longitude,
                     "address_b" => $attribute['latitude']." | ".$attribute['longitude'],
                     "date_time_complete" => Carbon::parse($attribute['start_date'] . ' ' . $attribute['time']),
-                    "check_list_id" => $this->dictiRepository->firstByColumnWhereActive("parent_id",57,true)->id,
                 ]);
 
                 return $book;

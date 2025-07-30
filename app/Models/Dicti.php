@@ -20,7 +20,8 @@ class Dicti extends Model
         "constant",
         "constant1",
         "constant2",
-        "active"
+        "active",
+        "order_no"
     ];
 
     protected $table = 'dictis';

@@ -139,11 +139,14 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function 
         Route::post('/', [TaskController::class, 'create']);
         Route::put('/{id}', [TaskController::class, 'updateById']);
         Route::delete('/{id}', [TaskController::class, 'deleteById']);
+        Route::prefix("checkList")->group(function(){
+            Route::put('/{id}', [TaskController::class, 'updateById']);
+        });
     });
 
-    Route::prefix('position')->group(function(){
+    Route::prefix('location')->group(function(){
         Route::get('/{id}', [AgentPositionController::class, 'findByUserId']);
         Route::post('/', [AgentPositionController::class, 'updateOrCreate']);
     });
-    
+
 });

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string("constant1")->nullable();
             $table->string("constant2")->nullable();
             $table->boolean("active")->default(true);
+            $table->integer("order_no")->nullable();
             $table->timestamps();
         });
     }
