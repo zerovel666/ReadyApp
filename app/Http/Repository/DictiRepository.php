@@ -26,4 +26,9 @@ class DictiRepository extends BaseRepository
     {
         return $this->model->where("constant",$type_auth_constant)->first();
     }
+
+    public function firstByColumnWhereActive($column,$value,$active)
+    {
+        return $this->model->where($column,$value)->where("active",$active)->first();
+    }
 }

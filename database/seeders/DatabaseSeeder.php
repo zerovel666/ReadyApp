@@ -107,19 +107,17 @@ class DatabaseSeeder extends Seeder
                 'rating'               => fake()->numberBetween(1, 5),
                 'status'               => $this->randomDictiChildId("STATUS_CAR"),
             ]);
-
-            if ($car->active) {
-                CarLocation::create([
-                    'car_id'    => $car->id,
-                    'address'   => fake()->address(),
-                    'latitude'  => fake()->latitude(),
-                    'longitude' => fake()->longitude(),
-                ]);
-            }
+            
+            CarLocation::create([
+                'car_id'    => $car->id,
+                'address'   => fake()->address(),
+                'latitude'  => fake()->latitude(),
+                'longitude' => fake()->longitude(),
+            ]);
         }
 
         // AGENT
-        $this->seedDicti("AGENT_STATUS", "Agent statuses", ["Not in place", "Active", "Pickup", "Delivers", "waiting", "machine maintenance"]);
+        $this->seedDicti("AGENT_STATUS", "Agent statuses", ["Not in place", "Active", "Pickup", "Delivers", "Waiting", "Machine maintenance"]);
         $this->seedDicti("SCHEDULE_WORK", "Schedule work", []);
         $schedule_work = Dicti::whereConstant("SCHEDULE_WORK")->first();
         $schedule = [

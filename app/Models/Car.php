@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Car extends Model
 {
@@ -40,5 +41,9 @@ class Car extends Model
     public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class, "user_id", "id");
+    }
+    public function location():HasOne
+    {
+        return $this->hasOne(CarLocation::class,"car_id","id");
     }
 }

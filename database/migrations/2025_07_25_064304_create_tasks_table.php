@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId("user_id");
             $table->foreignId("agent_id");
-            $table->foreignId("type_id")->constrained("dictis");
             $table->string("address_a")->nullable();
             $table->string("address_b")->nullable();
             $table->dateTime("date_time_complete");
