@@ -10,8 +10,11 @@ class Task extends Model
     protected $fillable = [
         "user_id",
         "agent_id",
-        "address_a",
-        "address_b",
+        "car_id",
+        "longitude_a",
+        "latitude_a",
+        "longitude_b",
+        "latitude_b",
         "date_time_complete",
         "check_list_id",
         "description",
@@ -29,10 +32,13 @@ class Task extends Model
         return $this->belongsTo(User::class, 'agent_id', 'id');
     }
 
-
-
     public function checkList(): BelongsTo
     {
         return $this->belongsTo(Dicti::class, 'check_list_id', 'id');
+    }
+
+    public function car(): BelongsTo
+    {
+        return $this->belongsTo(Car::class,'car_id','id');
     }
 }

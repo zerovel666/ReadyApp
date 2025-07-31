@@ -66,8 +66,10 @@ class BookingService extends BaseService
                 $this->taskRepository->create([
                     "user_id" => $user->id,
                     "agent_id" => $agent->id,
-                    "address_a" => $carBook->location->latitude." | ".$carBook->location->longitude,
-                    "address_b" => $attribute['latitude']." | ".$attribute['longitude'],
+                    "longitude_a" => $carBook->location->latitude,
+                    "latitude_a" => $carBook->location->longitude,
+                    "longitude_b" =>  $attribute['latitude'],
+                    "latitude_b" =>  $attribute['longitude'],
                     "date_time_complete" => Carbon::parse($attribute['start_date'] . ' ' . $attribute['time']),
                 ]);
 
