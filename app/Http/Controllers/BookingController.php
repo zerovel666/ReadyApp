@@ -19,6 +19,7 @@ class BookingController extends Controller
 
     public function create(Request $request)
     {
+        return $this->bookingService->create($request->all());
         return Response::response(new BookingResource($this->bookingService->create($request->all())));
     }
 

@@ -56,7 +56,7 @@ class AutoPickReturnCarTask implements ShouldQueue
                     "longitude_b" => $booking->longitude,
                     "latitude_b" => $booking->latitude,
                     "date_time_complete" => $deadline,
-                    "check_list_id" => $this->dictiRepository->getChildrenByParentId($dictiCheckList->id)->where("active","true")->first(),
+                    "check_list_id" => $this->dictiRepository->getChildrenByParentId($dictiCheckList->id)->where("active","true")->first()->id,
                     "description" => "Deliver the rented car to the customer before the rental period begins",
                 ]);
                 if ($email = $agent->user->email) {

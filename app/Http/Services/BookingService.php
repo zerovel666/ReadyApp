@@ -37,7 +37,6 @@ class BookingService extends BaseService
         $user = Auth::user();
         VerifiedHelper::checkVerifed($user, $attribute);
 
-        
         $model = DB::transaction(function () use ($attribute, $user) {
             $carModel = $this->carModelRepository->find($attribute['car_model_id']);
             $cars = $carModel->cars;
@@ -77,7 +76,6 @@ class BookingService extends BaseService
                     (new AutoPickReturnCarTask($book->id))->handle();
                 } else {
                     AutoPickReturnCarTask::dispatch($book->id)->delay(Carbon::parse($attribute['end_date'])->subDay());
-
                 }
             
                 return $book;
