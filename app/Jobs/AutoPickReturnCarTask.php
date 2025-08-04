@@ -7,6 +7,7 @@ use App\Http\Repository\BookingRepository;
 use App\Http\Repository\DictiRepository;
 use App\Http\Repository\TaskRepository;
 use App\Http\Services\AgentInfoService;
+use App\Mail\SendMailAgentForReturnCar;
 use App\Mail\SendMailDeliverCar;
 use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -60,7 +61,7 @@ class AutoPickReturnCarTask implements ShouldQueue
                     "description" => "Deliver the rented car to the customer before the rental period begins",
                 ]);
                 if ($email = $agent->user->email) {
-                    Mail::to($email)->send(new SendMailDeliverCar(
+                    Mail::to($email)->send(new SendMailAgentForReturnCar(
                         $deadline,
                         $booking->car->location->longitude,
                         $booking->car->location->latitude,

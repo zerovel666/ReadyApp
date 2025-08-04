@@ -43,7 +43,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>New Car Delivery Task</h2>
+        <h2>New Car Return Task</h2>
 
         <p><strong>Deadline:</strong> {{ $deadlineTime }}</p>
 
