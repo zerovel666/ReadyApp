@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text("char_value")->nullable();
             $table->float("num_value")->nullable();
             $table->json("json_value")->nullable();
-            $table->string("constant")->nullable();
+            $table->string("constant")->nullable()->unique();
             $table->string("constant1")->nullable();
             $table->string("constant2")->nullable();
             $table->boolean("active")->default(true);
