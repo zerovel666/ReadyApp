@@ -10,6 +10,7 @@ use App\Http\Repository\CarRepository;
 use App\Http\Repository\DictiRepository;
 use App\Http\Repository\TaskRepository;
 use App\Jobs\AutoPickDeliveryCarTask;
+use App\Jobs\AutoPickReturnCarTask;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -69,7 +70,14 @@ class BookingService extends BaseService
                 if (Carbon::parse($attribute['start_date'])->lessThanOrEqualTo(now()->addHours(24))){
                     (new AutoPickDeliveryCarTask($book->id))->handle();
                 } else {
-                    AutoPickDeliveryCarTask::dispatch($book->id);
+                    AutoPickDeliveryCarTask::dispatch($book->id)->delay(Carbon::parse($attribute['start_date'])->subDay());
+                }
+
+                if (Carbon::parse($attribute['end_date'])->lessThanOrEqualTo(now()->addHours(24))){
+                    (new AutoPickReturnCarTask($book->id))->handle();
+                } else {
+                    AutoPickReturnCarTask::dispatch($book->id)->delay(Carbon::parse($attribute['end_date'])->subDay());
+
                 }
             
                 return $book;
