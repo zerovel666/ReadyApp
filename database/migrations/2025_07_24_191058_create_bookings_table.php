@@ -15,8 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId("car_id")->constrained("cars")->cascadeOnDelete();
             $table->foreignId("user_id")->constrained("users")->cascadeOnDelete();
-            $table->date("start_date");
-            $table->date("end_date");
+            $table->foreignId("agent_id")->nullable()->constrained("agent_infos")->cascadeOnDelete();
+            $table->dateTime("start_date");
+            $table->dateTime("end_date");
+            $table->string("latitude");  
+            $table->string("longitude");
             $table->enum("status",["pending","approved","completed","canceled"]);
             $table->boolean("notified")->default(false);
             $table->timestamps();

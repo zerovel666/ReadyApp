@@ -92,7 +92,19 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $this->seedDicti('STATUS_CAR', 'Status cars', ["serviced", "booked", "free"]);
+        $statusCar = Dicti::create([
+            "full_name" => "Status cars",
+            "constant" => "STATUS_CAR",
+        ]);
+
+        foreach (["serviced", "booked", "free"] as $item) {
+            Dicti::create([
+                "full_name" => $item,
+                "parent_id" => $statusCar->id,
+                "constant" => strtoupper($item),
+            ]);
+        }
+
         // Создание авто и локаций
         for ($i = 0; $i <= 10; $i++) {
             $car = Car::create([
@@ -107,7 +119,7 @@ class DatabaseSeeder extends Seeder
                 'rating'               => fake()->numberBetween(1, 5),
                 'status'               => $this->randomDictiChildId("STATUS_CAR"),
             ]);
-            
+
             CarLocation::create([
                 'car_id'    => $car->id,
                 'address'   => fake()->address(),
@@ -117,7 +129,17 @@ class DatabaseSeeder extends Seeder
         }
 
         // AGENT
-        $this->seedDicti("AGENT_STATUS", "Agent statuses", ["Not in place", "Active", "Pickup", "Delivers", "Waiting", "Machine maintenance"]);
+        $agentStatus = Dicti::create([
+            "full_name" => "Agent statuses",
+            "constant" => "AGENT_STATUS"
+        ]);
+        foreach (["Not in place", "Active", "Pickup", "Delivers", "Waiting", "Machine maintenance"] as $item) {
+            Dicti::create([
+                "full_name" => $item,
+                "parent_id" => $agentStatus->id,
+                "constant" => strtoupper(str_replace(' ', '_', $item)),
+            ]);
+        }
         $this->seedDicti("SCHEDULE_WORK", "Schedule work", []);
         $schedule_work = Dicti::whereConstant("SCHEDULE_WORK")->first();
         $schedule = [
@@ -146,6 +168,18 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->seedAgentCheckList();
+
+        $typeTask = Dicti::create([
+            "full_name" => "Type task",
+            "constant" => "TYPE_TASK"
+        ]);
+        foreach (['Delivery car', 'Serviced car', 'Return car'] as $item) {
+            Dicti::create([
+                "full_name" => $item,
+                "constant" => strtoupper(str_replace(' ', '_', $item)),
+                "parent_id" => $typeTask->id
+            ]);
+        }
     }
 
     // Утилита для генерации словаря и дочерних элементов

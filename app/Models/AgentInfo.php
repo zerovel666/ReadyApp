@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class AgentInfo extends Model
 {
@@ -26,14 +27,20 @@ class AgentInfo extends Model
     {
         return $this->belongsTo(Dicti::class, 'status_id', 'id');
     }
-    
+
     public function schedule(): BelongsTo
     {
         return $this->belongsTo(Dicti::class, 'schedule_work_id', 'id');
     }
 
-    public function position():BelongsTo
+    public function position(): BelongsTo
     {
-        return $this->belongsTo(AgentLocation::class,'agent_id','id');
+        return $this->belongsTo(AgentLocation::class, 'agent_id', 'id');
     }
+
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(Task::class, 'agent_id', 'id');
+    }
+
 }

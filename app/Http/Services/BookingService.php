@@ -9,6 +9,7 @@ use App\Http\Repository\CarModelRepository;
 use App\Http\Repository\CarRepository;
 use App\Http\Repository\DictiRepository;
 use App\Http\Repository\TaskRepository;
+use App\Jobs\AutoPickDeliveryCarTask;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -44,8 +45,9 @@ class BookingService extends BaseService
                 throw new \Exception("User or car not found", 404);
             }
             $result = null;
+            $statusFree = $this->dictiRepository->firstByColumn("constant","FREE");
             foreach ($cars as $car) {
-                if (!$this->repository->checkBookingCarsInPeriod($car->id, $attribute["start_date"], $attribute['end_date']) && $car->status === 43) {
+                if ($car->status === $statusFree->id && !$this->repository->checkBookingCarsInPeriod($car->id, $attribute["start_date"], $attribute['end_date'])) {
                     $car->location;
                     $result = $car;
                     break;
@@ -53,26 +55,23 @@ class BookingService extends BaseService
             }
             if (!empty($result)) {
                 $carBook = $result;
-                $data = [
+                $bookData = [
                     "user_id" => $user->id,
                     "car_id" => $carBook->id,
                     "start_date" => $attribute['start_date'],
                     "end_date" => $attribute['end_date'],
-                    "status" => "pending"
+                    "status" => "pending",
+                    "latitude" => $attribute['latitude'],
+                    "longitude" => $attribute['longitude'],
                 ];
 
-                $book = $this->repository->create($data);
-                $agent = $this->getFreeAgent();
-                $this->taskRepository->create([
-                    "user_id" => $user->id,
-                    "agent_id" => $agent->id,
-                    "longitude_a" => $carBook->location->latitude,
-                    "latitude_a" => $carBook->location->longitude,
-                    "longitude_b" =>  $attribute['latitude'],
-                    "latitude_b" =>  $attribute['longitude'],
-                    "date_time_complete" => Carbon::parse($attribute['start_date'] . ' ' . $attribute['time']),
-                ]);
-
+                $book = $this->repository->create($bookData);
+                if (Carbon::parse($attribute['start_date'])->lessThanOrEqualTo(now()->addHours(24))){
+                    (new AutoPickDeliveryCarTask($book->id))->handle();
+                } else {
+                    AutoPickDeliveryCarTask::dispatch($book->id);
+                }
+            
                 return $book;
             } else {
                 throw new \Exception("There is no available car of this model right now, sorry :)", 400);
@@ -101,9 +100,4 @@ class BookingService extends BaseService
         ];
     }
 
-    public function getFreeAgent()
-    {
-        $status = $this->dictiRepository->firstByColumn("full_name","Active");
-        return $this->agentInfoRepository->getByColumn("status_id",$status->id)->random();
-    }
 }

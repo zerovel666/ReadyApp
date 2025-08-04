@@ -71,7 +71,7 @@ class TelegramWebhookController extends Controller
         $this->send($body);
     }
 
-    private function send($body)
+    public function send($body)
     {
         Http::post("{$this->uri}/sendMessage", $body);
     }

@@ -13,15 +13,17 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user_id")->constrained("users");
-            $table->foreignId("agent_id")->constrained("agent_infos");
-            $table->foreignId("car_id")->constrained("cars");
+            $table->foreignId("user_id")->constrained("users")->cascadeOnDelete();
+            $table->foreignId("agent_id")->constrained("agent_infos")->cascadeOnDelete();
+            $table->foreignId("car_id")->constrained("cars")->cascadeOnDelete();
+            $table->foreignId("booking_id")->nullable()->constrained("bookings")->cascadeOnDelete();
+            $table->foreignId("type_id")->constrained("dictis")->cascadeOnDelete();
             $table->string("longitude_a")->nullable();
             $table->string("latitude_a")->nullable();
             $table->string("longitude_b")->nullable();
             $table->string("latitude_b")->nullable();
             $table->dateTime("date_time_complete");
-            $table->foreignId("check_list_id")->nullable()->constrained("dictis");
+            $table->foreignId("check_list_id")->nullable()->constrained("dictis")->cascadeOnDelete();
             $table->text("description")->nullable();
             $table->timestamps();
         });

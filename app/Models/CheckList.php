@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CheckList extends Model
 {
@@ -20,5 +21,10 @@ class CheckList extends Model
     public function task():BelongsTo
     {
         return $this->belongsTo(Task::class,'task_id','id');
+    }
+
+    public function children():HasMany
+    {
+        return $this->hasMany(CheckList::class,'parent_id','id');
     }
 }

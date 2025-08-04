@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Booking extends Model
 {
@@ -14,6 +15,8 @@ class Booking extends Model
         "end_date",
         "status",
         "notified",
+        "longitude",
+        "latitude"  
     ];
 
     protected $table = 'bookings';
@@ -37,5 +40,10 @@ class Booking extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, "user_id", "id");
+    }
+
+    public function task(): HasOne
+    {
+        return $this->hasOne(Task::class,'booking_id','id');
     }
 }

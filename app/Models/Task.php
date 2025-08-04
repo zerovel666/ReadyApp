@@ -11,6 +11,8 @@ class Task extends Model
         "user_id",
         "agent_id",
         "car_id",
+        "type_id",
+        "booking_id",
         "longitude_a",
         "latitude_a",
         "longitude_b",
@@ -29,7 +31,7 @@ class Task extends Model
 
     public function agent(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'agent_id', 'id');
+        return $this->belongsTo(AgentInfo::class, 'agent_id', 'id');
     }
 
     public function checkList(): BelongsTo
@@ -40,5 +42,15 @@ class Task extends Model
     public function car(): BelongsTo
     {
         return $this->belongsTo(Car::class,'car_id','id');
+    }
+
+    public function booking(): BelongsTo
+    {
+        return $this->belongsTo(Booking::class,'booking_id','id');
+    }
+
+    public function type(): BelongsTo
+    {
+        return $this->belongsTo(Dicti::class,'type_id','id');
     }
 }
