@@ -82,9 +82,9 @@ class AutoPickReturnCarTask implements ShouldQueue
                         ]
                     ]);
                 }
-                \Log::channel('worker')->info("SUCCESS WORK", ["SUCCESS" => "DELIVERY_CAR"]);
+                \Log::channel('worker')->info("SUCCESS WORK", ["SUCCESS" => "RETURN CAR"]);
             } else {
-                \Log::channel('worker')->info("CREATE NEW WORK", ["NEW" => "DELIVERY_CAR"]);
+                \Log::channel('worker')->info("CREATE NEW WORK", ["NEW" => "RETURN CAR"]);
                 AutoPickReturnCarTask::dispatch($booking->id)->delay($end_date->copy()->subDay());
             }
         } catch (Throwable $e) {

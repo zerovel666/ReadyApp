@@ -7,6 +7,7 @@ use App\Http\Resource\BookingResource;
 use App\Http\Services\BookingService;
 use App\Models\Booking;
 use Carbon\Carbon;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -19,6 +20,9 @@ class BookingController extends Controller
 
     public function create(Request $request)
     {
+        if (Carbon::parse($request->start_date) < now() || Carbon::parse($request->start_date) > Carbon::parse($request->end_date)){
+            throw new ValidationException("ERROR DATE",400);
+        }
         return Response::response(new BookingResource($this->bookingService->create($request->all())));
     }
 
