@@ -52,7 +52,7 @@ class AutoPickDeliveryCarTask implements ShouldQueue
                     "car_id" => $booking->car_id,
                     "type_id" => $this->dictiRepository->firstByColumnWhereActive("constant", "DELIVERY_CAR")->id,
                     "booking_id" => $booking->id,
-                    "status_id" => $this->dictiRepository->getChildrenByParentId("STATUS_TASK")->where("constant","Expected")->first()->id,
+                    "status_id" => $this->dictiRepository->getChildrenByConstant("STATUS_TASK")->where("constant","EXPECTED")->first()->id,
                     "longitude_a" => $booking->car->location->longitude,
                     "latitude_a" => $booking->car->location->latitude,
                     "longitude_b" => $booking->longitude,
