@@ -25,6 +25,7 @@ return new class extends Migration
             $table->dateTime("date_time_complete");
             $table->foreignId("check_list_id")->nullable()->constrained("dictis")->cascadeOnDelete();
             $table->text("description")->nullable();
+            $table->foreignId("status_id")->constrained("dictis")->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -180,6 +180,19 @@ class DatabaseSeeder extends Seeder
                 "parent_id" => $typeTask->id
             ]);
         }
+
+        $statusTask = Dicti::create([
+            "full_name" => "Status task",
+            "constant" => "STATUS_TASK"
+        ]);
+        foreach (["In work","Expected","Cancel","Completed"] as $item) {
+            Dicti::create([
+                "full_name" => $item,
+                "constant" => strtoupper(str_replace(' ', '_', $item)),
+                "parent_id" => $statusTask->id
+            ]);
+        }
+        
     }
 
     // Утилита для генерации словаря и дочерних элементов

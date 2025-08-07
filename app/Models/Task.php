@@ -13,6 +13,7 @@ class Task extends Model
         "car_id",
         "type_id",
         "booking_id",
+        "status_id",
         "longitude_a",
         "latitude_a",
         "longitude_b",
@@ -52,5 +53,10 @@ class Task extends Model
     public function type(): BelongsTo
     {
         return $this->belongsTo(Dicti::class,'type_id','id');
+    }
+
+    public function status(): BelongsTo
+    {
+        return $this->belongsTo(Dicti::class,'status_id','id');
     }
 }
