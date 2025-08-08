@@ -22,7 +22,7 @@ class DictiResource extends JsonResource
             "updated_at" => $this->updated_at
         ];
         if ($this->children) {
-            $baseArray['children'] = $this->children;
+            $baseArray['children'] = DictiResource::collection($this->children);
         }
 
         return $baseArray;
