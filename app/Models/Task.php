@@ -65,4 +65,9 @@ class Task extends Model
     {
         return $this->hasOne(DamageNote::class, 'task_id', 'id');
     }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class,'user_id','id');
+    }
 }

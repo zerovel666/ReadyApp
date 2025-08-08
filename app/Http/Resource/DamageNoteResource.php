@@ -10,9 +10,9 @@ class DamageNoteResource extends JsonResource
     {
         $baseArray = [
             "id" => $this->id,
-            "car_id" => $this->car_id,
-            "task_id" => $this->task_id,
-            "check_list_item_id" => $this->check_list_item_id,
+            "car_id" => $this->car,
+            "task_id" => $this->task,
+            "check_list_item_id" => $this->check_list_item,
             "longitude" => $this->longitude,
             "latitude" => $this->latitude,
             "is_resolved" => $this->is_resolved,

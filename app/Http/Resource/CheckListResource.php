@@ -10,7 +10,7 @@ class CheckListResource extends JsonResource
     {
         $baseArray = [
             "id" => $this->id,
-            "task_id" => $this->task_id,
+            "task_id" => $this->task,
             "field_name" => $this->field_name,
             "order_no" => $this->order_no,
             "damaged" => $this->damaged,

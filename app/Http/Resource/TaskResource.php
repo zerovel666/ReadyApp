@@ -10,12 +10,13 @@ class TaskResource extends JsonResource
     {
         $baseArray = [
             "id" => $this->id,
-            "user_id" => $this->user_id,
+            "user_id" => $this->user,
             "agent_id" => $this->agent_id,
-            "car_id" => $this->car_id,
-            "booking_id" => $this->booking_id,
-            "type_id" => $this->type_id,
-            "status_id" => $this->status_id,
+            "agentInfo" => $this->agent->user,
+            "car_id" => $this->car,
+            "booking_id" => $this->booking,
+            "type_id" => $this->type,
+            "status_id" => $this->status,
             "longitude_a" => $this->longitude_a,
             "latitude_a" => $this->latitude_a,
             "longitude_b" => $this->longitude_b,
@@ -31,6 +32,7 @@ class TaskResource extends JsonResource
         if ($this->check_list_id){
             $baseArray['check_list'] = $this->checkList->children->sortBy('order_no');
         }
+
 
         return $baseArray;
     }
