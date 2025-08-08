@@ -15,6 +15,7 @@ class CheckList extends Model
         "order_no",
         "damaged",
         "cheking",
+        "editor_id"
     ];
 
     protected $table = 'check_lists';
@@ -24,13 +25,14 @@ class CheckList extends Model
         return $this->belongsTo(Task::class,'task_id','id');
     }
 
-    public function children():HasMany
+    public function children():BelongsTo
     {
-        return $this->hasMany(CheckList::class,'parent_id','id');
+        return $this->belongsTo(Dicti::class,'editor_id','id');
     }
 
     public function damage(): HasOne
     {
         return $this->hasOne(DamageNote::class, 'check_list_item_id', 'id');
     }
+
 }

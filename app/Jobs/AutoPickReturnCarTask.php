@@ -50,7 +50,7 @@ class AutoPickReturnCarTask implements ShouldQueue
             $dictiCheckList = $this->dictiRepository->firstByColumnWhereActive("constant","AGENT_CHECK_LISTS");
             if ($end_date->between($now, $now->copy()->addHours(24))) {
                 $agent = $this->agentInfoSerivce->getFreeAgent();
-                $checkList = $this->dictiRepository->getChildrenByParentId($dictiCheckList->id)->where("active","true")->first();
+                $checkListDicti = $this->dictiRepository->getChildrenByParentId($dictiCheckList->id)->where("active",true)->first();
                 $task = $this->taskRepository->create([
                     "user_id" => $booking->user_id,
                     "agent_id" => $agent->id,
@@ -63,10 +63,10 @@ class AutoPickReturnCarTask implements ShouldQueue
                     "longitude_b" => $booking->longitude,
                     "latitude_b" => $booking->latitude,
                     "date_time_complete" => $deadline,
-                    "check_list_id" => $checkList->id,
+                    "check_list_id" => $checkListDicti->id,
                     "description" => "Deliver the rented car to the customer before the rental period begins",
                 ]);
-                foreach ($checkList->children as $item){
+                foreach ($checkListDicti->children as $item){
                     $this->checkListRepository->create([
                         "task_id" => $task->id,
                         "field_name" => $item->full_name,

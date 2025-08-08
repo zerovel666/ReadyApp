@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Task extends Model
@@ -36,9 +37,9 @@ class Task extends Model
         return $this->belongsTo(AgentInfo::class, 'agent_id', 'id');
     }
 
-    public function checkList(): BelongsTo
+    public function checkList(): HasMany
     {
-        return $this->belongsTo(Dicti::class, 'check_list_id', 'id');
+        return $this->hasMany(CheckList::class,'task_id','id');
     }
 
     public function car(): BelongsTo
