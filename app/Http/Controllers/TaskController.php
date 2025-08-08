@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-     public $taskService;
+    public $taskService;
     public function __construct(TaskService $taskService)
     {
         $this->taskService = $taskService;

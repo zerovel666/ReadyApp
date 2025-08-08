@@ -46,4 +46,8 @@ class Car extends Model
     {
         return $this->hasOne(CarLocation::class,"car_id","id");
     }
+    public function damage(): HasOne
+    {
+        return $this->hasOne(DamageNote::class, 'car_id', 'id');
+    }
 }

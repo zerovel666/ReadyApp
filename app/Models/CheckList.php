@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class CheckList extends Model
 {
@@ -26,5 +27,10 @@ class CheckList extends Model
     public function children():HasMany
     {
         return $this->hasMany(CheckList::class,'parent_id','id');
+    }
+
+    public function damage(): HasOne
+    {
+        return $this->hasOne(DamageNote::class, 'check_list_item_id', 'id');
     }
 }
