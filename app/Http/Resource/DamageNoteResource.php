@@ -12,7 +12,7 @@ class DamageNoteResource extends JsonResource
             "id" => $this->id,
             "car_id" => $this->car,
             "task_id" => $this->task,
-            "check_list_item_id" => $this->check_list_item,
+            "check_list_item_id" => $this->checkListItem,
             "longitude" => $this->longitude,
             "latitude" => $this->latitude,
             "is_resolved" => $this->is_resolved,

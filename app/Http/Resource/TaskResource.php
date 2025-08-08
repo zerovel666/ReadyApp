@@ -30,7 +30,7 @@ class TaskResource extends JsonResource
         ];
 
         if ($this->check_list_id){
-            $baseArray['check_list'] = $this->checkList->sortBy("order_no");
+            $baseArray['check_list'] = CheckListResource::collection($this->checkList)->sortBy("order_no");
         }
 
         return $baseArray;

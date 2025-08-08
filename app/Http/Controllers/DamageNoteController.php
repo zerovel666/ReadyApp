@@ -47,4 +47,9 @@ class DamageNoteController extends Controller
     {
         return Response::response(new DamageNoteResource($this->damageNoteService->create($request->all())));
     }
+
+    public function getActive()
+    {
+        return Response::response(DamageNoteResource::collection($this->damageNoteService->getByColumn("is_resolved",false)));
+    }
 }

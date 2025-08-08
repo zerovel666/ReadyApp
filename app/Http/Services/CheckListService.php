@@ -20,6 +20,10 @@ class CheckListService extends BaseService
             throw new \Exception("You cannot edit the form while the task is not in progress.", 422);
         }
 
-        return $this->repository->updateById($id, $attributes);
+       $checkListItem->update($attributes);
+
+        return [
+            "message" => "Success update"
+        ];
     }
 }

@@ -36,7 +36,7 @@ class TaskController extends Controller
         return Response::response($this->taskService->getByColumn($column, $attribute));
     }
     public function updateById($id, Request $request)
-    {
+    {        
         return Response::response(new TaskResource($this->taskService->updateById($id, $request->all())));
     }
     public function deleteById($id)
