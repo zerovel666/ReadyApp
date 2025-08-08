@@ -15,6 +15,7 @@ class CheckListResource extends JsonResource
             "order_no" => $this->order_no,
             "damaged" => $this->damaged,
             "cheking" => $this->cheking,
+            "description" => $this->description,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
         ];

@@ -15,7 +15,8 @@ class CheckList extends Model
         "order_no",
         "damaged",
         "cheking",
-        "editor_id"
+        "editor_id",
+        "description"
     ];
 
     protected $table = 'check_lists';
