@@ -13,6 +13,11 @@ class CheckListController extends Controller
         $this->checkListService = $checkListService;
     }
 
+    public function getByTaskId($task_id)
+    {
+        return Response::response($this->checkListService->getByColumn("task_id",$task_id));
+    }
+
     public function update(Request $request,$id)
     {
         return Response::response($this->checkListService->updateById($id,$request->all()));

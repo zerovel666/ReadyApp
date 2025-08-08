@@ -9,6 +9,7 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers\CarImageController;
 use App\Http\Controllers\CarLocationController;
 use App\Http\Controllers\CarModelController;
+use App\Http\Controllers\CheckListController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DictiController;
 use App\Http\Controllers\PartnerController;
@@ -140,7 +141,8 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function 
         Route::put('/{id}', [TaskController::class, 'updateById']);
         Route::delete('/{id}', [TaskController::class, 'deleteById']);
         Route::prefix("checkList")->group(function(){
-            Route::put('/{id}', [TaskController::class, 'updateById']);
+            Route::get('/{task_id}', [CheckListController::class, 'getByTaskId']);
+            Route::put('/{id}', [CheckListController::class, 'update']);
         });
     });
 
