@@ -24,7 +24,13 @@ class TaskResource extends JsonResource
             "check_list_id" => $this->check_list_id,
             "description" => $this->description,
             "updated_at" => $this->updated_at,  
+            "yandex_map_link_a" => "https://yandex.kz/maps/?pt={$this->longitude_a},{$this->latitude_a}&z=16&l=map",
+            "yandex_map_link_b" => "https://yandex.kz/maps/?pt={$this->longitude_b},{$this->latitude_b}&z=16&l=map",
         ];
+
+        if ($this->check_list_id){
+            $baseArray['check_list'] = $this->checkList->children->sortBy('order_no');
+        }
 
         return $baseArray;
     }

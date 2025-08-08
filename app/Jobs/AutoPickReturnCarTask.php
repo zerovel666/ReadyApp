@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Http\Controllers\TelegramWebhookController;
 use App\Http\Repository\BookingRepository;
+use App\Http\Repository\CheckListRepository;
 use App\Http\Repository\DictiRepository;
 use App\Http\Repository\TaskRepository;
 use App\Http\Services\AgentInfoService;
@@ -25,6 +26,7 @@ class AutoPickReturnCarTask implements ShouldQueue
     public $agentInfoSerivce;
     public $dictiRepository;
     public $telegramWebHookController;
+    public $checkListRepository;
 
     public function __construct($booking_id)
     {
@@ -33,6 +35,8 @@ class AutoPickReturnCarTask implements ShouldQueue
         $this->agentInfoSerivce = app(AgentInfoService::class);
         $this->dictiRepository = app(DictiRepository::class);
         $this->telegramWebHookController = app(TelegramWebhookController::class);
+        $this->telegramWebHookController = app(TelegramWebhookController::class);
+        $this->checkListRepository = app(CheckListRepository::class);
         $this->booking_id = $booking_id;
     }
 
@@ -46,7 +50,8 @@ class AutoPickReturnCarTask implements ShouldQueue
             $dictiCheckList = $this->dictiRepository->firstByColumnWhereActive("constant","AGENT_CHECK_LISTS");
             if ($end_date->between($now, $now->copy()->addHours(24))) {
                 $agent = $this->agentInfoSerivce->getFreeAgent();
-                $this->taskRepository->create([
+                $checkList = $this->dictiRepository->getChildrenByParentId($dictiCheckList->id)->where("active","true")->first();
+                $task = $this->taskRepository->create([
                     "user_id" => $booking->user_id,
                     "agent_id" => $agent->id,
                     "car_id" => $booking->car_id,
@@ -58,9 +63,16 @@ class AutoPickReturnCarTask implements ShouldQueue
                     "longitude_b" => $booking->longitude,
                     "latitude_b" => $booking->latitude,
                     "date_time_complete" => $deadline,
-                    "check_list_id" => $this->dictiRepository->getChildrenByParentId($dictiCheckList->id)->where("active","true")->first()->id,
+                    "check_list_id" => $checkList->id,
                     "description" => "Deliver the rented car to the customer before the rental period begins",
                 ]);
+                foreach ($checkList->children as $item){
+                    $this->checkListRepository->create([
+                        "task_id" => $task->id,
+                        "field_name" => $item->full_name,
+                        "order_no" => $item->order_no,
+                    ]);
+                }
                 if ($email = $agent->user->email) {
                     Mail::to($email)->send(new SendMailAgentForReturnCar(
                         $deadline,
