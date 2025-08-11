@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class DamageNote extends Model
 {
@@ -31,5 +33,10 @@ class DamageNote extends Model
     public function checkListItem(): BelongsTo
     {
         return $this->belongsTo(CheckList::class, 'check_list_item_id', 'id');
+    }
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(DamageImage::class, 'damage_note_id', 'id');
     }
 }

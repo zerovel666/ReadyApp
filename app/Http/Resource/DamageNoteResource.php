@@ -20,6 +20,11 @@ class DamageNoteResource extends JsonResource
             "updated_at" => $this->updated_at
         ];
 
+        if (!empty($this->images)) {
+            $baseArray['images'] = $this->images;
+        }
+
+
         return $baseArray;
     }
 }

@@ -11,6 +11,7 @@ use App\Http\Controllers\CarLocationController;
 use App\Http\Controllers\CarModelController;
 use App\Http\Controllers\CheckListController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\DamageImageController;
 use App\Http\Controllers\DamageNoteController;
 use App\Http\Controllers\DictiController;
 use App\Http\Controllers\PartnerController;
@@ -149,6 +150,11 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function 
                 Route::post('/', [DamageNoteController::class, 'create']);
                 Route::put('/{id}', [DamageNoteController::class, 'updateById']);
                 Route::get('/active',[DamageNoteController::class,'getActive']);
+                Route::prefix('image')->group(function(){
+                    Route::post('/',[DamageImageController::class,'create']);
+                    Route::get('/{damage_note_id}',[DamageImageController::class,'allByDamageNoteId']);
+                    Route::delete('/',[DamageImageController::class,'deleteById']);
+                });
             });
     });
 
