@@ -47,4 +47,8 @@ class CarLocationController extends Controller
     {
         return Response::response(new CarLocationResource($this->carLocationService->create($request->all())));
     }
+    public function getByCarId($car_id)
+    {
+        return Response::response($this->carLocationService->getByColumn("car_id", $car_id));
+    }
 }

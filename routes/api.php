@@ -108,11 +108,8 @@ Route::prefix('car/image')->group(function () {
 });
 
 Route::prefix('car/location')->group(function () {
-    Route::get('/', [CarLocationController::class, 'all']);
-    Route::get('/{id}', [CarLocationController::class, 'find']);
-    Route::post('/', [CarLocationController::class, 'create']);
-    Route::put('/{id}', [CarLocationController::class, 'updateById']);
-    Route::delete('/{id}', [CarLocationController::class, 'deleteById']);
+    Route::post('/',[CarLocationController::class,'create']);
+    Route::get('/{car_id}',[CarLocationController::class,'getByCarId']);
 });
 
 Route::prefix('car')->group(function () {
