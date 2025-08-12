@@ -12,6 +12,7 @@ class BookingResource extends JsonResource
             "id" => $this->id,
             "car_id" => $this->car,
             "user_id" => $this->user,
+            "agent_id" => $this->agent,
             "start_date" => $this->start_date,
             "end_date" => $this->end_date,
             "status" => $this->status,

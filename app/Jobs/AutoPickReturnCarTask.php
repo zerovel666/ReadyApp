@@ -47,17 +47,17 @@ class AutoPickReturnCarTask implements ShouldQueue
             $now = now();
             $end_date = Carbon::parse($booking->end_date);
             $deadline = $end_date->copy()->subHours(1);
-            $dictiCheckList = $this->dictiRepository->firstByColumnWhereActive("constant","AGENT_CHECK_LISTS");
+            $dictiCheckList = $this->dictiRepository->firstByColumnWhereActive("constant", "AGENT_CHECK_LISTS");
             if ($end_date->between($now, $now->copy()->addHours(24))) {
                 $agent = $this->agentInfoSerivce->getFreeAgent();
-                $checkListDicti = $this->dictiRepository->getChildrenByParentId($dictiCheckList->id)->where("active",true)->first();
+                $checkListDicti = $this->dictiRepository->getChildrenByParentId($dictiCheckList->id)->where("active", true)->first();
                 $task = $this->taskRepository->create([
                     "user_id" => $booking->user_id,
                     "agent_id" => $agent->id,
                     "car_id" => $booking->car_id,
                     "type_id" => $this->dictiRepository->firstByColumnWhereActive("constant", "RETURN_CAR")->id,
                     "booking_id" => $booking->id,
-                    "status_id" => $this->dictiRepository->getChildrenByConstant("STATUS_TASK")->where("constant","EXPECTED")->first()->id,
+                    "status_id" => $this->dictiRepository->getChildrenByConstant("STATUS_TASK")->where("constant", "EXPECTED")->first()->id,
                     "longitude_a" => $booking->car->location->longitude,
                     "latitude_a" => $booking->car->location->latitude,
                     "longitude_b" => $booking->longitude,
@@ -66,7 +66,7 @@ class AutoPickReturnCarTask implements ShouldQueue
                     "check_list_id" => $checkListDicti->id,
                     "description" => "Deliver the rented car to the customer before the rental period begins",
                 ]);
-                foreach ($checkListDicti->children as $item){
+                foreach ($checkListDicti->children as $item) {
                     $this->checkListRepository->create([
                         "task_id" => $task->id,
                         "field_name" => $item->full_name,
@@ -95,6 +95,9 @@ class AutoPickReturnCarTask implements ShouldQueue
                         ]
                     ]);
                 }
+                $booking->update([
+                    "agent_id" => $agent->id
+                ]);
                 \Log::channel('worker')->info("SUCCESS WORK", ["SUCCESS" => "RETURN CAR"]);
             } else {
                 \Log::channel('worker')->info("CREATE NEW WORK", ["NEW" => "RETURN CAR"]);

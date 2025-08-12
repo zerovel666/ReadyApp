@@ -11,6 +11,7 @@ class Booking extends Model
     protected $fillable = [
         "car_id",
         "user_id",
+        "agent_id",
         "start_date",
         "end_date",
         "status",
@@ -45,5 +46,10 @@ class Booking extends Model
     public function task(): HasOne
     {
         return $this->hasOne(Task::class,'booking_id','id');
+    }
+
+    public function agent(): BelongsTo
+    {
+        return $this->belongsTo(AgentInfo::class,'agent_id','id');
     }
 }

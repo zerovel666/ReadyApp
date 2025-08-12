@@ -43,4 +43,8 @@ class AgentInfo extends Model
         return $this->hasMany(Task::class, 'agent_id', 'id');
     }
 
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class,'agent_id','id');
+    }
 }
