@@ -84,7 +84,9 @@ class AutoPickDeliveryCarTask implements ShouldQueue
                     ]);
                 }
                 $booking->update([
-                    "agent_id" => $agent->id
+                    "agent_id" => $agent->id,
+                    "notify" => true,
+                    "status" => "approved"
                 ]);
                 \Log::channel('worker')->info("SUCCESS WORK", ["SUCCESS" => "DELIVERY_CAR"]);
             } else {

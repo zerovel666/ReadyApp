@@ -35,4 +35,5 @@ class BookingController extends Controller
     {
         return Response::response($this->bookingService->cancel($id));
     }
+    
 }

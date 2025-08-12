@@ -101,6 +101,9 @@ class BookingService extends BaseService
         }
 
         $booking->update(["status" => "canceled"]);
+        $this->taskRepository->updateByColumn("booking_id",$booking->id,[
+            "status_id" => $this->dictiRepository->getChildrenByConstant("STATUS_TASK")->where("constant","CANCEL")->first()->id
+        ]);
         return [
             "message" => "Success cancel"
         ];
