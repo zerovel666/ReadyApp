@@ -69,8 +69,23 @@ class DatabaseSeeder extends Seeder
         $this->seedDicti('TRANSMISSION', 'Transmission', ['transmission1', 'transmission2', 'etransmission', 'transmission4']);
 
         // Создание моделей авто и изображений
+        $models = [
+            'BMW X5',
+            'Audi A6',
+            'Toyota Camry',
+            'Mercedes-Benz C-Class',
+            'Lexus RX',
+            'Honda Accord',
+            'Kia Sportage',
+            'Hyundai Tucson',
+            'Nissan Qashqai',
+            'Ford Mustang',
+            'Chevrolet Tahoe'
+        ];
+
         for ($i = 0; $i <= 10; $i++) {
             $carModel = CarModel::create([
+                'name'            => fake()->randomElement($models),
                 'creator_id'      => $this->randomDictiChildId('CREATOR_CARS'),
                 'stamp_id'        => $this->randomDictiChildId('STAMP_CARS'),
                 'body_id'         => $this->randomDictiChildId('BODY_CAR'),
@@ -91,6 +106,7 @@ class DatabaseSeeder extends Seeder
                 'image_path' => fake()->imageUrl(),
             ]);
         }
+
 
         $statusCar = Dicti::create([
             "full_name" => "Status cars",
@@ -185,14 +201,13 @@ class DatabaseSeeder extends Seeder
             "full_name" => "Status task",
             "constant" => "STATUS_TASK"
         ]);
-        foreach (["In work","Expected","Cancel","Completed"] as $item) {
+        foreach (["In work", "Expected", "Cancel", "Completed"] as $item) {
             Dicti::create([
                 "full_name" => $item,
                 "constant" => strtoupper(str_replace(' ', '_', $item)),
                 "parent_id" => $statusTask->id
             ]);
         }
-        
     }
 
     // Утилита для генерации словаря и дочерних элементов

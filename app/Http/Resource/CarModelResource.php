@@ -10,6 +10,7 @@ class CarModelResource extends JsonResource
     {
         $baseArray = [
             'id' => $this->id,
+            'name' => $this->name,
             'creator' => $this->creator,
             'stamp' => $this->stamp,
             'body' => $this->body,
