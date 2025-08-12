@@ -30,7 +30,10 @@ class TaskService extends BaseService
             if ($dicti->constant == "COMPLETED") {
                 $checkList = $model->checkList;
                 $damagedItemCheckList = $checkList->where("damaged", true)->first();
-
+                $noCheck = $checkList->where("checking",false)->first();
+                if ($noCheck){
+                    throw new \Exception("Please check all list.",400);
+                }
                 if ($damagedItemCheckList && !$damagedItemCheckList->damage) {
                     throw new \Exception("Please attach the damage to the task before closing the task.",400);
                 }
