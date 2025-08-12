@@ -47,5 +47,13 @@ class UserController extends Controller
     {
         return Response::response(new UserResource($this->userService->create($request->all())));
     }
-    
+    public function attachRole(Request $request)
+    {
+        return Response::response($this->userService->attachRole($request->all()));
+
+    }
+    public function destroyUserRole(Request $request)
+    {
+        return Response::response($this->userService->destroyUserRole($request->all()));        
+    }
 }

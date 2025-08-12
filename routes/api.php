@@ -77,6 +77,10 @@ Route::prefix('user')->group(function () {
     Route::delete('/{id}', [UserController::class, 'deleteById']);
     Route::put('/{id}', [UserController::class, 'updateById']);
     Route::post('/',[UserController::class,'create']);
+    Route::prefix('/role')->group(function(){
+        Route::post('/',[UserController::class,'attachRole']);
+        Route::post('/',[UserController::class,'destroyUserRole']);
+    });
 });
 
 Route::post('/webhook', [TelegramWebhookController::class, "webhook"]);
