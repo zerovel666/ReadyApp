@@ -16,10 +16,8 @@ class CarService extends BaseService
 
     public function create($data)
     {
-        if ($data['acitve']) {
-            if (!$this->carModelRepository->find($data['model_id'])?->active) {
-                throw new \Exception("You cannot create available cars if the car brand is inactive");
-            }
+        if (!$this->carModelRepository->find($data['model_id'])?->active) {
+            throw new \Exception("You cannot create available cars if the car brand is inactive");
         }
 
         return $this->repository->create($data);
