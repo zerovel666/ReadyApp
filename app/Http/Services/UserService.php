@@ -16,14 +16,19 @@ class UserService extends BaseService
 
     public function attachRole($attributes)
     {
-        return $this->repository->find($attributes['user_id'])->roles()->attach($attributes['role_id']);
+        $this->repository->find($attributes['user_id'])->roles()->attach($attributes['role_id']);
+        return [
+            "message" => "Success add role"
+        ];
     }
 
     public function destroyUserRole($attributes)
     {
-        return $this->repository
-            ->find($attributes['user_id'])
+        $this->repository->find($attributes['user_id'])
             ->roles()
             ->detach($attributes['role_id']);
+        return [
+            "message" => "Success delete user role"
+        ];
     }
 }

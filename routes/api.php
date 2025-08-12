@@ -72,15 +72,15 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::prefix('user')->group(function () {
+    Route::prefix('role')->group(function () {
+        Route::post('/', [UserController::class, 'attachRole']);
+        Route::delete('/', [UserController::class, 'destroyUserRole']);
+    });
     Route::get('/', [UserController::class, 'all']);
     Route::get('/{id}', [UserController::class, 'find']);
     Route::delete('/{id}', [UserController::class, 'deleteById']);
     Route::put('/{id}', [UserController::class, 'updateById']);
-    Route::post('/',[UserController::class,'create']);
-    Route::prefix('/role')->group(function(){
-        Route::post('/',[UserController::class,'attachRole']);
-        Route::post('/',[UserController::class,'destroyUserRole']);
-    });
+    Route::post('/', [UserController::class, 'create']);
 });
 
 Route::post('/webhook', [TelegramWebhookController::class, "webhook"]);
@@ -147,25 +147,24 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function 
         Route::post('/', [TaskController::class, 'create']);
         Route::put('/{id}', [TaskController::class, 'updateById']);
         Route::delete('/{id}', [TaskController::class, 'deleteById']);
-        Route::prefix("checkList")->group(function(){
+        Route::prefix("checkList")->group(function () {
             Route::get('/{task_id}', [CheckListController::class, 'getByTaskId']);
             Route::put('/{id}', [CheckListController::class, 'update']);
         });
-        Route::prefix("damage")->group(function(){
-                Route::post('/', [DamageNoteController::class, 'create']);
-                Route::put('/{id}', [DamageNoteController::class, 'updateById']);
-                Route::get('/active',[DamageNoteController::class,'getActive']);
-                Route::prefix('image')->group(function(){
-                    Route::post('/',[DamageImageController::class,'create']);
-                    Route::get('/{damage_note_id}',[DamageImageController::class,'allByDamageNoteId']);
-                    Route::delete('/',[DamageImageController::class,'deleteById']);
-                });
+        Route::prefix("damage")->group(function () {
+            Route::post('/', [DamageNoteController::class, 'create']);
+            Route::put('/{id}', [DamageNoteController::class, 'updateById']);
+            Route::get('/active', [DamageNoteController::class, 'getActive']);
+            Route::prefix('image')->group(function () {
+                Route::post('/', [DamageImageController::class, 'create']);
+                Route::get('/{damage_note_id}', [DamageImageController::class, 'allByDamageNoteId']);
+                Route::delete('/', [DamageImageController::class, 'deleteById']);
             });
+        });
     });
 
-    Route::prefix('location')->group(function(){
+    Route::prefix('location')->group(function () {
         Route::get('/{id}', [AgentLocationController::class, 'findByUserId']);
         Route::post('/', [AgentLocationController::class, 'updateOrCreate']);
     });
-
 });
