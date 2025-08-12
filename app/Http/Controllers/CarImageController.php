@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Helpers\Response;
 use App\Http\Resource\CarImageResource;
 use App\Http\Services\CarImageService;
+use App\Models\CarImage;
 use Illuminate\Http\Request;
 
 class CarImageController extends Controller
 {
-        public $carImageService;
+    public $carImageService;
     public function __construct(CarImageService $carImageService)
     {
         $this->carImageService = $carImageService;
@@ -45,6 +46,10 @@ class CarImageController extends Controller
     }
     public function create(Request $request)
     {
-        return Response::response(new CarImageResource($this->carImageService->create($request->all())));
+        return Response::response(new CarImageResource($this->carImageService->create($request)));
+    }
+    public function getByCarModelId($car_model_id)
+    {
+        return Response::response(CarImageResource::collection($this->carImageService->getByColumn("model_id",$car_model_id)));
     }
 }

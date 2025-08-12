@@ -12,7 +12,7 @@ class CarImageResource extends JsonResource
         $baseArray = [
             "id" => $this->id,
             "model_id" => $this->model_id,
-            "image_path" => Storage::url($this->image_path),
+            "filepath" => Storage::url($this->filepath),
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at
         ];

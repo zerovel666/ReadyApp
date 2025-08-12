@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('car_images', function (Blueprint $table) {
             $table->id();
             $table->foreignId("model_id")->constrained("car_models")->cascadeOnDelete();
-            $table->text("image_path");
+            $table->text("filepath");
             $table->timestamps();
         });
     }

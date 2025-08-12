@@ -9,7 +9,7 @@ class CarImage extends Model
 {
     protected $fillable = [
         "model_id",
-        "image_path"
+        "filepath"
     ];
 
     protected $table = 'car_images';

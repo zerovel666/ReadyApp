@@ -102,11 +102,9 @@ Route::prefix('car/model')->middleware(AuthAccessMiddleware::class)->group(funct
 });
 
 Route::prefix('car/image')->group(function () {
-    Route::get('/', [CarImageController::class, 'all']);
-    Route::get('/{id}', [CarImageController::class, 'find']);
-    Route::post('/', [CarImageController::class, 'create']);
-    Route::put('/{id}', [CarImageController::class, 'updateById']);
-    Route::delete('/{id}', [CarImageController::class, 'deleteById']);
+    Route::get('/{car_model_id}',[CarImageController::class,'getByCarModelId']);
+    Route::post('/',[CarImageController::class,'create']);
+    Route::delete('/',[CarImageController::class,'deleteById']);
 });
 
 Route::prefix('car/location')->group(function () {

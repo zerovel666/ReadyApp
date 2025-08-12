@@ -196,7 +196,7 @@ class DatabaseSeederV1
             ]);
             CarImage::create([
                 "model_id" => $carModel->id,
-                "image_path" => fake()->imageUrl()
+                "filepath" => fake()->imageUrl()
             ]);
         };
 

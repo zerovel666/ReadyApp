@@ -24,6 +24,7 @@ class CarModelResource extends JsonResource
             'weight' => $this->weight,
             'height' => $this->height,
             'active' => $this->active,
+            'image' => $this->carImages,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];
