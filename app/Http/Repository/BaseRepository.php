@@ -47,8 +47,10 @@ class BaseRepository
     }
 
     public function updateById($id, $attributes)
-    {
-        return $this->model->where("id", $id)->update($attributes);
+    {   
+        $model = $this->model->find($id);
+        $model->update($attributes);
+        return $model;
     }
 
     public function deleteById($id)

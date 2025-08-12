@@ -76,6 +76,7 @@ Route::prefix('user')->group(function () {
     Route::get('/{id}', [UserController::class, 'find']);
     Route::delete('/{id}', [UserController::class, 'deleteById']);
     Route::put('/{id}', [UserController::class, 'updateById']);
+    Route::post('/',[UserController::class,'create']);
 });
 
 Route::post('/webhook', [TelegramWebhookController::class, "webhook"]);

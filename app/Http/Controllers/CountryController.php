@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Helpers\Response;
 use App\Http\Resource\CountryResource;
+use App\Http\Resource\ResourceNoRelationCall\CountryNRCResource;
 use App\Http\Services\CountryService;
 use Illuminate\Http\Request;
 
@@ -26,7 +27,7 @@ class CountryController extends Controller
 
     public function find($id)
     {
-        return Response::response(new CountryResource($this->countryService->find($id)));
+        return Response::response($this->countryService->find($id));
     }
     public function getByColumn($column, $attribute)
     {
@@ -34,7 +35,8 @@ class CountryController extends Controller
     }
     public function updateById($id, Request $request)
     {
-        return Response::response(new CountryResource($this->countryService->updateById($id, $request->all())));
+        $this->countryService->updateById($id, $request->all());
+        return Response::response($this->countryService->find($id));
     }
     public function deleteById($id)
     {
@@ -42,7 +44,7 @@ class CountryController extends Controller
     }
     public function create(Request $request)
     {
-        return Response::response(new CountryResource($this->countryService->create($request->all())));
+        return Response::response($this->countryService->create($request->all()));
     }
 
     public function list()
