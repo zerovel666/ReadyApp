@@ -4,14 +4,17 @@ namespace App\Http\Services;
 
 use App\Http\Repository\AgentInfoRepository;
 use App\Http\Repository\DictiRepository;
+use App\Http\Repository\RoleRepository;
 use Illuminate\Support\Facades\Auth;
 
 class AgentInfoService extends BaseService
 {
     public $dictiRepository;
-    public function __construct(AgentInfoRepository $agentInfoRepository,DictiRepository $dictiRepository) {
+    public $roleRepository;
+    public function __construct(AgentInfoRepository $agentInfoRepository,DictiRepository $dictiRepository,RoleRepository $roleRepository) {
         parent::__construct($agentInfoRepository);
         $this->dictiRepository = $dictiRepository;
+        $this->roleRepository = $roleRepository;
     }
     
     public function getMeInfo()
@@ -32,5 +35,12 @@ class AgentInfoService extends BaseService
         }
 
         return $this->repository->getWithFewTask();
+    }
+
+    public function create($data)
+    {
+        $agent = $this->repository->create($data);
+        $agent->user->roles()->attach($this->roleRepository->firstByColumn("slug",'agent')->id);
+        return $agent;
     }
 }
