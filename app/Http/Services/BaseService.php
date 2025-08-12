@@ -25,7 +25,11 @@ class BaseService
     
     public function getByColumn($column, $attribute)
     {
-        return $this->repository->getByColumn($column, $attribute);
+        $model = $this->repository->getByColumn($column, $attribute);
+        if ($model->isEmpty()){
+            throw new \Exception("Object where $column = $attribute not found",404);
+        }
+        return $model;
     }
 
     public function updateById($id, $attributes)

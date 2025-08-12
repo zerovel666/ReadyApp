@@ -152,7 +152,7 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function 
             Route::prefix('image')->group(function () {
                 Route::post('/', [DamageImageController::class, 'create']);
                 Route::get('/{damage_note_id}', [DamageImageController::class, 'allByDamageNoteId']);
-                Route::delete('/', [DamageImageController::class, 'deleteById']);
+                Route::delete('/{id}', [DamageImageController::class, 'deleteById']);
             });
         });
     });

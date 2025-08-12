@@ -26,7 +26,7 @@ class DamageImageController extends Controller
         return Response::response(new DamageImageResource($this->damageImageService->create($request)));
     }
 
-    public function delete($id)
+    public function deleteById($id)
     {
         return Response::response($this->damageImageService->deleteById($id));
     }
