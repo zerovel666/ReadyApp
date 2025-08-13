@@ -22,6 +22,7 @@ class User extends Authenticatable
         "country_id",
         "partner_id",
         "telegram_chat_id",
+        "telegram_user_id",
         "uniq_id_people",
         "phone",
         "active",

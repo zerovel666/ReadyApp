@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('full_name');
             $table->foreignId("country_id")->nullable()->constrained("countries")->onDelete("cascade");
             $table->foreignId("partner_id")->nullable()->constrained("partners")->onDelete("cascade");
-            $table->foreignId("telegram_chat_id")->nullable();
+            $table->foreignId("telegram_chat_id")->nullable()->unique();
+            $table->foreignId("telegram_user_id")->nullable()->unique();
             $table->string("uniq_id_people")->nullable()->unique();
             $table->string("phone")->nullable();
             $table->boolean("active")->default(true);

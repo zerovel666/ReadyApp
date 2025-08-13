@@ -15,6 +15,7 @@ class UserResource extends JsonResource
             "country_id" => $this->country_id,
             "partner_id" => $this->partner_id,
             "telegram_chat_id" => $this->telegram_chat_id,
+            "telegram_user_id" => $this->telegram_user_id,
             "uniq_id_people" => $this->uniq_id_people,
             "phone" => $this->phone,
             "active" => $this->active,
