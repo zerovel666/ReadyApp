@@ -158,7 +158,7 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function 
     });
 
     Route::prefix('location')->group(function () {
-        Route::get('/{id}', [AgentLocationController::class, 'findByUserId']);
+        Route::get('/{id}', [AgentLocationController::class, 'findByAgentId']);
         Route::post('/', [AgentLocationController::class, 'updateOrCreate']);
     });
 });

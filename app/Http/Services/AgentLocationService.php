@@ -14,15 +14,11 @@ class AgentLocationService extends BaseService
         $this->userRepository = $userRepository;
     }
 
-    public function findByUserId($id)
+    public function updateOrCreate($data)
     {
-        $user = $this->userRepository->find($id);
-        return $user->agent->position;
-    }
-
-    public function updateOrCreate($attributes)
-    {
-        $user = Auth::user()->agent;
-        return $this->repository->updateOrCreate($user->id,$attributes);
+        $attributes = [
+            "agent_id" => $data['agent_id']
+        ];
+        return $this->repository->updateOrCreate($attributes,$data);
     }
 }

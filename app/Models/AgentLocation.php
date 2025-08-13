@@ -13,7 +13,7 @@ class AgentLocation extends Model
         "latitude"  
     ];
 
-    protected $table = 'agent_positions';
+    protected $table = 'agent_locations';
 
     public function agent():BelongsTo
     {

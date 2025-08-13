@@ -8,19 +8,19 @@ use Illuminate\Http\Request;
 
 class AgentLocationController extends Controller
 {
-    public $AgentLocationService;
+    public $agentLocationService;
 
-    public function __construct(AgentLocationService $AgentLocationService) {
-        $this->AgentLocationService = $AgentLocationService;
+    public function __construct(AgentLocationService $agentLocationService) {
+        $this->agentLocationService = $agentLocationService;
     }
 
-    public function findByUserId($id)
+    public function findByAgentId($id)
     {
-        return Response::response($this->AgentLocationService->findByUserId($id));
+        return Response::response($this->agentLocationService->getByColumn("agent_id",$id));
     }
 
     public function updateOrCreate(Request $request)
     {
-        return Response::response($this->AgentLocationService->updateOrCreate($request->all()));
+        return Response::response($this->agentLocationService->updateOrCreate($request->all()));
     }
 }

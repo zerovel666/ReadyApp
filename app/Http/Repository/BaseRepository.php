@@ -73,8 +73,8 @@ class BaseRepository
         return $this->model->paginate(20);
     }
 
-    public function updateOrCreate($id,$attribute)
+    public function updateOrCreate($attributes,$values)
     {
-        return $this->model->updateOrCreate($id,$attribute);
+        return $this->model->updateOrCreate($attributes,$values);
     }
 }
