@@ -19,6 +19,7 @@ class User extends Authenticatable
     protected $fillable = [
         "email",
         "full_name",
+        "password",
         "country_id",
         "partner_id",
         "telegram_chat_id",
@@ -31,6 +32,15 @@ class User extends Authenticatable
     ];
 
     protected $table = 'users';
+
+    public function setPasswordAttribute($value)
+    {
+        if (!empty($value) && !Hash::needsRehash($value)) {
+            $this->attributes['password'] = Hash::make($value);
+        } else {
+            $this->attributes['password'] = $value;
+        }
+    }
 
     public function roles(): BelongsToMany
     {

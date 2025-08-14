@@ -21,6 +21,7 @@ class UserFactory extends Factory
             "country_id" => Country::find(4)->id,
             "partner_id" => Partner::find(1)->id,
             "telegram_chat_id" => $this->faker->numberBetween(10000,20000),
+            "telegram_user_id" => $this->faker->numberBetween(10000,20000),
             "uniq_id_people" => $this->faker->numberBetween(10000,20000),
             "phone" => $this->faker->phoneNumber,
         ];

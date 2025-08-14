@@ -13,17 +13,18 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string("email")->unique();
+            $table->string("email")->nullable();
+            $table->string("password")->nullable();
             $table->string('full_name');
             $table->foreignId("country_id")->nullable()->constrained("countries")->onDelete("cascade");
             $table->foreignId("partner_id")->nullable()->constrained("partners")->onDelete("cascade");
-            $table->foreignId("telegram_chat_id")->nullable()->unique();
-            $table->foreignId("telegram_user_id")->nullable()->unique();
+            $table->string("telegram_chat_id")->nullable()->unique();
+            $table->string("telegram_user_id")->nullable()->unique();
             $table->string("uniq_id_people")->nullable()->unique();
-            $table->string("phone")->nullable();
+            $table->string("phone")->unique();
             $table->boolean("active")->default(true);
             $table->string("avatar")->nullable();
-            $table->date("last_verifed")->default(now()->format("Y-m-d"));
+            $table->date("last_verifed")->useCurrent();
             $table->timestamps();
         });
     }
