@@ -38,7 +38,7 @@ Route::prefix('agent')->group(function () {
     Route::get('/health', [AgentController::class, 'health']);
 });
 
-Route::prefix('country')->group(function () {
+Route::prefix('country')->middleware(AuthAccessMiddleware::class)->group(function () {
     Route::get('/', [CountryController::class, 'all']);
     Route::get('/list', [CountryController::class, 'list']);
     Route::get('/{id}', [CountryController::class, 'find']);
@@ -47,7 +47,7 @@ Route::prefix('country')->group(function () {
     Route::delete('/{id}', [CountryController::class, 'deleteById']);
 });
 
-Route::prefix('dictis')->group(function () {
+Route::prefix('dictis')->middleware(AuthAccessMiddleware::class)->group(function () {
     Route::get('/', [DictiController::class, 'all']);
     Route::get('/list', [DictiController::class, 'list']);
     Route::get('/{id}', [DictiController::class, 'find']);
@@ -56,7 +56,7 @@ Route::prefix('dictis')->group(function () {
     Route::delete('/{id}', [DictiController::class, 'deleteById']);
 });
 
-Route::prefix('partner')->group(function () {
+Route::prefix('partner')->middleware(AuthAccessMiddleware::class)->group(function () {
     Route::get('/', [PartnerController::class, 'all']);
     Route::get('/{id}', [PartnerController::class, 'find']);
     Route::post('/', [PartnerController::class, 'create']);
@@ -72,7 +72,7 @@ Route::prefix('auth')->group(function () {
     // Route::post('confirm', [AuthController::class, 'confirmTwoFactor']);
 });
 
-Route::prefix('user')->group(function () {
+Route::prefix('user')->middleware(AuthAccessMiddleware::class)->group(function () {
     Route::prefix('role')->group(function () {
         Route::post('/', [UserController::class, 'attachRole']);
         Route::delete('/', [UserController::class, 'destroyUserRole']);
@@ -86,7 +86,7 @@ Route::prefix('user')->group(function () {
 
 Route::post('/webhook', [TelegramWebhookController::class, "webhook"]);
 
-Route::prefix('role')->group(function () {
+Route::prefix('role')->middleware(AuthAccessMiddleware::class)->group(function () {
     Route::get('/', [RoleController::class, 'all']);
     Route::get('/{id}', [RoleController::class, 'find']);
     Route::post('/', [RoleController::class, 'create']);
@@ -102,18 +102,18 @@ Route::prefix('car/model')->middleware(AuthAccessMiddleware::class)->group(funct
     Route::delete('/{id}', [CarModelController::class, 'deleteById']);
 });
 
-Route::prefix('car/image')->group(function () {
+Route::prefix('car/image')->middleware(AuthAccessMiddleware::class)->group(function () {
     Route::get('/{car_model_id}',[CarImageController::class,'getByCarModelId']);
     Route::post('/',[CarImageController::class,'create']);
     Route::delete('/',[CarImageController::class,'deleteById']);
 });
 
-Route::prefix('car/location')->group(function () {
+Route::prefix('car/location')->middleware(AuthAccessMiddleware::class)->group(function () {
     Route::post('/',[CarLocationController::class,'create']);
     Route::get('/{car_id}',[CarLocationController::class,'getByCarId']);
 });
 
-Route::prefix('car')->group(function () {
+Route::prefix('car')->middleware(AuthAccessMiddleware::class)->group(function () {
     Route::get('/', [CarController::class, 'all']);
     Route::get('/{id}', [CarController::class, 'find']);
     Route::post('/', [CarController::class, 'create']);
@@ -121,13 +121,13 @@ Route::prefix('car')->group(function () {
     Route::delete('/{id}', [CarController::class, 'deleteById']);
 });
 
-Route::prefix('booking')->middleware(AuthAccessMiddleware::class)->group(function () {
+Route::prefix('booking')->middleware(AuthAccessMiddleware::class)->middleware(AuthAccessMiddleware::class)->group(function () {
     Route::get('/', [BookingController::class, 'allMeByStatus']);
     Route::post('/', [BookingController::class, 'create']);
     Route::delete('/{id}', [BookingController::class, 'cancel']);
 });
 
-Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function () {
+Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->middleware(AuthAccessMiddleware::class)->group(function () {
     Route::prefix('info')->group(function () {
         Route::get('/me', [AgentInfoController::class, 'getMeInfo']);
         Route::get('/', [AgentInfoController::class, 'all']);
@@ -136,7 +136,7 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function 
         Route::delete('/', [AgentInfoController::class, 'deleteById']);
     });
 
-    Route::prefix('task')->group(function () {
+    Route::prefix('task')->middleware(AuthAccessMiddleware::class)->group(function () {
         Route::get('/', [TaskController::class, 'all']);
         Route::get('/{id}', [TaskController::class, 'find']);
         Route::post('/', [TaskController::class, 'create']);
@@ -146,7 +146,7 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function 
             Route::get('/{task_id}', [CheckListController::class, 'getByTaskId']);
             Route::put('/{id}', [CheckListController::class, 'update']);
         });
-        Route::prefix("damage")->group(function () {
+        Route::prefix("damage")->middleware(AuthAccessMiddleware::class)->group(function () {
             Route::post('/', [DamageNoteController::class, 'create']);
             Route::put('/{id}', [DamageNoteController::class, 'updateById']);
             Route::get('/active', [DamageNoteController::class, 'getActive']);
@@ -158,7 +158,7 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function 
         });
     });
 
-    Route::prefix('location')->group(function () {
+    Route::prefix('location')->middleware(AuthAccessMiddleware::class)->group(function () {
         Route::get('/{id}', [AgentLocationController::class, 'findByAgentId']);
         Route::post('/', [AgentLocationController::class, 'updateOrCreate']);
     });
