@@ -3,6 +3,7 @@
 namespace App\Http\Services\V2;
 
 use App\Http\Repository\DictiRepository;
+use App\Http\Repository\RoleRepository;
 use App\Http\Repository\TwoFactorTokenRepository;
 use App\Http\Repository\UserRepository;
 use App\Http\Resource\UserResource;
@@ -15,11 +16,13 @@ class AuthServiceV2
     public $dictiRepository;
     public $userRepository;
     public $twoFactorRepository;
-    public function __construct(DictiRepository $dictiRepository, UserRepository $userRepository, TwoFactorTokenRepository $twoFactorRepository)
+    public $roleRepository;
+    public function __construct(DictiRepository $dictiRepository, UserRepository $userRepository, TwoFactorTokenRepository $twoFactorRepository,RoleRepository $roleRepository)
     {
         $this->dictiRepository = $dictiRepository;
         $this->userRepository = $userRepository;
         $this->twoFactorRepository = $twoFactorRepository;
+        $this->roleRepository = $roleRepository;
     }
 
     public function register($attribute)
@@ -32,6 +35,7 @@ class AuthServiceV2
         $user = $this->userRepository->firstByColumn("phone", $attribute['phone']);
 
         if ($user) {
+
             return $this->formResponse($user);
         }
 
@@ -46,12 +50,20 @@ class AuthServiceV2
     public function webRegisterImplement($attribute)
     {
         $user = $this->userRepository->create($attribute);
+        $user->roles()->attach($this->roleRepository->getByColumn("slug","standart")->first()['id']);
+        $user->update([
+            "last_verifed" => now()->format("Y-m-d")
+        ]);
         return $this->formResponse($user);
     }
 
     public function telegramRegisterImplement($attribute)
     {
         $user = $this->userRepository->create($attribute);
+        $user->roles()->attach($this->roleRepository->getByColumn("slug","standart")->first()['id']);
+        $user->update([
+            "last_verifed" => now()->format("Y-m-d")
+        ]);
         return $this->formResponse($user);
     }
 
