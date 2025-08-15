@@ -123,6 +123,7 @@ Route::prefix('car')->middleware(AuthAccessMiddleware::class)->group(function ()
 
 Route::prefix('booking')->middleware(AuthAccessMiddleware::class)->middleware(AuthAccessMiddleware::class)->group(function () {
     Route::get('/', [BookingController::class, 'allMeByStatus']);
+    Route::post('/{id}', [BookingController::class, 'paidTransacation']);
     Route::post('/', [BookingController::class, 'create']);
     Route::delete('/{id}', [BookingController::class, 'cancel']);
 });

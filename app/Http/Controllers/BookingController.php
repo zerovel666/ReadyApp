@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Helpers\Response;
 use App\Http\Resource\BookingResource;
 use App\Http\Services\BookingService;
-use App\Models\Booking;
 use Carbon\Carbon;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
@@ -20,10 +19,10 @@ class BookingController extends Controller
 
     public function create(Request $request)
     {
-        if (Carbon::parse($request->start_date) < now() || Carbon::parse($request->start_date) > Carbon::parse($request->end_date)){
-            throw new ValidationException("ERROR DATE",400);
+        if (Carbon::parse($request->start_date) < now() || Carbon::parse($request->start_date) > Carbon::parse($request->end_date)) {
+            throw new ValidationException("ERROR DATE", 400);
         }
-        return Response::response(new BookingResource($this->bookingService->create($request->all())));
+        return Response::response($this->bookingService->create($request->all()));
     }
 
     public function allMeByStatus(Request $request)
@@ -35,5 +34,10 @@ class BookingController extends Controller
     {
         return Response::response($this->bookingService->cancel($id));
     }
-    
+
+    public function paidTransacation(Request $request,$id)
+    {
+        $this->bookingService->paidTransacation($id,$request->amount ?? 0);
+        return Response::response(["message" => "Success paid"]);
+    }
 }
