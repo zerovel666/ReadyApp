@@ -37,7 +37,7 @@ class DictiRepository extends BaseRepository
         return $this->model->where("parent_id",$parent_id)->get();
     }
 
-        public function getChildrenByConstant($constant)
+    public function getChildrenByConstant($constant)
     {
         return $this->model->where("constant",$constant)->first()->children;
     }

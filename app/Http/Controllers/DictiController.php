@@ -53,4 +53,9 @@ class DictiController extends Controller
     {
         return Response::response(DictiResource::collection($this->dictiService->list())->sortBy('id')->values());
     }
+
+    public function getBrands()
+    {
+        return Response::response($this->dictiService->getBrands());
+    }
 }
