@@ -23,6 +23,8 @@ return new class extends Migration
             $table->date("date_release");
             $table->float("rating");
             $table->foreignId("status")->constrained('dictis')->cascadeOnDelete();
+            $table->float("amount");
+            $table->foreignId("currency_id")->constrained('dictis')->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -20,6 +20,8 @@ class Car extends Model
         "date_release",
         "rating",
         "status",
+        "amount",
+        "currency_id"
     ];
 
     protected $table = 'cars';
@@ -49,5 +51,10 @@ class Car extends Model
     public function damage(): HasOne
     {
         return $this->hasOne(DamageNote::class, 'car_id', 'id');
+    }
+
+    public function currency(): HasOne
+    {
+        return $this->hasOne(Dicti::class,'currency_id','id');
     }
 }

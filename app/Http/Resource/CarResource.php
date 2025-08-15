@@ -19,7 +19,9 @@ class CarResource extends JsonResource
             "last_inspection_date" => $this->last_inspection_date,
             "date_release" => $this->date_release,
             "rating" => $this->rating,
-            "status " => $this->status ,
+            "status " => $this->status,
+            "amount" => $this->amount,
+            "currency_id" => $this->currency_id,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
         ];

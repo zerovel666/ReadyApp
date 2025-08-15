@@ -121,6 +121,8 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+        $this->seedDicti("CURRENCY","currency_list",["USD","KZT","RUB","NFT"]);
+
         // Создание авто и локаций
         for ($i = 0; $i <= 10; $i++) {
             $car = Car::create([
@@ -134,6 +136,8 @@ class DatabaseSeeder extends Seeder
                 'date_release'         => fake()->date(),
                 'rating'               => fake()->numberBetween(1, 5),
                 'status'               => $this->randomDictiChildId("STATUS_CAR"),
+                'currency_id'          => $this->randomDictiChildId("CURRENCY"),
+                'amount'               => fake()->numberBetween(1000,1000000)
             ]);
 
             CarLocation::create([
