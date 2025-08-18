@@ -2,17 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
 
 class CarModel extends Model
 {
     protected $table = 'car_models';
 
     protected $fillable = [
-        'name',
         'creator_id',
+        'name',
         'stamp_id',
         'body_id',
         'engine_id',
@@ -26,6 +28,16 @@ class CarModel extends Model
         'height',
         'active'
     ];
+
+    protected static function booted()
+    {
+        static::addGlobalScope('available', function (Builder $builder) {
+            $user = Auth::user();
+            if (!$user || !$user->roles()->where("slug", "admin")->exists()) {
+                $builder->where('active', true);
+            }
+        });
+    }
 
     public function creator(): BelongsTo
     {

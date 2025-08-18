@@ -47,5 +47,9 @@ class CarModelController extends Controller
     {
         return Response::response(new CarModelResource($this->carModelService->create($request->all())));
     }
+        public function getModelByBrandId($id)
+    {
+        return Response::response(CarModelResource::collection($this->carModelService->getByColumn("creator_id",$id)));
+    }
 
 }
