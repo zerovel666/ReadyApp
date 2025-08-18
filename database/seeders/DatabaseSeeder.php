@@ -62,7 +62,7 @@ class DatabaseSeeder extends Seeder
 
         // Справочники
         $this->seedDicti('COLOR', 'Car color', ['White', 'Black', 'Green', 'Yellow', 'Red', 'Blue']);
-        $this->seedDicti('CREATOR_CARS', 'Creator cars', ['BMW', 'Toyota', 'Huyndai', 'BYC', 'Mercedes', 'Ferrari', 'Lamborgini', 'Porshe']);
+        $this->seedDicti('BRAND_CARS', 'brand cars', ['BMW', 'Toyota', 'Huyndai', 'BYC', 'Mercedes', 'Ferrari', 'Lamborgini', 'Porshe']);
         $this->seedDicti('STAMP_CARS', 'Stamp cars', ['stamp1', 'stamp2', 'stamp3', 'stamp4']);
         $this->seedDicti('BODY_CAR', 'Body car', ['body1', 'body2', 'body3', 'body4']);
         $this->seedDicti('ENGINE', 'Engine', ['engine1', 'engine2', 'engine3', 'engine4']);
@@ -86,7 +86,7 @@ class DatabaseSeeder extends Seeder
         for ($i = 0; $i <= 10; $i++) {
             $carModel = CarModel::create([
                 'name'            => fake()->randomElement($models),
-                'creator_id'      => $this->randomDictiChildId('CREATOR_CARS'),
+                'brand_id'      => $this->randomDictiChildId('BRAND_CARS'),
                 'stamp_id'        => $this->randomDictiChildId('STAMP_CARS'),
                 'body_id'         => $this->randomDictiChildId('BODY_CAR'),
                 'engine_id'       => $this->randomDictiChildId('ENGINE'),

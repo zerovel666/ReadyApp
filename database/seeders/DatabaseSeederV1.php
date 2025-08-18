@@ -109,16 +109,16 @@ class DatabaseSeederV1
             ]);
         }
 
-        $creatorCars = Dicti::factory()->create([
-            "full_name" => "Creator cars",
-            "constant" => "CREATOR_CARS"
+        $brandCars = Dicti::factory()->create([
+            "full_name" => "brand cars",
+            "constant" => "BRAND_CARS"
         ]);
-        $dictiCreatorCarModels = ["BMW", "Toyota", "Huyndai", "BYC", "Mercedes", "Ferrari", "Lamborgini", "Porshe"];
+        $dictibrandCarModels = ["BMW", "Toyota", "Huyndai", "BYC", "Mercedes", "Ferrari", "Lamborgini", "Porshe"];
 
-        foreach ($dictiCreatorCarModels as $creator) {
+        foreach ($dictibrandCarModels as $brand) {
             Dicti::factory()->create([
-                "full_name" => $creator,
-                "parent_id" => $creatorCars->id,
+                "full_name" => $brand,
+                "parent_id" => $brandCars->id,
             ]);
         }
 
@@ -180,7 +180,7 @@ class DatabaseSeederV1
 
         for ($i = 0; $i <= 10; $i++) {
             $carModel = CarModel::create([
-                "creator_id" => Dicti::where("parent_id", Dicti::where("constant", "CREATOR_CARS")->first()->id)->get()->random()->id,
+                "brand_id" => Dicti::where("parent_id", Dicti::where("constant", "BRAND_CARS")->first()->id)->get()->random()->id,
                 "stamp_id" => Dicti::where("parent_id", Dicti::where("constant", "STAMP_CARS")->first()->id)->get()->random()->id,
                 "body_id" => Dicti::where("parent_id", Dicti::where("constant", "BODY_CAR")->first()->id)->get()->random()->id,
                 "engine_id" => Dicti::where("parent_id", Dicti::where("constant", "ENGINE")->first()->id)->get()->random()->id,

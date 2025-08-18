@@ -17,6 +17,6 @@ class DictiService extends BaseService
 
     public function getBrands()
     {
-        return $this->repository->getChildrenByConstant("CREATOR_CARS");
+        return $this->repository->getChildrenByConstant("BRAND_CARS");
     }
 }

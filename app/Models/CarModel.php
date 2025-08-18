@@ -13,7 +13,7 @@ class CarModel extends Model
     protected $table = 'car_models';
 
     protected $fillable = [
-        'creator_id',
+        'brand_id',
         'name',
         'stamp_id',
         'body_id',
@@ -39,9 +39,9 @@ class CarModel extends Model
         });
     }
 
-    public function creator(): BelongsTo
+    public function brand(): BelongsTo
     {
-        return $this->belongsTo(Dicti::class, 'creator_id', "id");
+        return $this->belongsTo(Dicti::class, 'brand_id', "id");
     }
 
     public function stamp(): BelongsTo
