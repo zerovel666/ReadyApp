@@ -58,4 +58,9 @@ class DictiController extends Controller
     {
         return Response::response($this->dictiService->getBrands());
     }
+    
+    public function getByConstant(Request $request)
+    {
+        return Response::response(DictiResource::collection($this->dictiService->getByColumn("constant",$request->constant)));
+    }
 }

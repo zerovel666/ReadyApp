@@ -48,6 +48,7 @@ Route::prefix('country')->middleware(AuthAccessMiddleware::class)->group(functio
 });
 
 Route::prefix('dictis')->middleware(AuthAccessMiddleware::class)->group(function () {
+    Route::get('/constant',[DictiController::class,'getByConstant']);
     Route::get('/', [DictiController::class, 'all']);
     Route::get('/list', [DictiController::class, 'list']);
     Route::get('/{id}', [DictiController::class, 'find']);
