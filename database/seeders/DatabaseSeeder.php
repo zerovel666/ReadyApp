@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
         }
 
         // Тип авторизации
-        $authType = Dicti::factory()->create(['full_name' => 'Тип авторизации']);
+        $authType = Dicti::factory()->create(['full_name' => 'Тип авторизации','constant' => 'TYPE_AUTH']);
 
         $authMethods = [
             ['full_name' => 'Google авторизация', 'constant' => 'GOOGLE_AUTH'],
