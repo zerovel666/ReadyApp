@@ -2,6 +2,7 @@
 
 namespace App\Http\Repository;
 
+use App\Models\Car;
 use App\Models\CarModel;
 
 class CarModelRepository extends BaseRepository
@@ -15,22 +16,7 @@ class CarModelRepository extends BaseRepository
     {
         $query = $this->model->newQuery();
 
-        $fields = [
-            'brand_id',
-            'name',
-            'stamp_id',
-            'body_id',
-            'engine_id',
-            'transmission_id',
-            'engine_volume',
-            'power',
-            'seats',
-            'doors',
-            'fuel_tank_capacity',
-            'weight',
-            'height',
-            'active',
-        ];
+        $fields = $this->model->getFillable();
 
         foreach ($fields as $field) {
             if (isset($attributes[$field])) {
@@ -45,20 +31,7 @@ class CarModelRepository extends BaseRepository
 
     public function setFilterByCar($attributes, $query)
     {
-        $fieldsRelationCar = [
-            "model_id",
-            "partner_id",
-            "vin",
-            "license_plate",
-            "color_id",
-            "mileage",
-            "last_inspection_date",
-            "date_release",
-            "rating",
-            "status",
-            "amount",
-            "currency_id"
-        ];
+        $fieldsRelationCar = Car::getFillable();
 
         foreach ($fieldsRelationCar as $field) {
             if (isset($attributes[$field])) {
