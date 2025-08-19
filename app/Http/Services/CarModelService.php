@@ -10,4 +10,8 @@ class CarModelService extends BaseService
         parent::__construct($carModelRepository);
     }
 
+    public function getByFilter($request)
+    {
+        return $this->repository->getByFilter($request->all());
+    }
 }
