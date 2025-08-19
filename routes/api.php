@@ -96,7 +96,6 @@ Route::prefix('role')->middleware(AuthAccessMiddleware::class)->group(function (
 });
 
 Route::prefix('car/model')->middleware(AuthAccessMiddleware::class)->group(function () {
-    Route::get('/filter',[CarModelController::class,'getByFilter']);
     Route::get('/brand/{id}',[CarModelController::class,'getModelByBrandId']);
     Route::get('/brands',[DictiController::class,'getBrands']);
     Route::get('/filter',[CarModelController::class,'getByFilter']);
