@@ -30,7 +30,7 @@ class CarModel extends Model
         "active",
         "color_id",
         "amount",
-        "currency_id",    
+        "currency_id",
     ];
 
     protected static function booted()
@@ -72,11 +72,12 @@ class CarModel extends Model
     {
         return $this->belongsTo(Dicti::class, "color_id", "id");
     }
-    
-    public function currency(): HasOne
+
+    public function currency(): BelongsTo
     {
-        return $this->hasOne(Dicti::class,'currency_id','id');
+        return $this->belongsTo(Dicti::class, 'currency_id', 'id');
     }
+
 
     public function cars(): HasMany
     {
