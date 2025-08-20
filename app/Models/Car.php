@@ -14,14 +14,11 @@ class Car extends Model
         "partner_id",
         "vin",
         "license_plate",
-        "color_id",
         "mileage",
         "last_inspection_date",
         "date_release",
         "rating",
         "status_id",
-        "amount",
-        "currency_id"
     ];
 
     protected $table = 'cars';
@@ -36,10 +33,6 @@ class Car extends Model
         return $this->belongsTo(Partner::class, "partner_id", "id");
     }
 
-    public function color(): BelongsTo
-    {
-        return $this->belongsTo(Dicti::class, "color_id", "id");
-    }
     public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class, "user_id", "id");
@@ -57,8 +50,4 @@ class Car extends Model
         return $this->belongsTo(Dicti::class,"status_id","id");
     }
 
-    public function currency(): HasOne
-    {
-        return $this->hasOne(Dicti::class,'currency_id','id');
-    }
 }

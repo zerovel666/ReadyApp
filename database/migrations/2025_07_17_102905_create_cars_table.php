@@ -17,14 +17,11 @@ return new class extends Migration
             $table->foreignId("partner_id")->constrained("partners")->cascadeOnDelete();
             $table->string("vin");
             $table->string("license_plate");
-            $table->foreignId("color_id")->constrained("dictis")->cascadeOnDelete();
             $table->float("mileage");
             $table->date("last_inspection_date");
             $table->date("date_release");
             $table->float("rating");
             $table->foreignId("status_id")->constrained('dictis')->cascadeOnDelete();
-            $table->float("amount");
-            $table->foreignId("currency_id")->constrained('dictis')->cascadeOnDelete();
             $table->timestamps();
         });
     }

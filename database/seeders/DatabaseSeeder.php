@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
         }
 
         // Тип авторизации
-        $authType = Dicti::factory()->create(['full_name' => 'Тип авторизации','constant' => 'TYPE_AUTH']);
+        $authType = Dicti::factory()->create(['full_name' => 'Тип авторизации', 'constant' => 'TYPE_AUTH']);
 
         $authMethods = [
             ['full_name' => 'Google авторизация', 'constant' => 'GOOGLE_AUTH'],
@@ -62,17 +62,20 @@ class DatabaseSeeder extends Seeder
 
         // Справочники
         $this->seedDicti('COLOR', 'Car color', ['White', 'Black', 'Green', 'Yellow', 'Red', 'Blue']);
-        
+
         // 3 основных бренда
         $this->seedDicti('BRAND_CARS', 'Brand cars', ['Toyota', 'BMW', 'Mercedes']);
-        
+
         // Штампы для каждого бренда
         $this->seedDicti('STAMP_CARS', 'Stamp cars', [
-            'Toyota Camry', 'Toyota Corolla', 
-            'BMW X5', 'BMW 3 Series',
-            'Mercedes C-Class', 'Mercedes E-Class'
+            'Toyota Camry',
+            'Toyota Corolla',
+            'BMW X5',
+            'BMW 3 Series',
+            'Mercedes C-Class',
+            'Mercedes E-Class'
         ]);
-        
+
         $this->seedDicti('BODY_CAR', 'Body car', ['Sedan', 'SUV', 'Hatchback', 'Coupe']);
         $this->seedDicti('ENGINE', 'Engine', ['Gasoline 2.0L', 'Diesel 2.2L', 'Hybrid 1.8L', 'Electric']);
         $this->seedDicti('TRANSMISSION', 'Transmission', ['Automatic', 'Manual', 'CVT', 'DCT']);
@@ -82,7 +85,9 @@ class DatabaseSeeder extends Seeder
         $stamps = Dicti::where('parent_id', Dicti::where('constant', 'STAMP_CARS')->first()->id)->get();
 
         $carModels = [];
-        
+
+        $this->seedDicti("CURRENCY", "currency_list", ["USD", "KZT", "RUB", "NFT"]);
+
         // Toyota models
         $toyotaBrand = $brands->where('full_name', 'Toyota')->first();
         $carModels[] = CarModel::create([
@@ -99,7 +104,11 @@ class DatabaseSeeder extends Seeder
             'fuel_tank_capacity' => 60,
             'weight'          => 1550,
             'height'          => 1.45,
-            'active'          => true
+            'active'          => true,
+            'currency_id'          => $this->randomDictiChildId("CURRENCY"),
+            'amount'               => fake()->numberBetween(1000, 1000000),
+            'color_id'             => $this->randomDictiChildId('COLOR'),
+
         ]);
 
         $carModels[] = CarModel::create([
@@ -116,7 +125,11 @@ class DatabaseSeeder extends Seeder
             'fuel_tank_capacity' => 50,
             'weight'          => 1320,
             'height'          => 1.43,
-            'active'          => true
+            'active'          => true,
+            'currency_id'          => $this->randomDictiChildId("CURRENCY"),
+            'amount'               => fake()->numberBetween(1000, 1000000),
+            'color_id'             => $this->randomDictiChildId('COLOR'),
+
         ]);
 
         // BMW models
@@ -135,7 +148,11 @@ class DatabaseSeeder extends Seeder
             'fuel_tank_capacity' => 85,
             'weight'          => 2140,
             'height'          => 1.74,
-            'active'          => true
+            'active'          => true,
+            'currency_id'          => $this->randomDictiChildId("CURRENCY"),
+            'amount'               => fake()->numberBetween(1000, 1000000),
+            'color_id'             => $this->randomDictiChildId('COLOR'),
+
         ]);
 
         $carModels[] = CarModel::create([
@@ -152,7 +169,11 @@ class DatabaseSeeder extends Seeder
             'fuel_tank_capacity' => 59,
             'weight'          => 1460,
             'height'          => 1.43,
-            'active'          => true
+            'active'          => true,
+            'currency_id'          => $this->randomDictiChildId("CURRENCY"),
+            'amount'               => fake()->numberBetween(1000, 1000000),
+            'color_id'             => $this->randomDictiChildId('COLOR'),
+
         ]);
 
         // Mercedes models
@@ -171,6 +192,9 @@ class DatabaseSeeder extends Seeder
             'fuel_tank_capacity' => 66,
             'weight'          => 1610,
             'height'          => 1.44,
+            'currency_id'          => $this->randomDictiChildId("CURRENCY"),
+            'amount'               => fake()->numberBetween(1000, 1000000),
+            'color_id'             => $this->randomDictiChildId('COLOR'),
             'active'          => true
         ]);
 
@@ -188,7 +212,11 @@ class DatabaseSeeder extends Seeder
             'fuel_tank_capacity' => 66,
             'weight'          => 1820,
             'height'          => 1.47,
+            'currency_id'          => $this->randomDictiChildId("CURRENCY"),
+            'amount'               => fake()->numberBetween(1000, 1000000),
+            'color_id'             => $this->randomDictiChildId('COLOR'),
             'active'          => true
+
         ]);
 
         // Добавляем изображения для каждой модели
@@ -197,7 +225,7 @@ class DatabaseSeeder extends Seeder
                 'model_id'   => $carModel->id,
                 'filepath' => fake()->imageUrl(800, 600, $carModel->name),
             ]);
-            
+
             // Добавляем дополнительное изображение для каждой модели
             CarImage::create([
                 'model_id'   => $carModel->id,
@@ -218,17 +246,14 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $this->seedDicti("CURRENCY","currency_list",["USD","KZT","RUB","NFT"]);
-
         // Создание 10 конкретных машин
         $cars = [];
         for ($i = 1; $i <= 10; $i++) {
             $carModel = $carModels[array_rand($carModels)]; // Случайная модель из созданных
-            
+
             $cars[] = Car::create([
                 'model_id'             => $carModel->id,
                 'partner_id'           => Partner::inRandomOrder()->first()->id,
-                'color_id'             => $this->randomDictiChildId('COLOR'),
                 'vin'                  => strtoupper(fake()->bothify('??##############')),
                 'license_plate'        => strtoupper(fake()->bothify('??###??')),
                 'mileage'              => fake()->numberBetween(0, 300000),
@@ -236,8 +261,6 @@ class DatabaseSeeder extends Seeder
                 'date_release'         => fake()->dateTimeBetween('-5 years', 'now')->format('Y-m-d'),
                 'rating'               => fake()->numberBetween(3, 5),
                 'status_id'            => $this->randomDictiChildId("STATUS_CAR"),
-                'currency_id'          => $this->randomDictiChildId("CURRENCY"),
-                'amount'               => fake()->numberBetween(1000, 1000000)
             ]);
 
             CarLocation::create([
