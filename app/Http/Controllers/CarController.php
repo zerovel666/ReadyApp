@@ -47,5 +47,8 @@ class CarController extends Controller
     {
         return Response::response(new CarResource($this->carService->create($request->all())));
     }
-
+    public function getByFilter(Request $request)
+    {
+        return Response::response(CarResource::collection($this->carService->getByFilter($request->all())));
+    }
 }

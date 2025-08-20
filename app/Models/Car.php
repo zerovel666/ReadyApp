@@ -19,7 +19,7 @@ class Car extends Model
         "last_inspection_date",
         "date_release",
         "rating",
-        "status",
+        "status_id",
         "amount",
         "currency_id"
     ];
@@ -51,6 +51,10 @@ class Car extends Model
     public function damage(): HasOne
     {
         return $this->hasOne(DamageNote::class, 'car_id', 'id');
+    }
+    public function status(): BelongsTo
+    {
+        return $this->belongsTo(Dicti::class,"status_id","id");
     }
 
     public function currency(): HasOne

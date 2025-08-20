@@ -118,6 +118,7 @@ Route::prefix('car/location')->middleware(AuthAccessMiddleware::class)->group(fu
 });
 
 Route::prefix('car')->middleware(AuthAccessMiddleware::class)->group(function () {
+    Route::get('/filter',[CarController::class,'getByFilter']);
     Route::get('/', [CarController::class, 'all']);
     Route::get('/{id}', [CarController::class, 'find']);
     Route::post('/', [CarController::class, 'create']);

@@ -3,9 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\{AgentInfo, Car, CarImage, CarLocation, CarModel, Country, Dicti, Partner, Role, User};
-use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class DatabaseSeederV2
 {
     public function run(): void
     {
@@ -62,148 +61,51 @@ class DatabaseSeeder extends Seeder
 
         // Справочники
         $this->seedDicti('COLOR', 'Car color', ['White', 'Black', 'Green', 'Yellow', 'Red', 'Blue']);
-        
-        // 3 основных бренда
-        $this->seedDicti('BRAND_CARS', 'Brand cars', ['Toyota', 'BMW', 'Mercedes']);
-        
-        // Штампы для каждого бренда
-        $this->seedDicti('STAMP_CARS', 'Stamp cars', [
-            'Toyota Camry', 'Toyota Corolla', 
-            'BMW X5', 'BMW 3 Series',
-            'Mercedes C-Class', 'Mercedes E-Class'
-        ]);
-        
-        $this->seedDicti('BODY_CAR', 'Body car', ['Sedan', 'SUV', 'Hatchback', 'Coupe']);
-        $this->seedDicti('ENGINE', 'Engine', ['Gasoline 2.0L', 'Diesel 2.2L', 'Hybrid 1.8L', 'Electric']);
-        $this->seedDicti('TRANSMISSION', 'Transmission', ['Automatic', 'Manual', 'CVT', 'DCT']);
+        $this->seedDicti('BRAND_CARS', 'brand cars', ['BMW', 'Toyota', 'Huyndai', 'BYC', 'Mercedes', 'Ferrari', 'Lamborgini', 'Porshe']);
+        $this->seedDicti('STAMP_CARS', 'Stamp cars', ['stamp1', 'stamp2', 'stamp3', 'stamp4']);
+        $this->seedDicti('BODY_CAR', 'Body car', ['body1', 'body2', 'body3', 'body4']);
+        $this->seedDicti('ENGINE', 'Engine', ['engine1', 'engine2', 'engine3', 'engine4']);
+        $this->seedDicti('TRANSMISSION', 'Transmission', ['transmission1', 'transmission2', 'etransmission', 'transmission4']);
 
-        // Создание 3 брендов и по 2 модели для каждого
-        $brands = Dicti::where('parent_id', Dicti::where('constant', 'BRAND_CARS')->first()->id)->get();
-        $stamps = Dicti::where('parent_id', Dicti::where('constant', 'STAMP_CARS')->first()->id)->get();
+        // Создание моделей авто и изображений
+        $models = [
+            'BMW X5',
+            'Audi A6',
+            'Toyota Camry',
+            'Mercedes-Benz C-Class',
+            'Lexus RX',
+            'Honda Accord',
+            'Kia Sportage',
+            'Hyundai Tucson',
+            'Nissan Qashqai',
+            'Ford Mustang',
+            'Chevrolet Tahoe'
+        ];
 
-        $carModels = [];
-        
-        // Toyota models
-        $toyotaBrand = $brands->where('full_name', 'Toyota')->first();
-        $carModels[] = CarModel::create([
-            'name'            => 'Camry',
-            'brand_id'        => $toyotaBrand->id,
-            'stamp_id'        => $stamps->where('full_name', 'Toyota Camry')->first()->id,
-            'body_id'         => $this->randomDictiChildId('BODY_CAR'),
-            'engine_id'       => $this->randomDictiChildId('ENGINE'),
-            'transmission_id' => $this->randomDictiChildId('TRANSMISSION'),
-            'engine_volume'   => 2500,
-            'power'           => 203,
-            'seats'           => 5,
-            'doors'           => 4,
-            'fuel_tank_capacity' => 60,
-            'weight'          => 1550,
-            'height'          => 1.45,
-            'active'          => true
-        ]);
-
-        $carModels[] = CarModel::create([
-            'name'            => 'Corolla',
-            'brand_id'        => $toyotaBrand->id,
-            'stamp_id'        => $stamps->where('full_name', 'Toyota Corolla')->first()->id,
-            'body_id'         => $this->randomDictiChildId('BODY_CAR'),
-            'engine_id'       => $this->randomDictiChildId('ENGINE'),
-            'transmission_id' => $this->randomDictiChildId('TRANSMISSION'),
-            'engine_volume'   => 1800,
-            'power'           => 140,
-            'seats'           => 5,
-            'doors'           => 4,
-            'fuel_tank_capacity' => 50,
-            'weight'          => 1320,
-            'height'          => 1.43,
-            'active'          => true
-        ]);
-
-        // BMW models
-        $bmwBrand = $brands->where('full_name', 'BMW')->first();
-        $carModels[] = CarModel::create([
-            'name'            => 'X5',
-            'brand_id'        => $bmwBrand->id,
-            'stamp_id'        => $stamps->where('full_name', 'BMW X5')->first()->id,
-            'body_id'         => $this->randomDictiChildId('BODY_CAR'),
-            'engine_id'       => $this->randomDictiChildId('ENGINE'),
-            'transmission_id' => $this->randomDictiChildId('TRANSMISSION'),
-            'engine_volume'   => 3000,
-            'power'           => 340,
-            'seats'           => 5,
-            'doors'           => 5,
-            'fuel_tank_capacity' => 85,
-            'weight'          => 2140,
-            'height'          => 1.74,
-            'active'          => true
-        ]);
-
-        $carModels[] = CarModel::create([
-            'name'            => '320i',
-            'brand_id'        => $bmwBrand->id,
-            'stamp_id'        => $stamps->where('full_name', 'BMW 3 Series')->first()->id,
-            'body_id'         => $this->randomDictiChildId('BODY_CAR'),
-            'engine_id'       => $this->randomDictiChildId('ENGINE'),
-            'transmission_id' => $this->randomDictiChildId('TRANSMISSION'),
-            'engine_volume'   => 2000,
-            'power'           => 184,
-            'seats'           => 5,
-            'doors'           => 4,
-            'fuel_tank_capacity' => 59,
-            'weight'          => 1460,
-            'height'          => 1.43,
-            'active'          => true
-        ]);
-
-        // Mercedes models
-        $mercedesBrand = $brands->where('full_name', 'Mercedes')->first();
-        $carModels[] = CarModel::create([
-            'name'            => 'C200',
-            'brand_id'        => $mercedesBrand->id,
-            'stamp_id'        => $stamps->where('full_name', 'Mercedes C-Class')->first()->id,
-            'body_id'         => $this->randomDictiChildId('BODY_CAR'),
-            'engine_id'       => $this->randomDictiChildId('ENGINE'),
-            'transmission_id' => $this->randomDictiChildId('TRANSMISSION'),
-            'engine_volume'   => 2000,
-            'power'           => 204,
-            'seats'           => 5,
-            'doors'           => 4,
-            'fuel_tank_capacity' => 66,
-            'weight'          => 1610,
-            'height'          => 1.44,
-            'active'          => true
-        ]);
-
-        $carModels[] = CarModel::create([
-            'name'            => 'E300',
-            'brand_id'        => $mercedesBrand->id,
-            'stamp_id'        => $stamps->where('full_name', 'Mercedes E-Class')->first()->id,
-            'body_id'         => $this->randomDictiChildId('BODY_CAR'),
-            'engine_id'       => $this->randomDictiChildId('ENGINE'),
-            'transmission_id' => $this->randomDictiChildId('TRANSMISSION'),
-            'engine_volume'   => 2000,
-            'power'           => 258,
-            'seats'           => 5,
-            'doors'           => 4,
-            'fuel_tank_capacity' => 66,
-            'weight'          => 1820,
-            'height'          => 1.47,
-            'active'          => true
-        ]);
-
-        // Добавляем изображения для каждой модели
-        foreach ($carModels as $carModel) {
-            CarImage::create([
-                'model_id'   => $carModel->id,
-                'filepath' => fake()->imageUrl(800, 600, $carModel->name),
+        for ($i = 0; $i <= 10; $i++) {
+            $carModel = CarModel::create([
+                'name'            => fake()->randomElement($models),
+                'brand_id'      => $this->randomDictiChildId('BRAND_CARS'),
+                'stamp_id'        => $this->randomDictiChildId('STAMP_CARS'),
+                'body_id'         => $this->randomDictiChildId('BODY_CAR'),
+                'engine_id'       => $this->randomDictiChildId('ENGINE'),
+                'transmission_id' => $this->randomDictiChildId('TRANSMISSION'),
+                'engine_volume'   => fake()->numberBetween(1000, 5000),
+                'power'           => fake()->numberBetween(70, 400),
+                'seats'           => fake()->numberBetween(2, 8),
+                'doors'           => fake()->numberBetween(2, 5),
+                'fuel_tank_capacity' => fake()->numberBetween(30, 100),
+                'weight'          => fake()->numberBetween(1000, 3000),
+                'height'          => fake()->randomFloat(2, 1.2, 2.2),
+                'active'          => fake()->boolean()
             ]);
-            
-            // Добавляем дополнительное изображение для каждой модели
+
             CarImage::create([
                 'model_id'   => $carModel->id,
-                'filepath' => fake()->imageUrl(800, 600, $carModel->name . ' interior'),
+                'filepath' => fake()->imageUrl(),
             ]);
         }
+
 
         $statusCar = Dicti::create([
             "full_name" => "Status cars",
@@ -220,28 +122,25 @@ class DatabaseSeeder extends Seeder
 
         $this->seedDicti("CURRENCY","currency_list",["USD","KZT","RUB","NFT"]);
 
-        // Создание 10 конкретных машин
-        $cars = [];
-        for ($i = 1; $i <= 10; $i++) {
-            $carModel = $carModels[array_rand($carModels)]; // Случайная модель из созданных
-            
-            $cars[] = Car::create([
-                'model_id'             => $carModel->id,
+        // Создание авто и локаций
+        for ($i = 0; $i <= 10; $i++) {
+            $car = Car::create([
+                'model_id'             => CarModel::where("active", true)->get()->random()->id,
                 'partner_id'           => Partner::inRandomOrder()->first()->id,
-                'color_id'             => $this->randomDictiChildId('COLOR'),
+                'color_id'             => Dicti::where('parent_id', Dicti::where('constant', 'COLOR')->first()->id)->inRandomOrder()->first()->id,
                 'vin'                  => strtoupper(fake()->bothify('??##############')),
                 'license_plate'        => strtoupper(fake()->bothify('??###??')),
                 'mileage'              => fake()->numberBetween(0, 300000),
                 'last_inspection_date' => fake()->date(),
-                'date_release'         => fake()->dateTimeBetween('-5 years', 'now')->format('Y-m-d'),
-                'rating'               => fake()->numberBetween(3, 5),
-                'status_id'            => $this->randomDictiChildId("STATUS_CAR"),
+                'date_release'         => fake()->date(),
+                'rating'               => fake()->numberBetween(1, 5),
+                'status'               => $this->randomDictiChildId("STATUS_CAR"),
                 'currency_id'          => $this->randomDictiChildId("CURRENCY"),
-                'amount'               => fake()->numberBetween(1000, 1000000)
+                'amount'               => fake()->numberBetween(1000,1000000)
             ]);
 
             CarLocation::create([
-                'car_id'    => end($cars)->id,
+                'car_id'    => $car->id,
                 'address'   => fake()->address(),
                 'latitude'  => fake()->latitude(),
                 'longitude' => fake()->longitude(),

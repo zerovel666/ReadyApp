@@ -22,4 +22,9 @@ class CarService extends BaseService
 
         return $this->repository->create($data);
     }
+
+    public function getByFilter($attribute)
+    {
+        return $this->repository->getByFilter($attribute);
+    }
 }

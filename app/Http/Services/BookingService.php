@@ -48,7 +48,7 @@ class BookingService extends BaseService
             $result = null;
             $statusFree = $this->dictiRepository->firstByColumn("constant", "FREE");
             foreach ($cars as $car) {
-                if ($car->status === $statusFree->id && !$this->repository->checkBookingCarsInPeriod($car->id, $attribute["start_date"], $attribute['end_date'])) {
+                if ($car->status_id === $statusFree->id && !$this->repository->checkBookingCarsInPeriod($car->id, $attribute["start_date"], $attribute['end_date'])) {
                     $car->location;
                     $result = $car;
                     break;

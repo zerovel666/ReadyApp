@@ -31,7 +31,7 @@ class CarModelRepository extends BaseRepository
 
     public function setFilterByCar($attributes, $query)
     {
-        $fieldsRelationCar = Car::getFillable();
+        $fieldsRelationCar = (new Car())->getFillable();
 
         foreach ($fieldsRelationCar as $field) {
             if (isset($attributes[$field])) {
