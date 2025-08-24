@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\{AgentInfo, Car, CarImage, CarLocation, CarModel, Country, Dicti, Partner, Role, User};
+use App\Models\{AgentInfo, Car, CarEquipment, CarImage, CarLocation, CarModel, Country, Dicti, Partner, Role, User};
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -105,10 +105,6 @@ class DatabaseSeeder extends Seeder
             'weight'          => 1550,
             'height'          => 1.45,
             'active'          => true,
-            'currency_id'          => $this->randomDictiChildId("CURRENCY"),
-            'amount'               => fake()->numberBetween(1000, 1000000),
-            'color_id'             => $this->randomDictiChildId('COLOR'),
-
         ]);
 
         $carModels[] = CarModel::create([
@@ -126,10 +122,6 @@ class DatabaseSeeder extends Seeder
             'weight'          => 1320,
             'height'          => 1.43,
             'active'          => true,
-            'currency_id'          => $this->randomDictiChildId("CURRENCY"),
-            'amount'               => fake()->numberBetween(1000, 1000000),
-            'color_id'             => $this->randomDictiChildId('COLOR'),
-
         ]);
 
         // BMW models
@@ -149,10 +141,6 @@ class DatabaseSeeder extends Seeder
             'weight'          => 2140,
             'height'          => 1.74,
             'active'          => true,
-            'currency_id'          => $this->randomDictiChildId("CURRENCY"),
-            'amount'               => fake()->numberBetween(1000, 1000000),
-            'color_id'             => $this->randomDictiChildId('COLOR'),
-
         ]);
 
         $carModels[] = CarModel::create([
@@ -170,10 +158,6 @@ class DatabaseSeeder extends Seeder
             'weight'          => 1460,
             'height'          => 1.43,
             'active'          => true,
-            'currency_id'          => $this->randomDictiChildId("CURRENCY"),
-            'amount'               => fake()->numberBetween(1000, 1000000),
-            'color_id'             => $this->randomDictiChildId('COLOR'),
-
         ]);
 
         // Mercedes models
@@ -192,9 +176,6 @@ class DatabaseSeeder extends Seeder
             'fuel_tank_capacity' => 66,
             'weight'          => 1610,
             'height'          => 1.44,
-            'currency_id'          => $this->randomDictiChildId("CURRENCY"),
-            'amount'               => fake()->numberBetween(1000, 1000000),
-            'color_id'             => $this->randomDictiChildId('COLOR'),
             'active'          => true
         ]);
 
@@ -212,25 +193,51 @@ class DatabaseSeeder extends Seeder
             'fuel_tank_capacity' => 66,
             'weight'          => 1820,
             'height'          => 1.47,
-            'currency_id'          => $this->randomDictiChildId("CURRENCY"),
-            'amount'               => fake()->numberBetween(1000, 1000000),
-            'color_id'             => $this->randomDictiChildId('COLOR'),
             'active'          => true
 
         ]);
 
         // Добавляем изображения для каждой модели
         foreach ($carModels as $carModel) {
+
+            $carEquipment = CarEquipment::create([
+                'car_model_id' => $carModel->id,
+                'active'          => true,
+                'currency_id'          => $this->randomDictiChildId("CURRENCY"),
+                'amount'               => fake()->numberBetween(1000, 1000000),
+                'color_id'             => $this->randomDictiChildId('COLOR'),
+            ]);
+            
             CarImage::create([
-                'model_id'   => $carModel->id,
+                'car_equipment_id'   => $carEquipment->id,
                 'filepath' => fake()->imageUrl(800, 600, $carModel->name),
             ]);
 
             // Добавляем дополнительное изображение для каждой модели
             CarImage::create([
-                'model_id'   => $carModel->id,
+                'car_equipment_id'   => $carEquipment->id,
                 'filepath' => fake()->imageUrl(800, 600, $carModel->name . ' interior'),
             ]);
+
+                        $carEquipment = CarEquipment::create([
+                'car_model_id' => $carModel->id,
+                'active'          => true,
+                'currency_id'          => $this->randomDictiChildId("CURRENCY"),
+                'amount'               => fake()->numberBetween(1000, 1000000),
+                'color_id'             => $this->randomDictiChildId('COLOR'),
+            ]);
+            
+            CarImage::create([
+                'car_equipment_id'   => $carEquipment->id,
+                'filepath' => fake()->imageUrl(800, 600, $carModel->name),
+            ]);
+
+            // Добавляем дополнительное изображение для каждой модели
+            CarImage::create([
+                'car_equipment_id'   => $carEquipment->id,
+                'filepath' => fake()->imageUrl(800, 600, $carModel->name . ' interior'),
+            ]);
+
         }
 
         $statusCar = Dicti::create([
@@ -253,6 +260,7 @@ class DatabaseSeeder extends Seeder
 
             $cars[] = Car::create([
                 'model_id'             => $carModel->id,
+                'car_equipment_id'     => $carModel->carEquipments->random()->id,
                 'partner_id'           => Partner::inRandomOrder()->first()->id,
                 'vin'                  => strtoupper(fake()->bothify('??##############')),
                 'license_plate'        => strtoupper(fake()->bothify('??###??')),

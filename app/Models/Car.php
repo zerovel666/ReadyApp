@@ -19,6 +19,7 @@ class Car extends Model
         "date_release",
         "rating",
         "status_id",
+        "car_equipment_id"
     ];
 
     protected $table = 'cars';
@@ -26,6 +27,10 @@ class Car extends Model
     public function model(): BelongsTo
     {
         return $this->belongsTo(CarModel::class, "model_id", "id");
+    }
+    public function carEquipment(): BelongsTo
+    {
+        return $this->belongsTo(CarEquipment::class, "car_equipment_id", "id");
     }
 
     public function partner(): BelongsTo

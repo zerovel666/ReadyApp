@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Http\Helpers\VerifiedHelper;
 use App\Http\Repository\AgentInfoRepository;
 use App\Http\Repository\BookingRepository;
+use App\Http\Repository\CarEquipmentRepository;
 use App\Http\Repository\CarModelRepository;
 use App\Http\Repository\CarRepository;
 use App\Http\Repository\DictiRepository;
@@ -23,7 +24,8 @@ class BookingService extends BaseService
     public $agentInfoRepository;
     public $dictiRepository;
     public $taskRepository;
-    public function __construct(BookingRepository $bookingRepository, CarRepository $carRepository, CarModelRepository $carModelRepository, AgentInfoRepository $agentInfoRepository, DictiRepository $dictiRepository, TaskRepository $taskRepository)
+    public $carEquipmentRepository;
+    public function __construct(BookingRepository $bookingRepository, CarRepository $carRepository, CarModelRepository $carModelRepository, AgentInfoRepository $agentInfoRepository, DictiRepository $dictiRepository, TaskRepository $taskRepository, CarEquipmentRepository $carEquipmentRepository)
     {
         parent::__construct($bookingRepository);
         $this->carRepository = $carRepository;
@@ -31,6 +33,7 @@ class BookingService extends BaseService
         $this->agentInfoRepository = $agentInfoRepository;
         $this->dictiRepository = $dictiRepository;
         $this->taskRepository = $taskRepository;
+        $this->carEquipmentRepository = $carEquipmentRepository;
     }
 
     public function create($attribute)
@@ -39,10 +42,9 @@ class BookingService extends BaseService
         VerifiedHelper::checkVerifed($user, $attribute);
 
         $model = DB::transaction(function () use ($attribute, $user) {
-            $carModel = $this->carModelRepository->find($attribute['car_model_id']);
-            $cars = $carModel->cars;
-
-            if (!$user || !$carModel || empty($cars)) {
+            $carEquipment = $this->carEquipmentRepository->find($attribute['car_equipment_id']);
+            $cars = $carEquipment->cars;
+            if (!$user || !$carEquipment || empty($cars)) {
                 throw new \Exception("User or car not found", 404);
             }
             $result = null;

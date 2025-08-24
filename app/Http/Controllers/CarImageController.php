@@ -50,6 +50,6 @@ class CarImageController extends Controller
     }
     public function getByCarModelId($car_model_id)
     {
-        return Response::response(CarImageResource::collection($this->carImageService->getByColumn("model_id",$car_model_id)));
+        return Response::response(CarImageResource::collection($this->carImageService->getByColumn("car_equipment_id",$car_model_id)));
     }
 }

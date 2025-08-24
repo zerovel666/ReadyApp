@@ -8,15 +8,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class CarImage extends Model
 {
     protected $fillable = [
-        "model_id",
+        "car_equipment_id",
         "filepath"
     ];
 
     protected $table = 'car_images';
 
-    public function model():BelongsTo
+    public function carEquipment():BelongsTo
     {
-        return $this->belongsTo(CarModel::class,"model_id","id");
+        return $this->belongsTo(CarEquipment::class,"car_equipment_id","id");
     }
     
 }

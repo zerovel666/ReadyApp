@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
             $table->foreignId("model_id")->constrained("car_models")->cascadeOnDelete();
+            $table->foreignId("car_equipment_id")->constrained("car_equipment")->cascadeOnDelete();
             $table->foreignId("partner_id")->constrained("partners")->cascadeOnDelete();
             $table->string("vin");
             $table->string("license_plate");

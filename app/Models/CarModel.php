@@ -28,9 +28,6 @@ class CarModel extends Model
         "weight",
         "height",
         "active",
-        "color_id",
-        "amount",
-        "currency_id",
     ];
 
     protected static function booted()
@@ -68,24 +65,13 @@ class CarModel extends Model
         return $this->belongsTo(Dicti::class, 'transmission_id', "id");
     }
 
-    public function color(): BelongsTo
-    {
-        return $this->belongsTo(Dicti::class, "color_id", "id");
-    }
-
-    public function currency(): BelongsTo
-    {
-        return $this->belongsTo(Dicti::class, 'currency_id', 'id');
-    }
-
-
     public function cars(): HasMany
     {
         return $this->hasMany(Car::class, "model_id", "id");
     }
 
-    public function carImages(): HasMany
+    public function carEquipments(): HasMany
     {
-        return $this->hasMany(CarImage::class, "model_id", "id");
+        return $this->hasMany(CarEquipment::class, "car_model_id", "id");
     }
 }

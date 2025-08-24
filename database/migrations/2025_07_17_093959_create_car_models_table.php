@@ -27,9 +27,6 @@ return new class extends Migration
             $table->integer("weight");
             $table->float("height");
             $table->boolean("active")->default(false);
-            $table->foreignId("color_id")->constrained("dictis")->cascadeOnDelete();
-            $table->float("amount");
-            $table->foreignId("currency_id")->constrained('dictis')->cascadeOnDelete();
             $table->timestamps();
         });
     }

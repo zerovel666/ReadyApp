@@ -6,6 +6,7 @@ use App\Http\Controllers\AgentLocationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\CarEquipmentController;
 use App\Http\Controllers\CarImageController;
 use App\Http\Controllers\CarLocationController;
 use App\Http\Controllers\CarModelController;
@@ -21,8 +22,6 @@ use App\Http\Controllers\TelegramWebhookController;
 use App\Http\Controllers\UserController;
 use App\Http\Helpers\Response;
 use App\Http\Middleware\AuthAccessMiddleware;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 
@@ -48,7 +47,7 @@ Route::prefix('country')->middleware(AuthAccessMiddleware::class)->group(functio
 });
 
 Route::prefix('dictis')->middleware(AuthAccessMiddleware::class)->group(function () {
-    Route::get('/constant',[DictiController::class,'getByConstant']);
+    Route::get('/constant', [DictiController::class, 'getByConstant']);
     Route::get('/', [DictiController::class, 'all']);
     Route::get('/list', [DictiController::class, 'list']);
     Route::get('/{id}', [DictiController::class, 'find']);
@@ -96,29 +95,37 @@ Route::prefix('role')->middleware(AuthAccessMiddleware::class)->group(function (
 });
 
 Route::prefix('car/model')->middleware(AuthAccessMiddleware::class)->group(function () {
-    Route::get('/brand/{id}',[CarModelController::class,'getModelByBrandId']);
-    Route::get('/brands',[DictiController::class,'getBrands']);
-    Route::get('/filter',[CarModelController::class,'getByFilter']);
+    Route::get('/brand/{id}', [CarModelController::class, 'getModelByBrandId']);
+    Route::get('/brands', [DictiController::class, 'getBrands']);
+    Route::get('/filter', [CarModelController::class, 'getByFilter']);
     Route::get('/', [CarModelController::class, 'all']);
     Route::get('/{id}', [CarModelController::class, 'find']);
     Route::post('/', [CarModelController::class, 'create']);
     Route::put('/{id}', [CarModelController::class, 'updateById']);
     Route::delete('/{id}', [CarModelController::class, 'deleteById']);
+    Route::prefix('equipment')->middleware(AuthAccessMiddleware::class)->group(function () {
+        Route::get('/filter', [CarEquipmentController::class, 'getByFilter']);
+        Route::get('/', [CarEquipmentController::class, 'all']);
+        Route::get('/{id}', [CarEquipmentController::class, 'find']);
+        Route::delete('/{id}', [CarEquipmentController::class, 'deleteById']);
+        Route::put('/{id}', [CarEquipmentController::class, 'updateById']);
+        Route::post('/', [CarEquipmentController::class, 'create']);
+    });
 });
 
 Route::prefix('car/image')->middleware(AuthAccessMiddleware::class)->group(function () {
-    Route::get('/{car_model_id}',[CarImageController::class,'getByCarModelId']);
-    Route::post('/',[CarImageController::class,'create']);
-    Route::delete('/',[CarImageController::class,'deleteById']);
+    Route::get('/{car_equipment_id}', [CarImageController::class, 'getByCarModelId']);
+    Route::post('/', [CarImageController::class, 'create']);
+    Route::delete('/', [CarImageController::class, 'deleteById']);
 });
 
 Route::prefix('car/location')->middleware(AuthAccessMiddleware::class)->group(function () {
-    Route::post('/',[CarLocationController::class,'create']);
-    Route::get('/{car_id}',[CarLocationController::class,'getByCarId']);
+    Route::post('/', [CarLocationController::class, 'create']);
+    Route::get('/{car_id}', [CarLocationController::class, 'getByCarId']);
 });
 
 Route::prefix('car')->middleware(AuthAccessMiddleware::class)->group(function () {
-    Route::get('/filter',[CarController::class,'getByFilter']);
+    Route::get('/filter', [CarController::class, 'getByFilter']);
     Route::get('/', [CarController::class, 'all']);
     Route::get('/{id}', [CarController::class, 'find']);
     Route::post('/', [CarController::class, 'create']);
