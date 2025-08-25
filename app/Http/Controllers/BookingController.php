@@ -40,4 +40,9 @@ class BookingController extends Controller
         $this->bookingService->paidTransacation($id,$request->amount ?? 0);
         return Response::response(["message" => "Success paid"]);
     }
+
+    public function getUnavailableDatesByCarEquipmentId($id)
+    {
+        return $this->bookingService->getUnavailableDatesByCarEquipmentId($id);
+    }
 }

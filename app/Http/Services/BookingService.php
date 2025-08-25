@@ -13,7 +13,10 @@ use App\Http\Repository\TaskRepository;
 use App\Http\Resource\BookingResource;
 use App\Jobs\AutoPickDeliveryCarTask;
 use App\Jobs\AutoPickReturnCarTask;
+use App\Models\Booking;
+use App\Models\CarEquipment;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -129,5 +132,57 @@ class BookingService extends BaseService
         } else {
             AutoPickReturnCarTask::dispatch($book->id)->delay(Carbon::parse($book->end_date)->subDay());
         }
+    }
+
+    public function getUnavailableDatesByCarEquipmentId(int $id): array
+    {
+        $equipment = CarEquipment::with('cars')->findOrFail($id);
+        $cars = $equipment->cars;
+
+        $carIds = $cars->pluck('id');
+        $carCount = $cars->count();
+
+        // только актуальные брони (сегодня и в будущем)
+        $bookings = Booking::query()
+            ->whereIn('car_id', $carIds)
+            ->where('end_date', '>=', now())
+            ->whereIn('status', ['approved', 'pending']) // только реальные брони
+            ->get(['car_id', 'start_date', 'end_date']);
+
+        $dates = [];
+
+        foreach ($bookings as $booking) {
+            $period = new \DatePeriod(
+                new \DateTime($booking->start_date),
+                new \DateInterval('P1D'),
+                (new \DateTime($booking->end_date))->modify('+1 day')
+            );
+
+            foreach ($period as $day) {
+                $d = $day->format('Y-m-d');
+                $dates[$d] = ($dates[$d] ?? 0) + 1;
+            }
+        }
+
+        // выбираем только те дни, когда заняты все машины комплектации
+        $unavailableDays = array_keys(array_filter($dates, fn($count) => $count >= $carCount));
+
+        // группируем подряд идущие дни в диапазоны
+        $result = [];
+        if (!empty($unavailableDays)) {
+            sort($unavailableDays);
+            $start = $prev = $unavailableDays[0];
+
+            foreach (array_slice($unavailableDays, 1) as $day) {
+                if ((new \DateTime($day))->modify('-1 day')->format('Y-m-d') !== $prev) {
+                    $result[] = ['from' => $start, 'to' => $prev];
+                    $start = $day;
+                }
+                $prev = $day;
+            }
+            $result[] = ['from' => $start, 'to' => $prev];
+        }
+
+        return $result;
     }
 }
