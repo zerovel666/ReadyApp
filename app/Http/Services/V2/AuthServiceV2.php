@@ -74,12 +74,6 @@ class AuthServiceV2
             throw new \Exception("Type auth not found", 422);
         }
 
-        $user = $this->userRepository->firstByColumn("phone", $attribute['phone']);
-        if (!$user) {
-            throw new \Exception("User not found", 404);
-        }
-
-
         $implements = [
             "WEB_AUTH" => fn() => $this->webLoginImplement($attribute),
             "TELEGRAM_AUTH" => fn() => $this->telegramLoginImplement($attribute)
@@ -102,15 +96,12 @@ class AuthServiceV2
 
     public function telegramLoginImplement($attribute)
     {
-        $user = $this->userRepository->getByMultipieColumns([
-            "phone" => $attribute['phone'],
-            "telegram_user_id" => $attribute['telegram_user_id']
-        ])->first();
+        $user = $this->userRepository->firstByColumn("telegram_user_id",$attribute['telegram_user_id']);
 
         if (!$user) {
             throw new \Exception("User not found", 404);
         }
-
+        
         return $this->formResponse($user);
     }
 

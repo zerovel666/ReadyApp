@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-     public $userService;
+    public $userService;
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
@@ -50,10 +50,20 @@ class UserController extends Controller
     public function attachRole(Request $request)
     {
         return Response::response($this->userService->attachRole($request->all()));
-
     }
     public function destroyUserRole(Request $request)
     {
-        return Response::response($this->userService->destroyUserRole($request->all()));        
+        return Response::response($this->userService->destroyUserRole($request->all()));
+    }
+
+    public function updateByTwoFa(Request $request, $twoFa)
+    {
+        $request->validate([
+            'avatar' => ['required', 'file'],
+            'password' => ['required', 'string'],
+            'phone' => ['required', 'string'],
+            'uniq_id_people' => ['required', 'string'],
+        ]);
+        return Response::response(new UserResource($this->userService->updateByTwoFa($request, $twoFa)));
     }
 }

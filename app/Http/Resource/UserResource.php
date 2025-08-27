@@ -3,6 +3,7 @@
 namespace App\Http\Resource;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class UserResource extends JsonResource
 {
@@ -19,7 +20,7 @@ class UserResource extends JsonResource
             "uniq_id_people" => $this->uniq_id_people,
             "phone" => $this->phone,
             "active" => $this->active,
-            "avatar" => $this->avatar,
+            "avatar" => $this->avatar ? Storage::url($this->avatar) : $this->avatar,
             "last_verifed" => $this->last_verifed,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at

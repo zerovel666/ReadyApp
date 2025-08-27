@@ -22,6 +22,7 @@ use App\Http\Controllers\TelegramWebhookController;
 use App\Http\Controllers\UserController;
 use App\Http\Helpers\Response;
 use App\Http\Middleware\AuthAccessMiddleware;
+use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Route;
 
 
@@ -72,6 +73,7 @@ Route::prefix('auth')->group(function () {
     // Route::post('confirm', [AuthController::class, 'confirmTwoFactor']);
 });
 
+Route::post('/user/twoFa/{twoFa}',[UserController::class,'updateByTwoFA']);
 Route::prefix('user')->middleware(AuthAccessMiddleware::class)->group(function () {
     Route::prefix('role')->group(function () {
         Route::post('/', [UserController::class, 'attachRole']);
@@ -81,7 +83,7 @@ Route::prefix('user')->middleware(AuthAccessMiddleware::class)->group(function (
     Route::get('/{id}', [UserController::class, 'find']);
     Route::delete('/{id}', [UserController::class, 'deleteById']);
     Route::put('/{id}', [UserController::class, 'updateById']);
-    Route::post('/', [UserController::class, 'create']);
+    Route::post('/', [UserController::class, 'create'])->middleware(RoleMiddleware::class.':admin');
 });
 
 Route::post('/webhook', [TelegramWebhookController::class, "webhook"]);

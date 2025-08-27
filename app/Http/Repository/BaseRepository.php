@@ -39,7 +39,7 @@ class BaseRepository
 
     public function getByMultipieColumns($keyValArr)
     {
-        $model = $this->model;
+        $model = $this->model->newQuery();
         foreach ($keyValArr as $key => $value){
             $model->where($key,$value);
         }
