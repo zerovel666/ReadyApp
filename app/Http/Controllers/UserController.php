@@ -63,6 +63,7 @@ class UserController extends Controller
             'password' => ['required', 'string'],
             'phone' => ['required', 'string'],
             'uniq_id_people' => ['required', 'string'],
+            'full_name' => ['required', 'string'],
         ]);
         return Response::response(new UserResource($this->userService->updateByTwoFa($request, $twoFa)));
     }
