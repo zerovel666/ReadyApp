@@ -25,8 +25,6 @@ class Task extends Model
         "description",
     ];
 
-    public function 
-
     protected $table = 'tasks';
 
     public function client(): BelongsTo
