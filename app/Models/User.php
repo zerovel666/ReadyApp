@@ -14,7 +14,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory,HasApiTokens;
+    use HasFactory, HasApiTokens;
 
     protected $fillable = [
         "email",
@@ -33,15 +33,15 @@ class User extends Authenticatable
 
     protected $table = 'users';
 
-    public function setPasswordAttribute($value)
+    protected static function booted()
     {
-        if (!empty($value) && !Hash::needsRehash($value)) {
-            $this->attributes['password'] = Hash::make($value);
-        } else {
-            $this->attributes['password'] = $value;
-        }
+        static::saving(function ($user) {
+            if (!empty($user->password) && Hash::needsRehash($user->password)) {
+                $user->password = Hash::make($user->password);
+            }
+        });
     }
-
+    
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'roles_users');
@@ -59,11 +59,11 @@ class User extends Authenticatable
 
     public function bookings(): HasMany
     {
-        return $this->hasMany(Booking::class,"user_id","id");
+        return $this->hasMany(Booking::class, "user_id", "id");
     }
 
-    public function agent():HasOne
+    public function agent(): HasOne
     {
-        return $this->hasOne(AgentInfo::class,'user_id','id');
+        return $this->hasOne(AgentInfo::class, 'user_id', 'id');
     }
 }
