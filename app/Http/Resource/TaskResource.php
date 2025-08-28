@@ -11,7 +11,7 @@ class TaskResource extends JsonResource
         $baseArray = [
             "id" => $this->id,
             "user_id" => $this->user,
-            "agent_id" => $this->agent_id,
+            "agent_id" => $this->agent,
             "agentInfo" => $this->agent->user,
             "car_id" => $this->car,
             "booking_id" => $this->booking,
