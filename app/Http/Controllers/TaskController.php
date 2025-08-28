@@ -47,4 +47,9 @@ class TaskController extends Controller
     {
         return Response::response(new TaskResource($this->taskService->create($request->all())));
     }
+
+    public function getByFilter(Request $request)
+    {
+        return Response::response(TaskResource::collection($this->taskService->getByFilter($request->all())));
+    }
 }

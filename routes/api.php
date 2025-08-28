@@ -156,6 +156,7 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->middleware(Auth
     });
 
     Route::prefix('task')->middleware(AuthAccessMiddleware::class)->group(function () {
+        Route::get('/filter',[TaskController::class,'getByFilter']);
         Route::get('/', [TaskController::class, 'all']);
         Route::get('/{id}', [TaskController::class, 'find']);
         Route::post('/', [TaskController::class, 'create']);

@@ -42,4 +42,9 @@ class TaskService extends BaseService
         $model->update($attributes);
         return $model;
     }
+
+    public function getByFilter($attribute)
+    {
+        return $this->repository->getByFilter($attribute); 
+    }
 }

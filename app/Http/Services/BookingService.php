@@ -79,7 +79,7 @@ class BookingService extends BaseService
                     "transaction" => [
                         "id" => $book->id,
                         "status" => $book->status,
-                        "amount" => round($car->model->amount * (Carbon::parse($book->start_date)->diffInDays(Carbon::parse($book->end_date)) + 1))
+                        "amount" => round($carEquipment->amount * (Carbon::parse($book->start_date)->diffInDays(Carbon::parse($book->end_date)) + 1))
                     ]
                 ];
             } else {
@@ -116,7 +116,7 @@ class BookingService extends BaseService
     {
         $book = $this->repository->find($book_id);
         $car = $book->car;
-        if (round($car->model->amount * (Carbon::parse($book->start_date)->diffInDays(Carbon::parse($book->end_date)) + 1)) > $amount) {
+        if (round($car->carEquipment->amount * (Carbon::parse($book->start_date)->diffInDays(Carbon::parse($book->end_date)) + 1)) > $amount) {
             throw new \Exception("insufficient funds", 400);
         }
 
