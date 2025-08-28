@@ -43,4 +43,13 @@ class AgentInfoService extends BaseService
         $agent->user->roles()->attach($this->roleRepository->firstByColumn("slug",'agent')->id);
         return $agent;
     }
+
+    public function getKPI()
+    {
+        $user = Auth::user();
+        return [
+            "completed_tasks" => $user->agent->tasks->count(),
+            "ratung" => $user->agent->rating
+        ];
+    }
 }

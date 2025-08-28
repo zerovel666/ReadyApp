@@ -150,6 +150,9 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->middleware(Auth
         Route::post('/', [AgentInfoController::class, 'create']);
         Route::put('/', [AgentInfoController::class, 'updateById']);
         Route::delete('/', [AgentInfoController::class, 'deleteById']);
+        Route::prefix('kpi')->group(function(){
+            Route::get('/',[AgentInfoController::class,'getKPI']);
+        });
     });
 
     Route::prefix('task')->middleware(AuthAccessMiddleware::class)->group(function () {

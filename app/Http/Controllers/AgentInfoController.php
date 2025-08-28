@@ -38,4 +38,9 @@ class AgentInfoController extends Controller
     {
         return Response::response(new AgentInfoResource($this->agentInfoService->create($request->all())));
     }
+
+    public function getKPI()
+    {
+        return Response::response($this->agentInfoService->getKPI());
+    }
 }
