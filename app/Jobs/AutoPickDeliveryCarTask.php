@@ -44,7 +44,7 @@ class AutoPickDeliveryCarTask implements ShouldQueue
             $start_date = Carbon::parse($booking->start_date);
             $deadline = $start_date->copy()->subHours(1);
 
-            if ($start_date->between($now, $now->copy()->addHours(24))) {
+            if ($booking->status === "approved" && $start_date->between($now, $now->copy()->addHours(24))) {
                 $agent = $this->agentInfoSerivce->getFreeAgent();
                 $this->taskRepository->create([
                     "user_id" => $booking->user_id,
