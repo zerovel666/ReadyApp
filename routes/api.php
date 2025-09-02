@@ -135,7 +135,7 @@ Route::prefix('car')->middleware(AuthAccessMiddleware::class)->group(function ()
     Route::delete('/{id}', [CarController::class, 'deleteById']);
 });
 
-Route::prefix('booking')->middleware(AuthAccessMiddleware::class)->middleware(AuthAccessMiddleware::class)->group(function () {
+Route::prefix('booking')->middleware(AuthAccessMiddleware::class)->group(function () {
     Route::get('/', [BookingController::class, 'allMeByStatus']);
     Route::get('/{car_equipment_id}',[BookingController::class,'getUnavailableDatesByCarEquipmentId']);
     Route::post('/{id}', [BookingController::class, 'paidTransacation']);
@@ -143,7 +143,7 @@ Route::prefix('booking')->middleware(AuthAccessMiddleware::class)->middleware(Au
     Route::delete('/{id}', [BookingController::class, 'cancel']);
 });
 
-Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->middleware(AuthAccessMiddleware::class)->group(function () {
+Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function () {
     Route::prefix('info')->group(function () {
         Route::get('/me', [AgentInfoController::class, 'getMeInfo']);
         Route::get('/', [AgentInfoController::class, 'all']);
@@ -155,7 +155,7 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->middleware(Auth
         });
     });
 
-    Route::prefix('task')->middleware(AuthAccessMiddleware::class)->group(function () {
+    Route::prefix('task')->group(function () {
         Route::get('/filter',[TaskController::class,'getByFilter']);
         Route::get('/', [TaskController::class, 'all']);
         Route::get('/{id}', [TaskController::class, 'find']);
@@ -166,7 +166,7 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->middleware(Auth
             Route::get('/{task_id}', [CheckListController::class, 'getByTaskId']);
             Route::put('/{id}', [CheckListController::class, 'update']);
         });
-        Route::prefix("damage")->middleware(AuthAccessMiddleware::class)->group(function () {
+        Route::prefix("damage")->group(function () {
             Route::post('/', [DamageNoteController::class, 'create']);
             Route::put('/{id}', [DamageNoteController::class, 'updateById']);
             Route::get('/active', [DamageNoteController::class, 'getActive']);
@@ -178,8 +178,14 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->middleware(Auth
         });
     });
 
-    Route::prefix('location')->middleware(AuthAccessMiddleware::class)->group(function () {
+    Route::prefix('location')->group(function () {
         Route::get('/{id}', [AgentLocationController::class, 'findByAgentId']);
         Route::post('/', [AgentLocationController::class, 'updateOrCreate']);
+    });
+});
+
+Route::prefix('manager')->middleware(AuthAccessMiddleware::class)->group(function(){
+    Route::prefix('car')->group(function(){
+        Route::get('dashboard',[CarEquipmentController::class,'dashboard']);
     });
 });

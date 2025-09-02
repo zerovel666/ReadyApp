@@ -57,4 +57,9 @@ class CarEquipmentController extends Controller
     {
         return Response::response(CarEquipmentResource::collection($this->carEquipmentService->getByColumn("car_model_id",$model_id)));
     }
+
+    public function dashboard()
+    {
+        return $this->carEquipmentService->dashboard();
+    }
 }
