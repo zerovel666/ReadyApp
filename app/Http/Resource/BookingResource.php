@@ -10,9 +10,9 @@ class BookingResource extends JsonResource
     {
         $baseArray = [
             "id" => $this->id,
-            "car_id" => $this->car,
-            "user_id" => $this->user,
-            "agent_id" => $this->agent,
+            "car_id" => new CarResource($this->car),
+            "user_id" => new UserResource($this->user),
+            "agent_id" => new AgentInfoResource($this->agent),
             "start_date" => $this->start_date,
             "end_date" => $this->end_date,
             "status" => $this->status,

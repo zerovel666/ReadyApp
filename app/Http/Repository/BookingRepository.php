@@ -37,4 +37,9 @@ class BookingRepository extends BaseRepository
             throw new \Exception("Undefiend status: $status",400);
         }
     }
+    
+    public function getHistoryBookingByCarId($id)
+    {
+        return $this->model->where('car_id',$id)->where("created_at", "<=", now())->get();
+    }
 }

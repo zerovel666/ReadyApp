@@ -188,4 +188,7 @@ Route::prefix('manager')->middleware(AuthAccessMiddleware::class)->group(functio
     Route::prefix('car')->group(function(){
         Route::get('dashboard',[CarEquipmentController::class,'dashboard']);
     });
+    Route::prefix('booking')->group(function(){
+        Route::get('history/byCarId/{id}',[BookingController::class,'getHistoryBookingByCarId']);
+    });
 });

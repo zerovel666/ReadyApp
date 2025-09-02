@@ -52,4 +52,5 @@ class Booking extends Model
     {
         return $this->belongsTo(AgentInfo::class,'agent_id','id');
     }
+
 }

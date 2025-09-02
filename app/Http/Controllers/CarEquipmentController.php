@@ -60,6 +60,6 @@ class CarEquipmentController extends Controller
 
     public function dashboard()
     {
-        return $this->carEquipmentService->dashboard();
+        return Response::response($this->carEquipmentService->dashboard());
     }
 }

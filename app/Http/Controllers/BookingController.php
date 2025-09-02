@@ -35,14 +35,19 @@ class BookingController extends Controller
         return Response::response($this->bookingService->cancel($id));
     }
 
-    public function paidTransacation(Request $request,$id)
+    public function paidTransacation(Request $request, $id)
     {
-        $this->bookingService->paidTransacation($id,$request->amount ?? 0);
+        $this->bookingService->paidTransacation($id, $request->amount ?? 0);
         return Response::response(["message" => "Success paid"]);
     }
 
     public function getUnavailableDatesByCarEquipmentId($id)
     {
-        return $this->bookingService->getUnavailableDatesByCarEquipmentId($id);
+        return Response::response($this->bookingService->getUnavailableDatesByCarEquipmentId($id));
+    }
+
+    public function getHistoryBookingByCarId($id)
+    {
+        return Response::response(BookingResource::collection($this->bookingService->getHistoryBookingByCarId($id)));
     }
 }

@@ -185,4 +185,9 @@ class BookingService extends BaseService
 
         return $result;
     }
+
+    public function getHistoryBookingByCarId($id)
+    {
+        return $this->repository->getHistoryBookingByCarId($id);
+    }
 }
