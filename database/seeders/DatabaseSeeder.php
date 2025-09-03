@@ -50,6 +50,7 @@ class DatabaseSeeder extends Seeder
         // Роли и пользователи
         $roles = [
             ['name' => 'Админ', 'slug' => 'admin'],
+            ['name' => 'Менеджер', 'slug' => 'manager'],
             ['name' => 'Агент', 'slug' => 'agent'],
             ['name' => 'Пользователь', 'slug' => 'standart'],
         ];

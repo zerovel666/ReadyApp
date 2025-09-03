@@ -66,4 +66,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(AgentInfo::class, 'user_id', 'id');
     }
+
+    public function taskManager(): HasMany
+    {
+        return $this->hasMany(SupportRequest::class,'manager_id','id');
+    }
 }

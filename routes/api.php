@@ -17,6 +17,7 @@ use App\Http\Controllers\DamageNoteController;
 use App\Http\Controllers\DictiController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SupportRequestController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TelegramWebhookController;
 use App\Http\Controllers\UserController;
@@ -73,7 +74,7 @@ Route::prefix('auth')->group(function () {
     // Route::post('confirm', [AuthController::class, 'confirmTwoFactor']);
 });
 
-Route::post('/user/twoFa/{twoFa}',[UserController::class,'updateByTwoFA']);
+Route::post('/user/twoFa/{twoFa}', [UserController::class, 'updateByTwoFA']);
 Route::prefix('user')->middleware(AuthAccessMiddleware::class)->group(function () {
     Route::prefix('role')->group(function () {
         Route::post('/', [UserController::class, 'attachRole']);
@@ -83,7 +84,7 @@ Route::prefix('user')->middleware(AuthAccessMiddleware::class)->group(function (
     Route::get('/{id}', [UserController::class, 'find']);
     Route::delete('/{id}', [UserController::class, 'deleteById']);
     Route::put('/{id}', [UserController::class, 'updateById']);
-    Route::post('/', [UserController::class, 'create'])->middleware(RoleMiddleware::class.':admin');
+    Route::post('/', [UserController::class, 'create'])->middleware(RoleMiddleware::class . ':admin');
 });
 
 Route::post('/webhook', [TelegramWebhookController::class, "webhook"]);
@@ -137,11 +138,17 @@ Route::prefix('car')->middleware(AuthAccessMiddleware::class)->group(function ()
 
 Route::prefix('booking')->middleware(AuthAccessMiddleware::class)->group(function () {
     Route::get('/', [BookingController::class, 'allMeByStatus']);
-    Route::get('/{car_equipment_id}',[BookingController::class,'getUnavailableDatesByCarEquipmentId']);
+    Route::get('/{car_equipment_id}', [BookingController::class, 'getUnavailableDatesByCarEquipmentId']);
     Route::post('/{id}', [BookingController::class, 'paidTransacation']);
     Route::post('/', [BookingController::class, 'create']);
     Route::delete('/{id}', [BookingController::class, 'cancel']);
 });
+Route::prefix('support')->middleware(AuthAccessMiddleware::class)->group(function () {
+    Route::post('/request', [SupportRequestController::class, 'create']);
+    Route::get('/getMy', [SupportRequestController::class, 'getMy']);
+    Route::put('/{id}', [SupportRequestController::class, 'update']);
+});
+
 
 Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function () {
     Route::prefix('info')->group(function () {
@@ -150,13 +157,13 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function 
         Route::post('/', [AgentInfoController::class, 'create']);
         Route::put('/', [AgentInfoController::class, 'updateById']);
         Route::delete('/', [AgentInfoController::class, 'deleteById']);
-        Route::prefix('kpi')->group(function(){
-            Route::get('/',[AgentInfoController::class,'getKPI']);
+        Route::prefix('kpi')->group(function () {
+            Route::get('/', [AgentInfoController::class, 'getKPI']);
         });
     });
 
     Route::prefix('task')->group(function () {
-        Route::get('/filter',[TaskController::class,'getByFilter']);
+        Route::get('/filter', [TaskController::class, 'getByFilter']);
         Route::get('/', [TaskController::class, 'all']);
         Route::get('/{id}', [TaskController::class, 'find']);
         Route::post('/', [TaskController::class, 'create']);
@@ -184,11 +191,11 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function 
     });
 });
 
-Route::prefix('manager')->middleware(AuthAccessMiddleware::class)->group(function(){
-    Route::prefix('car')->group(function(){
-        Route::get('dashboard',[CarEquipmentController::class,'dashboard']);
+Route::prefix('manager')->middleware(AuthAccessMiddleware::class)->group(function () {
+    Route::prefix('car')->group(function () {
+        Route::get('dashboard', [CarEquipmentController::class, 'dashboard']);
     });
-    Route::prefix('booking')->group(function(){
-        Route::get('history/byCarId/{id}',[BookingController::class,'getHistoryBookingByCarId']);
+    Route::prefix('booking')->group(function () {
+        Route::get('history/byCarId/{id}', [BookingController::class, 'getHistoryBookingByCarId']);
     });
 });
