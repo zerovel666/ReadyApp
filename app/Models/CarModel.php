@@ -74,4 +74,9 @@ class CarModel extends Model
     {
         return $this->hasMany(CarEquipment::class, "car_model_id", "id");
     }
+
+    public function discount()
+    {
+        return $this->morphOne(Discount::class, 'model');
+    }
 }

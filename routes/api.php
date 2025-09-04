@@ -15,6 +15,7 @@ use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DamageImageController;
 use App\Http\Controllers\DamageNoteController;
 use App\Http\Controllers\DictiController;
+use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SupportRequestController;
@@ -143,12 +144,12 @@ Route::prefix('booking')->middleware(AuthAccessMiddleware::class)->group(functio
     Route::post('/', [BookingController::class, 'create']);
     Route::delete('/{id}', [BookingController::class, 'cancel']);
 });
+
 Route::prefix('support')->middleware(AuthAccessMiddleware::class)->group(function () {
     Route::post('/request', [SupportRequestController::class, 'create']);
     Route::get('/getMy', [SupportRequestController::class, 'getMy']);
     Route::put('/{id}', [SupportRequestController::class, 'update']);
 });
-
 
 Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function () {
     Route::prefix('info')->group(function () {
@@ -197,5 +198,11 @@ Route::prefix('manager')->middleware(AuthAccessMiddleware::class)->group(functio
     });
     Route::prefix('booking')->group(function () {
         Route::get('history/byCarId/{id}', [BookingController::class, 'getHistoryBookingByCarId']);
+    });
+    Route::prefix('discount')->group(function(){
+        Route::get('/',[DiscountController::class,'all']);
+        Route::post('/',[DiscountController::class,'create']);
+        Route::delete('/{id}',[DiscountController::class,'deleteById']);
+        Route::put('/{id}',[DiscountController::class,'updateById']);
     });
 });

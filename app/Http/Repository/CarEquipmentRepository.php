@@ -25,4 +25,9 @@ class CarEquipmentRepository extends BaseRepository
 
         return $query->get();
     }
+
+    public function getWithDiscount()
+    {
+        return $this->model->whereHas('discount')->with('discount')->get();
+    }
 }

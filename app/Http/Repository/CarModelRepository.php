@@ -43,4 +43,9 @@ class CarModelRepository extends BaseRepository
 
         return $query;
     }
+
+    public function getWithDiscount()
+    {
+        return $this->model->whereHas('discount')->with('discount')->get();
+    }
 }
