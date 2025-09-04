@@ -17,6 +17,7 @@ use App\Http\Controllers\DamageNoteController;
 use App\Http\Controllers\DictiController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\PromoCodeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SupportRequestController;
 use App\Http\Controllers\TaskController;
@@ -199,10 +200,17 @@ Route::prefix('manager')->middleware(AuthAccessMiddleware::class)->group(functio
     Route::prefix('booking')->group(function () {
         Route::get('history/byCarId/{id}', [BookingController::class, 'getHistoryBookingByCarId']);
     });
-    Route::prefix('discount')->group(function(){
-        Route::get('/',[DiscountController::class,'all']);
-        Route::post('/',[DiscountController::class,'create']);
-        Route::delete('/{id}',[DiscountController::class,'deleteById']);
-        Route::put('/{id}',[DiscountController::class,'updateById']);
+    Route::prefix('discount')->group(function () {
+        Route::get('/', [DiscountController::class, 'all']);
+        Route::post('/', [DiscountController::class, 'create']);
+        Route::delete('/{id}', [DiscountController::class, 'deleteById']);
+        Route::put('/{id}', [DiscountController::class, 'updateById']);
+    });
+    Route::prefix('promo')->group(function () {
+        Route::get('/', [PromoCodeController::class, 'all']);
+        Route::get('/{id}', [PromoCodeController::class, 'find']);
+        Route::post('/', [PromoCodeController::class, 'create']);
+        Route::put('/{id}', [PromoCodeController::class, 'updateById']);
+        Route::delete('/{id}', [PromoCodeController::class, 'deleteById']);
     });
 });
