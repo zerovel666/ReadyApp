@@ -140,7 +140,7 @@ Route::prefix('support')->middleware(AuthAccessMiddleware::class)->group(functio
     Route::put('/{id}', [SupportRequestController::class, 'update']);
 });
 
-Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->middleware(RoleMiddleware::class . ':agent')->group(function () {
+Route::prefix('agent')->middleware([AuthAccessMiddleware::class,RoleMiddleware::class . ':agent'])->group(function () {
     Route::prefix('info')->group(function () {
         Route::get('/me', [AgentInfoController::class, 'getMeInfo']);
         Route::get('/', [AgentInfoController::class, 'all']);
@@ -182,7 +182,7 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->middleware(Role
 });
 
 
-Route::prefix('manager')->middleware(AuthAccessMiddleware::class)->middleware(RoleMiddleware::class . ':manager')->group(function () { //описать в доке
+Route::prefix('manager')->middleware([AuthAccessMiddleware::class,RoleMiddleware::class . ':manager'])->group(function () { //описать в доке
     Route::prefix('car')->group(function () {
         Route::get('dashboard', [CarEquipmentController::class, 'dashboard']);
     });
@@ -202,7 +202,7 @@ Route::prefix('manager')->middleware(AuthAccessMiddleware::class)->middleware(Ro
         Route::put('/{id}', [PromoCodeController::class, 'updateById']);
         Route::delete('/{id}', [PromoCodeController::class, 'deleteById']);
     });
-    Route::prefix('user')->middleware(AuthAccessMiddleware::class)->group(function () {
+    Route::prefix('user')->group(function () {
         Route::prefix('role')->group(function () {
             Route::post('/', [UserController::class, 'attachRole']);
             Route::delete('/', [UserController::class, 'destroyUserRole']);
