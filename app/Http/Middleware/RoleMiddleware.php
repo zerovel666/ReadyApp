@@ -23,6 +23,9 @@ class RoleMiddleware
         }
 
         $roles = $user->roles()->pluck('slug')->toArray();
+        if (in_array("admin",$roles)){
+            return $next($request);
+        }
 
         if (!in_array($role, $roles)) {
             throw new \Exception("Forbidden",403);

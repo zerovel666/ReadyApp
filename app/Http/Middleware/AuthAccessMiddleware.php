@@ -23,6 +23,9 @@ class AuthAccessMiddleware
         if ($accessToken && Carbon::parse($accessToken->expires_at)->isPast()){
             throw new \Exception("Access token expired",422);
         }
+        if ($accessToken->tokenable->is_blocked){
+            throw new \Exception("Your account blocked, please write manager");
+        }
         Auth::login($accessToken->tokenable);
         return $next($request);
     }

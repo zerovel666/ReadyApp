@@ -77,18 +77,6 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::post('/user/twoFa/{twoFa}', [UserController::class, 'updateByTwoFA']);
-Route::prefix('user')->middleware(AuthAccessMiddleware::class)->group(function () {
-    Route::prefix('role')->group(function () {
-        Route::post('/', [UserController::class, 'attachRole']);
-        Route::delete('/', [UserController::class, 'destroyUserRole']);
-    });
-    Route::get('/', [UserController::class, 'all']);
-    Route::get('/{id}', [UserController::class, 'find']);
-    Route::delete('/{id}', [UserController::class, 'deleteById']);
-    Route::put('/{id}', [UserController::class, 'updateById']);
-    Route::post('/', [UserController::class, 'create'])->middleware(RoleMiddleware::class . ':admin');
-});
-
 Route::post('/webhook', [TelegramWebhookController::class, "webhook"]);
 
 Route::prefix('role')->middleware(AuthAccessMiddleware::class)->group(function () {
@@ -146,13 +134,13 @@ Route::prefix('booking')->middleware(AuthAccessMiddleware::class)->group(functio
     Route::delete('/{id}', [BookingController::class, 'cancel']);
 });
 
-Route::prefix('support')->middleware(AuthAccessMiddleware::class)->group(function () {//описать в доке
+Route::prefix('support')->middleware(AuthAccessMiddleware::class)->group(function () { //описать в доке
     Route::post('/request', [SupportRequestController::class, 'create']);
     Route::get('/getMy', [SupportRequestController::class, 'getMy']);
     Route::put('/{id}', [SupportRequestController::class, 'update']);
 });
 
-Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function () {
+Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->middleware(RoleMiddleware::class . ':agent')->group(function () {
     Route::prefix('info')->group(function () {
         Route::get('/me', [AgentInfoController::class, 'getMeInfo']);
         Route::get('/', [AgentInfoController::class, 'all']);
@@ -194,7 +182,7 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function 
 });
 
 
-Route::prefix('manager')->middleware(AuthAccessMiddleware::class)->group(function () {//описать в доке
+Route::prefix('manager')->middleware(AuthAccessMiddleware::class)->middleware(RoleMiddleware::class . ':manager')->group(function () { //описать в доке
     Route::prefix('car')->group(function () {
         Route::get('dashboard', [CarEquipmentController::class, 'dashboard']);
     });
@@ -213,5 +201,16 @@ Route::prefix('manager')->middleware(AuthAccessMiddleware::class)->group(functio
         Route::post('/', [PromoCodeController::class, 'create']);
         Route::put('/{id}', [PromoCodeController::class, 'updateById']);
         Route::delete('/{id}', [PromoCodeController::class, 'deleteById']);
+    });
+    Route::prefix('user')->middleware(AuthAccessMiddleware::class)->group(function () {
+        Route::prefix('role')->group(function () {
+            Route::post('/', [UserController::class, 'attachRole']);
+            Route::delete('/', [UserController::class, 'destroyUserRole']);
+        });
+        Route::get('/', [UserController::class, 'all']);
+        Route::get('/{id}', [UserController::class, 'find']);
+        Route::delete('/{id}', [UserController::class, 'deleteById']);
+        Route::put('/{id}', [UserController::class, 'updateById']);
+        Route::post('/', [UserController::class, 'create']);
     });
 });

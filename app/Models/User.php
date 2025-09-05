@@ -28,7 +28,8 @@ class User extends Authenticatable
         "phone",
         "active",
         "avatar",
-        "last_verifed"
+        "last_verifed",
+        "is_blocked"
     ];
 
     protected $table = 'users';

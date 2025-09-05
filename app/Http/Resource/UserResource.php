@@ -21,9 +21,10 @@ class UserResource extends JsonResource
             "phone" => $this->phone,
             "active" => $this->active,
             "avatar" => $this->avatar ? Storage::url($this->avatar) : $this->avatar,
+            "is_blocked" => $this->is_blocked,
             "last_verifed" => $this->last_verifed,
             "created_at" => $this->created_at,
-            "updated_at" => $this->updated_at
+            "updated_at" => $this->updated_at,
         ];
 
         if ($this->agent){
