@@ -16,16 +16,9 @@ class DictiController extends Controller
         $this->dictiService = $dictiService;
     }
 
-    public function all(Request $request)
+    public function all()
     {
-        if ($request->page) {
-            $collection = $this->dictiService->paginate();
-            return Response::response(
-                $collection->setCollection(DictiResource::collection($collection->getCollection())->collection)
-            );
-        } else {
-            return Response::response(DictiResource::collection($this->dictiService->all()));
-        }
+        return Response::response(DictiResource::collection($this->dictiService->all()));
     }
 
     public function find($id)
@@ -58,9 +51,9 @@ class DictiController extends Controller
     {
         return Response::response($this->dictiService->getBrands());
     }
-    
+
     public function getByConstant(Request $request)
     {
-        return Response::response(DictiResource::collection($this->dictiService->getByColumn("constant",$request->constant)));
+        return Response::response(DictiResource::collection($this->dictiService->getByColumn("constant", $request->constant)));
     }
 }

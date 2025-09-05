@@ -15,16 +15,10 @@ class CarController extends Controller
         $this->carService = $carService;
     }
 
-    public function all(Request $request)
+    public function all()
     {
-        if ($request->page) {
-            $collection = $this->carService->paginate();
-            return Response::response(
-                $collection->setCollection(CarResource::collection($collection->getCollection())->collection)
-            );
-        } else {
-            return Response::response(CarResource::collection($this->carService->all()));
-        }
+        return Response::response(CarResource::collection($this->carService->all()));
+
     }
 
     public function find($id)

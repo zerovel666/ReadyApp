@@ -15,16 +15,9 @@ class CarLocationController extends Controller
         $this->carLocationService = $carLocationService;
     }
 
-    public function all(Request $request)
+    public function all()
     {
-        if ($request->page) {
-            $collection = $this->carLocationService->paginate();
-            return Response::response(
-                $collection->setCollection(CarLocationResource::collection($collection->getCollection())->collection)
-            );
-        } else {
-            return Response::response(CarLocationResource::collection($this->carLocationService->all()));
-        }
+        return Response::response(CarLocationResource::collection($this->carLocationService->all()));
     }
 
     public function find($id)

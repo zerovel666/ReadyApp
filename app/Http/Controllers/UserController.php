@@ -15,16 +15,9 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function all(Request $request)
+    public function all()
     {
-        if ($request->page) {
-            $collection = $this->userService->paginate();
-            return Response::response(
-                $collection->setCollection(UserResource::collection($collection->getCollection())->collection)
-            );
-        } else {
-            return Response::response($this->userService->all());
-        }
+        return Response::response(UserResource::collection($this->userService->all()));
     }
 
     public function find($id)

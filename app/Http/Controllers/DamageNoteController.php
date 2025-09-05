@@ -17,14 +17,7 @@ class DamageNoteController extends Controller
 
     public function all(Request $request)
     {
-        if ($request->page) {
-            $collection = $this->damageNoteService->paginate();
-            return Response::response(
-                $collection->setCollection(DamageNoteResource::collection($collection->getCollection())->collection)
-            );
-        } else {
-            return Response::response(DamageNoteResource::collection($this->damageNoteService->all()));
-        }
+        return Response::response(DamageNoteResource::collection($this->damageNoteService->all()));
     }
 
     public function find($id)

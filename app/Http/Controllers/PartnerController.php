@@ -17,14 +17,7 @@ class PartnerController extends Controller
 
     public function all(Request $request)
     {
-        if ($request->page) {
-            $collection = $this->partnerService->paginate();
-            return Response::response(
-                $collection->setCollection(PartnerResource::collection($collection->getCollection())->collection)
-            );
-        } else {
-            return Response::response($this->partnerService->all());
-        }
+        return Response::response(PartnerResource::collection($this->partnerService->all()));
     }
 
     public function find($id)

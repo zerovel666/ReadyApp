@@ -16,16 +16,9 @@ class CarImageController extends Controller
         $this->carImageService = $carImageService;
     }
 
-    public function all(Request $request)
+    public function all()
     {
-        if ($request->page) {
-            $collection = $this->carImageService->paginate();
-            return Response::response(
-                $collection->setCollection(CarImageResource::collection($collection->getCollection())->collection)
-            );
-        } else {
-            return Response::response(CarImageResource::collection($this->carImageService->all()));
-        }
+        return Response::response(CarImageResource::collection($this->carImageService->all()));
     }
 
     public function find($id)

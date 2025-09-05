@@ -17,14 +17,7 @@ class RoleController extends Controller
 
     public function all(Request $request)
     {
-        if ($request->page) {
-            $collection = $this->roleService->paginate();
-            return Response::response(
-                $collection->setCollection(RoleResource::collection($collection->getCollection())->collection)
-            );
-        } else {
-            return Response::response(RoleResource::collection($this->roleService->all()));
-        }
+        return Response::response(RoleResource::collection($this->roleService->all()));
     }
 
     public function find($id)

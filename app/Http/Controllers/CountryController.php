@@ -16,13 +16,9 @@ class CountryController extends Controller
         $this->countryService = $countryService;
     }
 
-    public function all(Request $request)
+    public function all()
     {
-        if ($request->page) {
-            return Response::response($this->countryService->paginate());
-        } else {
-            return Response::response($this->countryService->all());
-        }
+        return Response::response(CountryResource::collection($this->countryService->all()));
     }
 
     public function find($id)

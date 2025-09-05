@@ -17,14 +17,7 @@ class TaskController extends Controller
 
     public function all(Request $request)
     {
-        if ($request->page) {
-            $collection = $this->taskService->paginate();
-            return Response::response(
-                $collection->setCollection(TaskResource::collection($collection->getCollection())->collection)
-            );
-        } else {
-            return Response::response(TaskResource::collection($this->taskService->all()));
-        }
+        return Response::response(TaskResource::collection($this->taskService->all()));
     }
 
     public function find($id)

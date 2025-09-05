@@ -16,16 +16,9 @@ class CarEquipmentController extends Controller
         $this->carEquipmentService = $carEquipmentService;
     }
 
-    public function all(Request $request)
+    public function all()
     {
-        if ($request->page) {
-            $collection = $this->carEquipmentService->paginate();
-            return Response::response(
-                $collection->setCollection(CarEquipmentResource::collection($collection->getCollection())->collection)
-            );
-        } else {
-            return Response::response(CarEquipmentResource::collection($this->carEquipmentService->all()));
-        }
+        return Response::response(CarEquipmentResource::collection($this->carEquipmentService->all()));
     }
 
     public function find($id)

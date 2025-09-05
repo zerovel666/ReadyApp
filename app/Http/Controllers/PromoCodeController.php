@@ -17,14 +17,7 @@ class PromoCodeController extends Controller
 
     public function all(Request $request)
     {
-        if ($request->page) {
-            $collection = $this->promoCodeService->paginate();
-            return Response::response(
-                $collection->setCollection(PromoCodeResource::collection($collection->getCollection())->collection)
-            );
-        } else {
-            return Response::response(PromoCodeResource::collection($this->promoCodeService->all()));
-        }
+        return Response::response(PromoCodeResource::collection($this->promoCodeService->all()));
     }
 
     public function find($id)
