@@ -146,7 +146,7 @@ Route::prefix('booking')->middleware(AuthAccessMiddleware::class)->group(functio
     Route::delete('/{id}', [BookingController::class, 'cancel']);
 });
 
-Route::prefix('support')->middleware(AuthAccessMiddleware::class)->group(function () {
+Route::prefix('support')->middleware(AuthAccessMiddleware::class)->group(function () {//описать в доке
     Route::post('/request', [SupportRequestController::class, 'create']);
     Route::get('/getMy', [SupportRequestController::class, 'getMy']);
     Route::put('/{id}', [SupportRequestController::class, 'update']);
@@ -193,7 +193,8 @@ Route::prefix('agent')->middleware(AuthAccessMiddleware::class)->group(function 
     });
 });
 
-Route::prefix('manager')->middleware(AuthAccessMiddleware::class)->group(function () {
+
+Route::prefix('manager')->middleware(AuthAccessMiddleware::class)->group(function () {//описать в доке
     Route::prefix('car')->group(function () {
         Route::get('dashboard', [CarEquipmentController::class, 'dashboard']);
     });
