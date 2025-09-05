@@ -14,6 +14,7 @@ class PromoCode extends Model
         "percent",
         "count_use_limit",
         "is_global",
+        "count_use"
     ];
 
     public function user():BelongsTo

@@ -9,6 +9,7 @@ use App\Http\Repository\CarEquipmentRepository;
 use App\Http\Repository\CarModelRepository;
 use App\Http\Repository\CarRepository;
 use App\Http\Repository\DictiRepository;
+use App\Http\Repository\PromoCodeRepository;
 use App\Http\Repository\TaskRepository;
 use App\Http\Resource\BookingResource;
 use App\Jobs\AutoPickDeliveryCarTask;
@@ -28,7 +29,8 @@ class BookingService extends BaseService
     public $dictiRepository;
     public $taskRepository;
     public $carEquipmentRepository;
-    public function __construct(BookingRepository $bookingRepository, CarRepository $carRepository, CarModelRepository $carModelRepository, AgentInfoRepository $agentInfoRepository, DictiRepository $dictiRepository, TaskRepository $taskRepository, CarEquipmentRepository $carEquipmentRepository)
+    public $promoCodeRepository;
+    public function __construct(BookingRepository $bookingRepository, CarRepository $carRepository, CarModelRepository $carModelRepository, AgentInfoRepository $agentInfoRepository, DictiRepository $dictiRepository, TaskRepository $taskRepository, CarEquipmentRepository $carEquipmentRepository,PromoCodeRepository $promoCodeRepository)
     {
         parent::__construct($bookingRepository);
         $this->carRepository = $carRepository;
@@ -37,6 +39,7 @@ class BookingService extends BaseService
         $this->dictiRepository = $dictiRepository;
         $this->taskRepository = $taskRepository;
         $this->carEquipmentRepository = $carEquipmentRepository;
+        $this->promoCodeRepository = $promoCodeRepository;
     }
 
     public function create($attribute)
@@ -73,13 +76,33 @@ class BookingService extends BaseService
 
                 $book = $this->repository->create($bookData);
 
+                $amount = round($carEquipment->amount * (Carbon::parse($book->start_date)->diffInDays(Carbon::parse($book->end_date)) + 1));
+
+                if ($attribute['promo_code']){
+                    if ($promo = $this->promoCodeRepository->firstByColumn('code', $attribute['promo_code'])){
+                        if (!$promo->is_global){
+                            if ($promo->user_id == $user->id){
+                                $amount = $amount / $promo->percent;
+                                $promo->update(["count_use" => $promo->count_use + 1]);
+                            } else {
+                                throw new \Exception("This promo does not belong to you",400);
+                            }
+                        }else{
+                            $amount = $amount / $promo->percent;
+                            $promo->update(["count_use" => $promo->count_use + 1]);
+                        }
+                    }else{
+                        throw new \Exception('Promo not found',404);
+                    }
+                }
+
                 return [
                     "message" => "Please paid this transaction",
                     "book" => new BookingResource($book),
                     "transaction" => [
                         "id" => $book->id,
                         "status" => $book->status,
-                        "amount" => round($carEquipment->amount * (Carbon::parse($book->start_date)->diffInDays(Carbon::parse($book->end_date)) + 1))
+                        "amount" => $amount
                     ]
                 ];
             } else {

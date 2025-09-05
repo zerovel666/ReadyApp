@@ -15,6 +15,7 @@ class PromoCodeResource extends JsonResource
             "expired_at" => $this->expired_at,
             "percent" => $this->percent,
             "count_use_limit" => $this->count_use_limit,
+            "count_use" => $this->count_use,
             "is_global" => $this->is_global,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at
